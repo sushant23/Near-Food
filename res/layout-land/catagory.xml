@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:background="@drawable/bg"
+    android:orientation="vertical" >
+
+    <ImageButton
+        android:id="@+id/ibDelivery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ibTable"
+        android:layout_marginLeft="138dp"
+        android:layout_toRightOf="@+id/ibSuscribe"
+        android:background="@drawable/shape"
+        android:src="@drawable/deliverf" />
+
+    <ImageButton
+        android:id="@+id/ibTakeAway"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape"
+        android:src="@drawable/takeawayf" />
+
+    <ImageButton
+        android:id="@+id/ibTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ibTakeAway"
+        android:layout_marginLeft="34dp"
+        android:layout_toRightOf="@+id/ibSuscribe"
+        android:background="@drawable/shape"
+        android:src="@drawable/tablef" />
+
+    <ImageButton
+        android:id="@+id/ibSuscribe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ibTakeAway"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/rectangle"
+        android:src="@drawable/subscribe3" 
+        android:layout_centerInParent="true"
+        />
+
+</RelativeLayout>
