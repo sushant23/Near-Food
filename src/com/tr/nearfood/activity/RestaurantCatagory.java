@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class RestaurantCatagory extends ActionBarActivity {
+public class RestaurantCatagory extends Activity {
 
 	ImageButton takeAway, table, delivery,suscribe;
 

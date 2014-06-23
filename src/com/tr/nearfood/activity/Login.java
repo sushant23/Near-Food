@@ -9,7 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-public class Login extends ActionBarActivity{
+public class Login extends Activity{
 
 	TextView register;
 	Button login;
