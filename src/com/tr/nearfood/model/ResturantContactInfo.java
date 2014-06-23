@@ -1,6 +1,6 @@
 package com.tr.nearfood.model;
 
-public class ContactInfo {
+public class ResturantContactInfo {
 	private String resturantphoneNoA;
 	private String resturantphoneNoB;
 	private String resturantFBInfo;

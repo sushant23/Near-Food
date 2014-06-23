@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textViewRowResturantListResturantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge" 
+        android:text="text"/>
+
+    <TextView
+        android:id="@+id/textViewRowResturantListResturantStreet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRowResturantListResturantName" 
+        android:text="text"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRowResturantListResturantStreet" 
+        android:text="text"
+        android:id="@+id/textViewRowResturantListResturantCity"/>
+
+    <ImageView
+        android:id="@+id/imageViewRowResturantListDirectionIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true" 
+        android:layout_above="@+id/textViewRowResturantListDistance"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher">
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textViewRowResturantListDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="text"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+
+
+</RelativeLayout>

@@ -1,6 +1,6 @@
 package com.tr.nearfood.model;
 
-public class AvaliableServices {
+public class ResturantAvaliableServices {
 	private boolean isTakeAwayAvaliable;
 	private boolean isDeliveryAvaliable;
 	private boolean isReservationAvaliable;

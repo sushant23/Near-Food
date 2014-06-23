@@ -3,9 +3,9 @@ package com.tr.nearfood.model;
 public class ResturantDTO {
 	private long resturantID;
 	private String resturantName;
-	private Address resturantAddress;
-	private ContactInfo resturantContactInfo;
-	private AvaliableServices resturantavaliableServices;
+	private ResturantAddress resturantAddress;
+	private ResturantContactInfo resturantContactInfo;
+	private ResturantAvaliableServices resturantavaliableServices;
 	private int resturantRating;
 	private String resturantReview;
 
@@ -25,28 +25,28 @@ public class ResturantDTO {
 		this.resturantName = resturantName;
 	}
 
-	public Address getResturantAddress() {
+	public ResturantAddress getResturantAddress() {
 		return resturantAddress;
 	}
 
-	public void setResturantAddress(Address resturantAddress) {
+	public void setResturantAddress(ResturantAddress resturantAddress) {
 		this.resturantAddress = resturantAddress;
 	}
 
-	public ContactInfo getResturantContactInfo() {
+	public ResturantContactInfo getResturantContactInfo() {
 		return resturantContactInfo;
 	}
 
-	public void setResturantContactInfo(ContactInfo resturantContactInfo) {
+	public void setResturantContactInfo(ResturantContactInfo resturantContactInfo) {
 		this.resturantContactInfo = resturantContactInfo;
 	}
 
-	public AvaliableServices getResturantavaliableServices() {
+	public ResturantAvaliableServices getResturantavaliableServices() {
 		return resturantavaliableServices;
 	}
 
 	public void setResturantavaliableServices(
-			AvaliableServices resturantavaliableServices) {
+			ResturantAvaliableServices resturantavaliableServices) {
 		this.resturantavaliableServices = resturantavaliableServices;
 	}
 
