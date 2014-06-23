@@ -1,4 +1,4 @@
-package com.tr.nearfood.controller;
+package com.tr.nearfood.model;
 
 public class Address {
 	private String resturantAddressInfo;

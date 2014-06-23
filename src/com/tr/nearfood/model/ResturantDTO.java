@@ -1,4 +1,4 @@
-package com.tr.nearfood.controller;
+package com.tr.nearfood.model;
 
 public class ResturantDTO {
 	private long resturantID;
