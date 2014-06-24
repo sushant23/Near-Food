@@ -14,8 +14,14 @@ public class RestaurantList extends ActionBarActivity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
-		ActionBar myActionBar = getSupportActionBar();
-		myActionBar.hide();
+		
+		try{
+			ActionBar myActionBar = getSupportActionBar();
+			myActionBar.hide();
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+		
 	}
 
 }

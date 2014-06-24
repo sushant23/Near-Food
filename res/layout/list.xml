@@ -48,11 +48,11 @@
         android:name="com.tr.nearfood.fragment.FragmentResturantList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/relLayoutAdd"
         android:layout_below="@+id/editTextSearchResturantLists"
         android:layout_marginLeft="30dp"
         android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:layout_above="@+id/relLayoutAdd" />
+        android:layout_marginTop="20dp" />
 
     <RelativeLayout
         android:id="@+id/relLayoutAdd"
