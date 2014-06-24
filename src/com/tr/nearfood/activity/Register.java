@@ -6,7 +6,7 @@ import com.tr.nearfood.R;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+
 
 public class Register extends Activity{
 
