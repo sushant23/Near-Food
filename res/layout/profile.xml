@@ -104,65 +104,50 @@
         android:text="Send"
         android:textSize="15sp" />
 
-    <RelativeLayout>
-<<<<<<< HEAD
+    <RelativeLayout
         android:id="@+id/relativeLayout1"
-=======
->>>>>>> origin/dev
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/edittextSendmessege"
-        android:layout_below="@+id/buttonSend" >
+        android:layout_below="@+id/buttonSend" >
 
         <ImageButton
             android:id="@+id/imageButtonFacebook"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
-<<<<<<< HEAD
+            android:layout_height="wrap_content"
             android:layout_alignRight="@+id/buttonChooseMenu"
             android:layout_margin="5dp"
-=======
-            android:layout_margin="10dp"
->>>>>>> origin/dev
+           
             android:background="@drawable/circle"
-            android:src="@drawable/ic_facebook" />
+            android:src="@drawable/ic_facebook" />
 
-            <ImageButton
-                android:id="@+id/imagetripAdvisor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
-<<<<<<< HEAD
+        <ImageButton
+            android:id="@+id/imagetripAdvisor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_toRightOf="@+id/imageButtonFacebook"
             android:background="@drawable/circle"
-            android:src="@drawable/ic_tripadvisor" />
-
-                <ImageButton
-                    android:id="@+id/imageButtonGreen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imageButtonFacebook"
-                    android:layout_margin="5dp"
-                    android:background="@drawable/circle"
-                    android:src="@drawable/ic_green" />
-
-                <ImageButton
-                    android:id="@+id/imageButtonRed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/imagetripAdvisor"
-                    android:layout_margin="5dp"
-                    android:layout_toRightOf="@+id/imageButtonGreen"
-                    android:background="@drawable/circle"
-                    android:src="@drawable/ic_red" />
-=======
-            android:layout_alignRight="@+id/imageButtonFacebook"
-            android:layout_margin="10dp"
-            android:background="@drawable/circle"
             android:src="@drawable/ic_tripadvisor" />
->>>>>>> origin/dev
-            </ImageButton>
-        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/imageButtonGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageButtonFacebook"
+            android:layout_margin="5dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_green" />
+
+        <ImageButton
+            android:id="@+id/imageButtonRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_below="@+id/imagetripAdvisor"
+            android:layout_toRightOf="@+id/imageButtonGreen"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_red" />
     </RelativeLayout>
 
     <LinearLayout
