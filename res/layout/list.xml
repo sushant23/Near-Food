@@ -1,11 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <ImageView android:layout_height="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
         android:layout_width="match_parent"
-        android:src="@drawable/list"
-      android:scaleType="centerCrop"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/list" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCalendar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="#008094"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_calendar" />
+
+    <ImageButton
+        android:id="@+id/imageButtonNotification"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/imageButtonCalendar"
+        android:background="#008094"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_clock" />
+
+    <EditText
+        android:id="@+id/editTextSearchResturantLists"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButtonNotification"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#33000000" />
+
+    <ListView
+        android:id="@+id/listViewResturantList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/editTextSearchResturantLists"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="#AAFFFFFF"
+        android:divider="#000"
+        android:dividerHeight="2px"
+        android:padding="20dp" />
 
 </RelativeLayout>

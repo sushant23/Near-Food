@@ -13,7 +13,6 @@ public class Login extends Activity {
 
 	TextView register;
 	Button login;
-	/*test*/
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

@@ -91,13 +91,21 @@ public class CustomAdapterResturantLists extends BaseAdapter {
 			viewHolder.textViewRowResturantListResturantName
 					.setText("Sorry, no resturant found");
 		} else {
-			ResturantDTO tempResturant = (ResturantDTO) resturantLists.get(position);
-			viewHolder.textViewRowResturantListResturantName.setText(tempResturant.getResturantName());
-			viewHolder.textViewRowResturantListResturantStreet.setText(tempResturant.getResturantAddress().getResturantStreetAddress());
-			viewHolder.textViewRowResturantListResturantCity.setText(tempResturant.getResturantAddress().getReturantCityName());
-			viewHolder.textViewRowResturantListDistance.setText(String.valueOf(tempResturant.getResturantAddress().getResturantDistance()));
+			ResturantDTO tempResturant = (ResturantDTO) resturantLists
+					.get(position);
+			viewHolder.textViewRowResturantListResturantName
+					.setText(tempResturant.getResturantName());
+			viewHolder.textViewRowResturantListResturantStreet
+					.setText(tempResturant.getResturantAddress()
+							.getResturantStreetAddress());
+			viewHolder.textViewRowResturantListResturantCity
+					.setText(tempResturant.getResturantAddress()
+							.getReturantCityName());
+			viewHolder.textViewRowResturantListDistance.setText(String
+					.valueOf(tempResturant.getResturantAddress()
+							.getResturantDistance()));
 		}
-		return null;
+		return convertedView;
 	}
 
 }
