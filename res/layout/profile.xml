@@ -39,6 +39,7 @@
         android:id="@+id/textViewRowResturantListDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/seperator"
         android:layout_alignParentRight="true"
         android:text="Distance" />
 
@@ -104,6 +105,7 @@
         android:textSize="15sp" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/edittextSendmessege"
@@ -113,7 +115,9 @@
             android:id="@+id/imageButtonFacebook"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_alignRight="@+id/buttonChooseMenu"
+            android:layout_margin="5dp"
+           
             android:background="@drawable/circle"
             android:src="@drawable/ic_facebook" />
 
@@ -121,10 +125,29 @@
             android:id="@+id/imagetripAdvisor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/imageButtonFacebook"
-            android:layout_margin="10dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/imageButtonFacebook"
             android:background="@drawable/circle"
             android:src="@drawable/ic_tripadvisor" />
+
+        <ImageButton
+            android:id="@+id/imageButtonGreen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageButtonFacebook"
+            android:layout_margin="5dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_green" />
+
+        <ImageButton
+            android:id="@+id/imageButtonRed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:layout_below="@+id/imagetripAdvisor"
+            android:layout_toRightOf="@+id/imageButtonGreen"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_red" />
     </RelativeLayout>
 
     <LinearLayout
@@ -137,7 +160,7 @@
 
         <Button
             android:id="@+id/buttonSetTimeandDate"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_margin="5dp"
             android:background="#008F00"
@@ -146,7 +169,7 @@
 
         <Button
             android:id="@+id/buttonChooseMenu"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_margin="5dp"
             android:background="#008F00"
@@ -155,12 +178,29 @@
 
         <Button
             android:id="@+id/buttonReserveTable"
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="20dp"
             android:layout_margin="5dp"
             android:background="#008F00"
             android:text="RESERVE TABLE"
             android:textSize="10sp" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewContact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/relativeLayout1"
+        android:layout_below="@+id/relativeLayout1"
+        android:layout_marginLeft="15dp"
+        android:text="CONTACT" />
+
+    <TextView
+        android:id="@+id/textViewContactPhoneNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/relativeLayout1"
+        android:layout_below="@+id/textViewContact"
+        android:text="9854354354" />
 
 </RelativeLayout>
