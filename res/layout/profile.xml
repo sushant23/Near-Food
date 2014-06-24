@@ -53,14 +53,15 @@
 
     <LinearLayout
         android:id="@+id/linearlayoutuserDetails"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seperator"
-        android:weightSum="3" >
+        android:weightSum="3"
+        android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/edittextSenderName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
@@ -69,7 +70,7 @@
 
         <EditText
             android:id="@+id/edittextSenderEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
@@ -78,7 +79,7 @@
 
         <EditText
             android:id="@+id/edittextSenderPhone"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:layout_weight="1"
