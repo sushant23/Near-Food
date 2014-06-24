@@ -16,30 +16,28 @@
         android:layout_below="@+id/textViewRowResturantListResturantName" />
 
     <TextView
+        android:id="@+id/textViewRowResturantListResturantCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewRowResturantListResturantStreet" 
-        android:text="text"
-        android:id="@+id/textViewRowResturantListResturantCity"/>
+        android:layout_below="@+id/textViewRowResturantListResturantStreet"
+        android:text="text" />
 
     <ImageView
         android:id="@+id/imageViewRowResturantListDirectionIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true" 
         android:layout_above="@+id/textViewRowResturantListDistance"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher">
+        android:src="@drawable/ic_launcher" >
     </ImageView>
 
     <TextView
         android:id="@+id/textViewRowResturantListDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        
-        />
-
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>
