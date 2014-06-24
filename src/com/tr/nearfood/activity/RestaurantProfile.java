@@ -20,12 +20,12 @@ public class RestaurantProfile extends Activity{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile);
-		etName = (EditText) findViewById(R.id.etName);
-		etEmail = (EditText) findViewById(R.id.etEmail);
-		etPhone = (EditText) findViewById(R.id.etPhone);
-		etMessage = (EditText) findViewById(R.id.etMessage);
+	//	etName = (EditText) findViewById(R.id.etName);
+		//etEmail = (EditText) findViewById(R.id.etEmail);
+		//etPhone = (EditText) findViewById(R.id.etPhone);
+		//etMessage = (EditText) findViewById(R.id.etMessage);
 
-		send = (Button) findViewById(R.id.buttonSend);
+//		send = (Button) findViewById(R.id.buttonSend);
 
 		send.setOnClickListener(new View.OnClickListener() {
 
