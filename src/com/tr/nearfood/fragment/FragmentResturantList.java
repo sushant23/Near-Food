@@ -18,22 +18,24 @@ import com.tr.nearfood.model.ResturantDTO;
 public class FragmentResturantList extends Fragment {
 	ListView listViewResturantList;
 	View view;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_resturant_list_layout,
 				container, false);
 		initializeUIElements();
-		
-		listViewResturantList.setAdapter(new CustomAdapterResturantLists(getActivity(),
-				getDummyResturantList()));
+
+		listViewResturantList.setAdapter(new CustomAdapterResturantLists(
+				getActivity(), getDummyResturantList()));
 		return view;
 	}
-	private void initializeUIElements() {
-		listViewResturantList = (ListView) view.findViewById(R.id.listViewResturantList);
 
+	private void initializeUIElements() {
+		listViewResturantList = (ListView) view
+				.findViewById(R.id.listViewResturantList);
 	}
-	
+
 	public static List<ResturantDTO> getDummyResturantList() {
 		List<ResturantDTO> dummyList = new ArrayList<ResturantDTO>();
 

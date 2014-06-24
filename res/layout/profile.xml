@@ -53,12 +53,12 @@
 
     <LinearLayout
         android:id="@+id/linearlayoutuserDetails"
-        android:layout_width="fill_parent"
+
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seperator"
         android:weightSum="3"
-        android:orientation="horizontal"
-         >
+        android:orientation="horizontal" >
 
         <EditText
             android:id="@+id/edittextSenderName"
