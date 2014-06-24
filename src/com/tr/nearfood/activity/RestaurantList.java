@@ -1,12 +1,12 @@
 package com.tr.nearfood.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 
 import com.tr.nearfood.R;
 
-public class RestaurantList extends ActionBarActivity {
-
+public class RestaurantList extends Activity {
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub

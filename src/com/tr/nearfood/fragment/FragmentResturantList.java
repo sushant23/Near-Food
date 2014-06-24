@@ -18,7 +18,6 @@ import com.tr.nearfood.model.ResturantDTO;
 public class FragmentResturantList extends Fragment {
 	ListView listViewResturantList;
 	View view;
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

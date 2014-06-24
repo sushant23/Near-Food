@@ -5,9 +5,8 @@
     android:layout_marginLeft="30dp"
     android:layout_marginRight="30dp"
     android:layout_marginTop="20dp"
-   
-    android:padding="5dp"
-    android:background="@drawable/background" >
+    android:background="@drawable/background"
+    android:padding="5dp" >
 
     <LinearLayout
         android:id="@+id/LinearlayoutRestaurantDetail"
@@ -56,8 +55,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/seperator"
-        android:weightSum="3"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:weightSum="3" >
 
         <EditText
             android:id="@+id/edittextSenderName"
@@ -84,8 +83,7 @@
             android:layout_margin="5dp"
             android:layout_weight="1"
             android:background="#AAFFFFFF"
-            android:hint="Phone" 
-            />
+            android:hint="Phone" />
     </LinearLayout>
 
     <EditText
@@ -102,35 +100,33 @@
         android:layout_height="20dp"
         android:layout_below="@+id/edittextSendmessege"
         android:background="#008F00"
-        android:text="Send" 
-         android:textSize="15sp"/>
+        android:text="Send"
+        android:textSize="15sp" />
 
-   <RelativeLayout 
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/edittextSendmessege"
-        android:layout_below="@+id/buttonSend"
-       >
-       <ImageButton 
-           android:layout_margin="10dp"
-           android:id="@+id/imageButtonFacebook"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:background="@drawable/circle"
-           android:src="@drawable/ic_facebook"
-			android:layout_alignRight="@+id/buttonChooseMenu"          
-           />
-       <ImageButton 
-           android:layout_margin="10dp"
-           android:id="@+id/imagetripAdvisor"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:background="@drawable/circle"
-           android:src="@drawable/ic_tripadvisor"
-			android:layout_alignRight="@+id/imageButtonFacebook"          
-           />
-       
-   </RelativeLayout>
+        android:layout_below="@+id/buttonSend" >
+
+        <ImageButton
+            android:id="@+id/imageButtonFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_facebook" />
+
+        <ImageButton
+            android:id="@+id/imagetripAdvisor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/imageButtonFacebook"
+            android:layout_margin="10dp"
+            android:background="@drawable/circle"
+            android:src="@drawable/ic_tripadvisor" />
+    </RelativeLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
