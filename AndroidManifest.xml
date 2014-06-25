@@ -25,7 +25,9 @@
         </activity>
         <activity android:name="com.tr.nearfood.activity.RestaurantCatagory" >
         </activity>
-        <activity android:name="com.tr.nearfood.activity.RestaurantList" >
+        <activity
+            android:name="com.tr.nearfood.activity.RestaurantList"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity android:name="com.tr.nearfood.activity.Login" >
         </activity>
