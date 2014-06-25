@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#55FFFFFF"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_margin="5dp">
+
+        <Button
+            android:id="@+id/buttonShowYourOrder"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:background="#008F00"
+            android:text="SHOW YOUR ORDER" />
+
+        <Button
+            android:id="@+id/buttonSendYourOrder"
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:layout_toRightOf="@+id/buttonShowYourOrder"
+            android:background="#008F00"
+            android:text="SEND YOUR ORDER" />
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/expandableListMenuCollasapable"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+         />
+
+</LinearLayout>
