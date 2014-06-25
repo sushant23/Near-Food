@@ -53,7 +53,6 @@ public class RestaurantList extends ActionBarActivity implements
 
 		fragmentTransaction.add(R.id.linLayoutFragmentContainer,
 				fragmentResturantList, "Resturant List");
-		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
 
