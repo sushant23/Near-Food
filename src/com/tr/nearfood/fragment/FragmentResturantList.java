@@ -3,11 +3,15 @@ package com.tr.nearfood.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.R.interpolator;
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.tr.nearfood.R;
@@ -15,9 +19,26 @@ import com.tr.nearfood.adapter.CustomAdapterResturantLists;
 import com.tr.nearfood.model.ResturantAddress;
 import com.tr.nearfood.model.ResturantDTO;
 
-public class FragmentResturantList extends Fragment {
+public class FragmentResturantList extends Fragment implements
+		OnItemClickListener {
 	ListView listViewResturantList;
 	View view;
+	FragmentResturantListCommunicator fragmentResturantListCommunicator;
+
+	List<ResturantDTO> resturantList;
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+
+			fragmentResturantListCommunicator = (FragmentResturantListCommunicator) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement FragmentResturantListCommunicator");
+		}
+	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -25,8 +46,12 @@ public class FragmentResturantList extends Fragment {
 				container, false);
 		initializeUIElements();
 
+		resturantList = getDummyResturantList();
+
 		listViewResturantList.setAdapter(new CustomAdapterResturantLists(
-				getActivity(), getDummyResturantList()));
+				getActivity(), resturantList));
+
+		listViewResturantList.setOnItemClickListener(this);
 		return view;
 	}
 
@@ -51,5 +76,16 @@ public class FragmentResturantList extends Fragment {
 		}
 
 		return dummyList;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		fragmentResturantListCommunicator.setClickedData(resturantList
+				.get(position));
+	}
+
+	public static interface FragmentResturantListCommunicator {
+		public void setClickedData(ResturantDTO resturantDTO);
 	}
 }

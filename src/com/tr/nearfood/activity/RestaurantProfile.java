@@ -18,7 +18,7 @@ public class RestaurantProfile extends Activity{
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.profile);
+		setContentView(R.layout.fragment_resturant_profile);
 	//	etName = (EditText) findViewById(R.id.etName);
 		//etEmail = (EditText) findViewById(R.id.etEmail);
 		//etPhone = (EditText) findViewById(R.id.etPhone);
