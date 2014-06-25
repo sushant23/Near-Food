@@ -8,15 +8,16 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.tr.nearfood.R;
-import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
-import com.tr.nearfood.model.ResturantDTO;
 
 public class FragmentResturantProfile extends Fragment implements OnClickListener{
 	View view;
-	Button sendMessage,chooseMenu;
+	TextView restaurantName,restaurantStreetAdd,restaurantCityName,restaurantDistance;
+	Button sendMessage,chooseMenu,setDateAndTime,reserveTable;
+	EditText senderName,senderEmail,senderPhone,senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
 	@Override
 	public void onAttach(Activity activity) {
@@ -42,8 +43,21 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 
 	private void initializeUIElements() {
 		
-		sendMessage=(Button) view.findViewById(R.id.buttonSend);
+		sendMessage=(Button) view.findViewById(R.id.buttonSendMessage);
 		chooseMenu=(Button) view.findViewById(R.id.buttonChooseMenu);
+		setDateAndTime=(Button) view.findViewById(R.id.buttonSetTimeandDate);
+		reserveTable=(Button) view.findViewById(R.id.buttonReserveTable);
+		
+		restaurantName=(TextView) view.findViewById(R.id.textviewReataurantName);
+		restaurantStreetAdd=(TextView) view.findViewById(R.id.textviewReataurantStreetAddress);
+		restaurantCityName=(TextView) view.findViewById(R.id.textviewReataurantCityName);
+		restaurantDistance=(TextView) view.findViewById(R.id.textViewResturantDistance);
+		
+		senderName=(EditText) view.findViewById(R.id.edittextSenderName);
+		senderEmail=(EditText) view.findViewById(R.id.edittextSenderEmail);
+		senderPhone=(EditText) view.findViewById(R.id.edittextSenderPhone);
+		senderMessage=(EditText) view.findViewById(R.id.edittextSendmessege);
+		
 	}
 
 	@Override
