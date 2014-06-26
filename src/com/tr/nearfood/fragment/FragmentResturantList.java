@@ -17,6 +17,7 @@ import android.widget.ListView;
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.CustomAdapterResturantLists;
 import com.tr.nearfood.model.ResturantAddress;
+import com.tr.nearfood.model.ResturantContactInfo;
 import com.tr.nearfood.model.ResturantDTO;
 
 public class FragmentResturantList extends Fragment implements
@@ -70,6 +71,9 @@ public class FragmentResturantList extends Fragment implements
 			tempResturantAddress.setResturantStreetAddress("Street " + i);
 			tempResturantAddress.setReturantCityName("City " + i);
 			tempResturantAddress.setResturantDistance(1000);
+			ResturantContactInfo tempResturantContactInfo = new ResturantContactInfo();
+			tempResturantContactInfo.setResturantphoneNoA("+977989493888" + i);
+			tempResturantDTO.setResturantContactInfo(tempResturantContactInfo);
 			tempResturantDTO.setResturantAddress(tempResturantAddress);
 
 			dummyList.add(tempResturantDTO);

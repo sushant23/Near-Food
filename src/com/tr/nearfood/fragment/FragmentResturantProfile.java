@@ -1,6 +1,5 @@
 package com.tr.nearfood.fragment;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,12 +16,15 @@ import com.tr.nearfood.R;
 import com.tr.nearfood.activity.RestaurantList;
 import com.tr.nearfood.model.ResturantDTO;
 
-public class FragmentResturantProfile extends Fragment implements OnClickListener{
+public class FragmentResturantProfile extends Fragment implements
+		OnClickListener {
 	View view;
-	TextView restaurantName,restaurantStreetAdd,restaurantCityName,restaurantDistance,restaurantPhoneNumber;
-	Button sendMessage,chooseMenu,setDateAndTime,reserveTable;
-	EditText senderName,senderEmail,senderPhone,senderMessage;
+	TextView restaurantName, restaurantStreetAdd, restaurantCityName,
+			restaurantDistance, restaurantPhoneNumber;
+	Button sendMessage, chooseMenu, setDateAndTime, reserveTable;
+	EditText senderName, senderEmail, senderPhone, senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -34,6 +36,7 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 					+ " must implement FragmentResturantProfileCommunicator");
 		}
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -44,6 +47,17 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 		RestaurantList restaurantList = (RestaurantList) getActivity();
 		ResturantDTO selectedResturantDTO = restaurantList
 				.getSelectedResturantDTO();
+
+		restaurantName.setText(selectedResturantDTO.getResturantName());
+		restaurantStreetAdd.setText(selectedResturantDTO.getResturantAddress()
+				.getResturantStreetAddress());
+		restaurantCityName.setText(selectedResturantDTO.getResturantAddress()
+				.getReturantCityName());
+		restaurantDistance.setText(String.valueOf(selectedResturantDTO
+				.getResturantAddress().getResturantDistance()));
+		restaurantPhoneNumber.setText(selectedResturantDTO
+				.getResturantContactInfo().getResturantphoneNoA());
+
 		chooseMenu.setOnClickListener(this);
 		sendMessage.setOnClickListener(this);
 		setDateAndTime.setOnClickListener(this);
@@ -59,24 +73,28 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 	}
 
 	private void initializeUIElements() {
-		
-		sendMessage=(Button) view.findViewById(R.id.buttonSendMessage);
-		chooseMenu=(Button) view.findViewById(R.id.buttonChooseMenu);
-		setDateAndTime=(Button) view.findViewById(R.id.buttonSetTimeandDate);
-		reserveTable=(Button) view.findViewById(R.id.buttonReserveTable);
-		
-		restaurantName=(TextView) view.findViewById(R.id.textviewReataurantName);
-		restaurantStreetAdd=(TextView) view.findViewById(R.id.textviewReataurantStreetAddress);
-		restaurantCityName=(TextView) view.findViewById(R.id.textviewReataurantCityName);
-		restaurantDistance=(TextView) view.findViewById(R.id.textViewResturantDistance);
-		restaurantPhoneNumber=(TextView) view.findViewById(R.id.textViewContactPhoneNumber);
-		
-		senderName=(EditText) view.findViewById(R.id.edittextSenderName);
-		senderEmail=(EditText) view.findViewById(R.id.edittextSenderEmail);
-		senderPhone=(EditText) view.findViewById(R.id.edittextSenderPhone);
-		senderMessage=(EditText) view.findViewById(R.id.edittextSendmessege);
-		
-		
+
+		sendMessage = (Button) view.findViewById(R.id.buttonSendMessage);
+		chooseMenu = (Button) view.findViewById(R.id.buttonChooseMenu);
+		setDateAndTime = (Button) view.findViewById(R.id.buttonSetTimeandDate);
+		reserveTable = (Button) view.findViewById(R.id.buttonReserveTable);
+
+		restaurantName = (TextView) view
+				.findViewById(R.id.textviewReataurantName);
+		restaurantStreetAdd = (TextView) view
+				.findViewById(R.id.textviewReataurantStreetAddress);
+		restaurantCityName = (TextView) view
+				.findViewById(R.id.textviewReataurantCityName);
+		restaurantDistance = (TextView) view
+				.findViewById(R.id.textViewResturantDistance);
+		restaurantPhoneNumber = (TextView) view
+				.findViewById(R.id.textViewContactPhoneNumber);
+
+		senderName = (EditText) view.findViewById(R.id.edittextSenderName);
+		senderEmail = (EditText) view.findViewById(R.id.edittextSenderEmail);
+		senderPhone = (EditText) view.findViewById(R.id.edittextSenderPhone);
+		senderMessage = (EditText) view.findViewById(R.id.edittextSendmessege);
+
 	}
 
 	@Override
@@ -85,22 +103,26 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 		switch (click.getId()) {
 		case R.id.buttonChooseMenu:
 			fragmentResturantProfileCommunicator.setButtonClicked();
-		//	Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
+			// Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
 		case R.id.buttonSendMessage:
-				Toast.makeText(getActivity(), "Message Send Button clicked", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Message Send Button clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.buttonReserveTable:
-				Toast.makeText(getActivity(), "Reserve Table Button clicked", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Reserve Table Button clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.buttonSetTimeandDate:
-			Toast.makeText(getActivity(), "Time and Date Button clicked", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Time and Date Button clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
-		
+
 		default:
 			break;
 		}
 	}
+
 	public static interface FragmentResturantProfileCommunicator {
 		public void setButtonClicked();
 	}
