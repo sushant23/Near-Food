@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
@@ -16,7 +17,7 @@ import com.tr.nearfood.fragment.FragmentResturantProfile;
 import com.tr.nearfood.model.ResturantDTO;
 
 public class RestaurantList extends ActionBarActivity implements
-		FragmentResturantListCommunicator,FragmentResturantProfileCommunicator {
+		FragmentResturantListCommunicator, FragmentResturantProfileCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 
@@ -48,14 +49,15 @@ public class RestaurantList extends ActionBarActivity implements
 
 	@Override
 	public void setClickedData(ResturantDTO resturantDTO) {
-		setSelectedResturantDTO(resturantDTO);
-
 		FragmentResturantProfile resturantProfileFragment = new FragmentResturantProfile();
+		FragmentResturantProfile.SELECTED_RESTURANT_DTO = resturantDTO;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				resturantProfileFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
+		
+		/*resturantProfileFragment.setSelectedData(resturantDTO);*/
 	}
 
 	public void addResturantListFragment() {
@@ -71,7 +73,7 @@ public class RestaurantList extends ActionBarActivity implements
 	@Override
 	public void setButtonClicked() {
 		// TODO Auto-generated method stub
-		Fragment restaurantMenuFragment= new FragmentRestaurantMenu();
+		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantMenuFragment);

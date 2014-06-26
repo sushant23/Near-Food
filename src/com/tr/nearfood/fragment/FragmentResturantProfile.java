@@ -25,6 +25,8 @@ public class FragmentResturantProfile extends Fragment implements
 	EditText senderName, senderEmail, senderPhone, senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
 
+	public static ResturantDTO SELECTED_RESTURANT_DTO;
+
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -44,20 +46,7 @@ public class FragmentResturantProfile extends Fragment implements
 				false);
 		initializeUIElements();
 
-		RestaurantList restaurantList = (RestaurantList) getActivity();
-		ResturantDTO selectedResturantDTO = restaurantList
-				.getSelectedResturantDTO();
-
-		restaurantName.setText(selectedResturantDTO.getResturantName());
-		restaurantStreetAdd.setText(selectedResturantDTO.getResturantAddress()
-				.getResturantStreetAddress());
-		restaurantCityName.setText(selectedResturantDTO.getResturantAddress()
-				.getReturantCityName());
-		restaurantDistance.setText(String.valueOf(selectedResturantDTO
-				.getResturantAddress().getResturantDistance()));
-		restaurantPhoneNumber.setText(selectedResturantDTO
-				.getResturantContactInfo().getResturantphoneNoA());
-
+		setSelectedData(SELECTED_RESTURANT_DTO);
 		chooseMenu.setOnClickListener(this);
 		sendMessage.setOnClickListener(this);
 		setDateAndTime.setOnClickListener(this);
@@ -121,6 +110,18 @@ public class FragmentResturantProfile extends Fragment implements
 		default:
 			break;
 		}
+	}
+
+	public void setSelectedData(ResturantDTO resturantDTO) {
+		restaurantName.setText(SELECTED_RESTURANT_DTO.getResturantName());
+		restaurantStreetAdd.setText(SELECTED_RESTURANT_DTO.getResturantAddress()
+				.getResturantStreetAddress());
+		restaurantCityName.setText(SELECTED_RESTURANT_DTO.getResturantAddress()
+				.getReturantCityName());
+		restaurantDistance.setText(String.valueOf(SELECTED_RESTURANT_DTO
+				.getResturantAddress().getResturantDistance()));
+		restaurantPhoneNumber.setText(SELECTED_RESTURANT_DTO
+				.getResturantContactInfo().getResturantphoneNoA());
 	}
 
 	public static interface FragmentResturantProfileCommunicator {
