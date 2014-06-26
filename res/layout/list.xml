@@ -82,20 +82,20 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/relLayoutAdd"
         android:layout_below="@+id/relLayoutSearchContainer"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical" >
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/relLayoutAdd"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
         android:background="#000" >
     </RelativeLayout>
 

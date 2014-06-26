@@ -8,13 +8,15 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import com.tr.nearfood.R;
+import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentResturantList;
 import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
+import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
 import com.tr.nearfood.fragment.FragmentResturantProfile;
 import com.tr.nearfood.model.ResturantDTO;
 
 public class RestaurantList extends ActionBarActivity implements
-		FragmentResturantListCommunicator {
+		FragmentResturantListCommunicator,FragmentResturantProfileCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 
@@ -63,6 +65,17 @@ public class RestaurantList extends ActionBarActivity implements
 
 		fragmentTransaction.add(R.id.linLayoutFragmentContainer,
 				fragmentResturantList, "Resturant List");
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setButtonClicked() {
+		// TODO Auto-generated method stub
+		Fragment restaurantMenuFragment= new FragmentRestaurantMenu();
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantMenuFragment);
+		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}
 

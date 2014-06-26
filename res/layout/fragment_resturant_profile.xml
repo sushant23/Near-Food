@@ -36,7 +36,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textViewRowResturantListDistance"
+            android:id="@+id/textViewResturantDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/seperator"
@@ -98,7 +98,7 @@
             />
 
         <Button
-            android:id="@+id/buttonSend"
+            android:id="@+id/buttonSendMessage"
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_below="@+id/edittextSendmessege"
@@ -111,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/edittextSendmessege"
-            android:layout_below="@+id/buttonSend" >
+            android:layout_below="@+id/buttonSendMessage" >
 
             <ImageButton
                 android:id="@+id/imageButtonFacebook"
@@ -154,7 +154,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@+id/edittextSendmessege"
-            android:layout_below="@+id/buttonSend"
+            android:layout_below="@+id/buttonSendMessage"
             android:gravity="right"
             android:orientation="vertical" >
 
