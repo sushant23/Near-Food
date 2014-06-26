@@ -28,6 +28,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
 	Button sendOrder,showOrder;
+	//menu changed
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
