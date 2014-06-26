@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tr.nearfood.R;
 
 public class FragmentResturantProfile extends Fragment implements OnClickListener{
 	View view;
-	TextView restaurantName,restaurantStreetAdd,restaurantCityName,restaurantDistance;
+	TextView restaurantName,restaurantStreetAdd,restaurantCityName,restaurantDistance,restaurantPhoneNumber;
 	Button sendMessage,chooseMenu,setDateAndTime,reserveTable;
 	EditText senderName,senderEmail,senderPhone,senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
@@ -36,7 +37,11 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 		view = inflater.inflate(R.layout.fragment_resturant_profile, container,
 				false);
 		initializeUIElements();
+		
 		chooseMenu.setOnClickListener(this);
+		sendMessage.setOnClickListener(this);
+		setDateAndTime.setOnClickListener(this);
+		reserveTable.setOnClickListener(this);
 		
 		return view;
 	}
@@ -52,11 +57,13 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 		restaurantStreetAdd=(TextView) view.findViewById(R.id.textviewReataurantStreetAddress);
 		restaurantCityName=(TextView) view.findViewById(R.id.textviewReataurantCityName);
 		restaurantDistance=(TextView) view.findViewById(R.id.textViewResturantDistance);
+		restaurantPhoneNumber=(TextView) view.findViewById(R.id.textViewContactPhoneNumber);
 		
 		senderName=(EditText) view.findViewById(R.id.edittextSenderName);
 		senderEmail=(EditText) view.findViewById(R.id.edittextSenderEmail);
 		senderPhone=(EditText) view.findViewById(R.id.edittextSenderPhone);
 		senderMessage=(EditText) view.findViewById(R.id.edittextSendmessege);
+		
 		
 	}
 
@@ -68,10 +75,16 @@ public class FragmentResturantProfile extends Fragment implements OnClickListene
 			fragmentResturantProfileCommunicator.setButtonClicked();
 		//	Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
-		case R.id.buttonSend:
-			//Toast.makeText(getActivity(), "Mesessage send button clicked", 1000).show();
+		case R.id.buttonSendMessage:
+				Toast.makeText(getActivity(), "Message Send Button clicked", Toast.LENGTH_SHORT).show();
 			break;
-
+		case R.id.buttonReserveTable:
+				Toast.makeText(getActivity(), "Reserve Table Button clicked", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.buttonSetTimeandDate:
+			Toast.makeText(getActivity(), "Time and Date Button clicked", Toast.LENGTH_SHORT).show();
+			break;
+		
 		default:
 			break;
 		}

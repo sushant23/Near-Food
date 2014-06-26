@@ -4,21 +4,22 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import com.tr.nearfood.R;
-import com.tr.nearfood.adapter.ExpandableListAdapter;
-
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
 import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
+import android.widget.Toast;
+
+import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.ExpandableListAdapter;
 
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
 	View view;
@@ -26,13 +27,17 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-
+	Button sendOrder,showOrder;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_restraurant_menu_list,
 				container, false);
 		initializeUIElements();
+		
+		sendOrder.setOnClickListener(this);
+		showOrder.setOnClickListener(this);
+		
 		// preparing list data
 		prepareListData();
 
@@ -60,9 +65,9 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 			@Override
 			public void onGroupExpand(int groupPosition) {
-				//Toast.makeText(getActivity(),
-					//	listDataHeader.get(groupPosition) + " Expanded",
-						//Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getActivity(),
+				// listDataHeader.get(groupPosition) + " Expanded",
+				// Toast.LENGTH_SHORT).show();
 			}
 		});
 
@@ -71,9 +76,9 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 			@Override
 			public void onGroupCollapse(int groupPosition) {
-		//		Toast.makeText(getActivity(),
-			//			listDataHeader.get(groupPosition) + " Collapsed",
-				//		Toast.LENGTH_SHORT).show();
+				// Toast.makeText(getActivity(),
+				// listDataHeader.get(groupPosition) + " Collapsed",
+				// Toast.LENGTH_SHORT).show();
 
 			}
 		});
@@ -97,6 +102,15 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 			}
 		});
 		return view;
+	}
+
+	private void initializeUIElements() {
+		// get the listview
+		expListView = (ExpandableListView) view
+				.findViewById(R.id.expandableListMenuCollasapable);
+		
+		sendOrder=(Button) view.findViewById(R.id.buttonSendYourOrder);
+		showOrder=(Button) view.findViewById(R.id.buttonShowYourOrder);
 	}
 
 	private void prepareListData() {
@@ -138,15 +152,21 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		listDataChild.put(listDataHeader.get(2), pizza);
 	}
 
-	private void initializeUIElements() {
-		// get the listview
-		expListView = (ExpandableListView) view
-				.findViewById(R.id.expandableListMenuCollasapable);
-	}
-
 	@Override
-	public void onClick(View arg0) {
+	public void onClick(View click) {
 		// TODO Auto-generated method stub
+		
+		switch (click.getId()) {
+		case R.id.buttonSendYourOrder:
+			Toast.makeText(getActivity(), "Send Order Button clicked", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.buttonShowYourOrder:
+			Toast.makeText(getActivity(), "Show Order Button clicked", Toast.LENGTH_SHORT).show();
+			break;
+			
 
+		default:
+			break;
+		}
 	}
 }
