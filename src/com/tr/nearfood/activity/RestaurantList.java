@@ -18,6 +18,16 @@ public class RestaurantList extends ActionBarActivity implements
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 
+	private ResturantDTO selectedResturantDTO;
+
+	public ResturantDTO getSelectedResturantDTO() {
+		return selectedResturantDTO;
+	}
+
+	public void setSelectedResturantDTO(ResturantDTO selectedResturantDTO) {
+		this.selectedResturantDTO = selectedResturantDTO;
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -36,7 +46,9 @@ public class RestaurantList extends ActionBarActivity implements
 
 	@Override
 	public void setClickedData(ResturantDTO resturantDTO) {
-		Fragment resturantProfileFragment = new FragmentResturantProfile();
+		setSelectedResturantDTO(resturantDTO);
+
+		FragmentResturantProfile resturantProfileFragment = new FragmentResturantProfile();
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				resturantProfileFragment);

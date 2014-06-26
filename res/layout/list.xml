@@ -57,9 +57,11 @@
             android:layout_alignBottom="@+id/editTextSearchResturantLists"
             android:layout_alignParentRight="true"
             android:layout_alignTop="@+id/editTextSearchResturantLists"
-            android:layout_marginRight="10dp"
-            android:background="#00FFFFFF"
-            android:src="@android:drawable/ic_search_category_default" />
+            android:layout_marginRight="15dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/search"
+            android:scaleType="fitEnd"
+            android:tint="#FFFFFFFF" />
 
         <ImageButton
             android:id="@+id/imageButtonGPS"
@@ -68,9 +70,10 @@
             android:layout_alignBottom="@+id/editTextSearchResturantLists"
             android:layout_alignParentLeft="true"
             android:layout_alignTop="@+id/editTextSearchResturantLists"
-            android:layout_marginLeft="30dp"
-            android:background="#00FFFFFF"
-            android:src="@android:drawable/ic_search_category_default" />
+            android:layout_marginLeft="35dp"
+            android:background="@android:color/transparent"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_gps" />
     </RelativeLayout>
 
     <LinearLayout
@@ -83,14 +86,6 @@
         android:layout_marginRight="30dp"
         android:layout_marginTop="20dp"
         android:orientation="vertical" >
-
-        <!--
-        <fragment
-            android:id="@+id/fragment_resturant_list"
-            android:name="com.tr.nearfood.fragment.FragmentResturantList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        -->
     </LinearLayout>
 
     <RelativeLayout
