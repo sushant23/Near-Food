@@ -9,7 +9,7 @@
         android:background="#55FFFFFF" >
 
         <LinearLayout
-            android:id="@+id/linearlayoutRestaurantDetail"
+            android:id="@+id/LinearlayoutRestaurantDetail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
@@ -108,7 +108,7 @@
 
         <RelativeLayout
             android:id="@+id/relativeLayout1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/edittextSendmessege"
             android:layout_below="@+id/buttonSendMessage" >
@@ -117,7 +117,7 @@
                 android:id="@+id/imageButtonFacebook"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_facebook" />
 
@@ -125,7 +125,7 @@
                 android:id="@+id/imagetripAdvisor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_toRightOf="@+id/imageButtonFacebook"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_tripadvisor" />
@@ -135,7 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imageButtonFacebook"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_green" />
 
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/imagetripAdvisor"
-                android:layout_margin="5dp"
+                android:layout_margin="4dp"
                 android:layout_toRightOf="@+id/imageButtonGreen"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_red" />
@@ -199,7 +199,7 @@
             android:id="@+id/textViewContactPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/relativeLayout1"
+           
             android:layout_below="@+id/textViewContact"
             android:text="9854354354" />
     </RelativeLayout>
