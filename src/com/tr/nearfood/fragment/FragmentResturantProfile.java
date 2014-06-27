@@ -3,6 +3,7 @@ package com.tr.nearfood.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
-import com.tr.nearfood.activity.RestaurantList;
 import com.tr.nearfood.model.ResturantDTO;
 
 public class FragmentResturantProfile extends Fragment implements
@@ -45,7 +45,7 @@ public class FragmentResturantProfile extends Fragment implements
 		view = inflater.inflate(R.layout.fragment_resturant_profile, container,
 				false);
 		initializeUIElements();
-
+		Log.i(getActivity().getClass().toString(), "oncreate view fragment resturant profile");
 		setSelectedData(SELECTED_RESTURANT_DTO);
 		chooseMenu.setOnClickListener(this);
 		sendMessage.setOnClickListener(this);

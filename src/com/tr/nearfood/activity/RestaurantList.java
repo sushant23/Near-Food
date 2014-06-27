@@ -6,30 +6,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentResturantList;
 import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
-import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
 import com.tr.nearfood.fragment.FragmentResturantProfile;
+import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
 import com.tr.nearfood.model.ResturantDTO;
 
 public class RestaurantList extends ActionBarActivity implements
 		FragmentResturantListCommunicator, FragmentResturantProfileCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
-
-	private ResturantDTO selectedResturantDTO;
-
-	public ResturantDTO getSelectedResturantDTO() {
-		return selectedResturantDTO;
-	}
-
-	public void setSelectedResturantDTO(ResturantDTO selectedResturantDTO) {
-		this.selectedResturantDTO = selectedResturantDTO;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +32,6 @@ public class RestaurantList extends ActionBarActivity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		addResturantListFragment();
 
 	}
@@ -56,8 +45,11 @@ public class RestaurantList extends ActionBarActivity implements
 				resturantProfileFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
-		
-		/*resturantProfileFragment.setSelectedData(resturantDTO);*/
+
+		Log.i(this.getClass().toString(), "inside clicked data");
+		Log.i(this.getClass().toString(),
+				FragmentResturantProfile.SELECTED_RESTURANT_DTO
+						.getResturantName());
 	}
 
 	public void addResturantListFragment() {

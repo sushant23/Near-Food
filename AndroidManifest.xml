@@ -27,6 +27,7 @@
         </activity>
         <activity
             android:name="com.tr.nearfood.activity.RestaurantList"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="stateHidden|adjustNothing" >
         </activity>
         <activity android:name="com.tr.nearfood.activity.Login" >
