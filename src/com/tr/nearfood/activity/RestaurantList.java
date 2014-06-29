@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentResturantList;
@@ -20,6 +22,7 @@ public class RestaurantList extends ActionBarActivity implements
 		FragmentResturantListCommunicator, FragmentResturantProfileCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
+	AdView adView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +35,12 @@ public class RestaurantList extends ActionBarActivity implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		initializeUIElements();
+
+		AdRequest adRequest = new AdRequest.Builder().build();
+
+		adView.loadAd(adRequest);
 		addResturantListFragment();
 
 	}
@@ -73,4 +82,7 @@ public class RestaurantList extends ActionBarActivity implements
 		fragmentTransaction.commit();
 	}
 
+	public void initializeUIElements() {
+		adView = (AdView) findViewById(R.id.adView);
+	}
 }
