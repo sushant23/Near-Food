@@ -102,7 +102,7 @@
             android:layout_width="wrap_content"
             android:layout_height="20dp"
             android:layout_below="@+id/edittextSendmessege"
-            android:background="#008F00"
+            android:background="@color/button_color"
             android:text="Send"
             android:textSize="15sp" />
 
@@ -163,7 +163,7 @@
                 android:layout_width="100dp"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:background="#008F00"
+                android:background="@color/button_color"
                 android:text="SET DATE AND TIME"
                 android:textSize="10sp" />
 
@@ -172,7 +172,7 @@
                 android:layout_width="100dp"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:background="#008F00"
+                android:background="@color/button_color"
                 android:text="CHOOSE MENU"
                 android:textSize="10sp" />
 
@@ -181,7 +181,7 @@
                 android:layout_width="100dp"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:background="#008F00"
+                android:background="@color/button_color"
                 android:text="RESERVE TABLE"
                 android:textSize="10sp" />
         </LinearLayout>

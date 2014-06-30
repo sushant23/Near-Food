@@ -1,5 +1,5 @@
 <resources>
 
     <string name="app_name">Near-Food</string>
-
+	<color name="button_color">#5f8018</color>
 </resources>

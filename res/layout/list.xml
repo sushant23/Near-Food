@@ -28,7 +28,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:background="#008094"
+        android:background="@color/button_color"
         android:padding="5dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_calendar" />
@@ -40,7 +40,7 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="20dp"
         android:layout_toLeftOf="@+id/imageButtonCalendar"
-        android:background="#008094"
+        android:background="@color/button_color"
         android:padding="5dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_clock" />

@@ -16,7 +16,7 @@
         android:layout_alignEnd="@+id/relLayoutSearchContainer"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        android:background="#008094"
+        android:background="@color/button_color"
         android:padding="5dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_calendar" />
@@ -28,7 +28,6 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
         android:layout_toLeftOf="@+id/imageButtonCalendar"
-        android:background="#008094"
         android:padding="5dp"
         android:scaleType="fitXY"
         android:src="@drawable/ic_clock" />
@@ -135,7 +134,7 @@
             android:layout_below="@+id/ibTable"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:background="#33AD33"
+            android:background="@color/button_color"
             android:scaleType="fitXY"
             android:text="SUBSCRIBE"
             android:textSize="15sp" />

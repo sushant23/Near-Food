@@ -17,7 +17,7 @@
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="#008F00"
+            android:background="@color/button_color"
             android:text="SHOW ORDER"
             android:textSize="15sp" />
 
@@ -28,7 +28,7 @@
             android:layout_margin="5dp"
            
             android:layout_weight="1"
-            android:background="#008F00"
+            android:background="@color/button_color"
             android:text="SEND ORDER"
             android:textSize="15sp" />
     </LinearLayout>
