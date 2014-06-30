@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tab_background" />
+
+    <ImageButton
+        android:id="@+id/imageButtonCalendar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignEnd="@+id/relLayoutSearchContainer"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#008094"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_calendar" />
+
+    <ImageButton
+        android:id="@+id/imageButtonNotification"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/imageButtonCalendar"
+        android:background="#008094"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_clock" />
+
+    <RelativeLayout
+        android:id="@+id/relLayoutSearchContainer"
+        android:layout_width="700dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButtonNotification"
+        android:layout_centerHorizontal="true" >
+
+        <EditText
+            android:id="@+id/editTextSearchResturantLists"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:background="#33000000"
+            android:paddingLeft="45dp"
+            android:paddingRight="45dp" />
+
+        <ImageButton
+            android:id="@+id/imageButtonSearch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextSearchResturantLists"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/editTextSearchResturantLists"
+            android:background="@android:color/transparent"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/search"
+            android:tint="#FFFFFFFF" />
+
+        <ImageButton
+            android:id="@+id/imageButtonGPS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/editTextSearchResturantLists"
+            android:layout_alignParentLeft="true"
+            android:layout_alignTop="@+id/editTextSearchResturantLists"
+            android:layout_marginLeft="0dp"
+            android:background="@android:color/transparent"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_gps" />
+    </RelativeLayout>
+
+    <ImageButton
+        android:id="@+id/imageButtonNearFoodLogo"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relLayoutSearchContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitXY"
+        android:src="@drawable/near_food_logo" />
+
+    <RelativeLayout
+        android:id="@+id/relLayoutCatagory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageButtonNearFoodLogo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="100dp" >
+
+        <ImageButton
+            android:id="@+id/ibTakeAway"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape"
+            android:scaleType="fitXY"
+            android:src="@drawable/takeawayf" />
+
+        <ImageButton
+            android:id="@+id/ibDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ibTakeAway"
+            android:background="@drawable/shape"
+            android:scaleType="fitXY"
+            android:src="@drawable/deliverf" />
+
+        <ImageButton
+            android:id="@+id/ibTable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ibTakeAway"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/ibDelivery"
+            android:background="@drawable/shape"
+            android:scaleType="fitXY"
+            android:src="@drawable/tablef" />
+
+        <Button
+            android:id="@+id/ibSuscribe"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_below="@+id/ibTable"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:background="#33AD33"
+            android:scaleType="fitXY"
+            android:text="SUBSCRIBE"
+            android:textSize="15sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
