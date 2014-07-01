@@ -54,117 +54,144 @@
             android:layout_marginTop="5dp"
             android:background="#000" />
 
-        <RelativeLayout
-            android:id="@+id/rellayoutMessageDetailsContainer"
-            android:layout_width="600dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/seperator"
-            android:layout_marginTop="20dp" >
-
-            <LinearLayout
-                android:id="@+id/linearlayoutuserDetails"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:weightSum="3" >
-
-                <EditText
-                    android:id="@+id/edittextSenderName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="#AAFFFFFF"
-                    android:hint="Name" />
-
-                <EditText
-                    android:id="@+id/edittextSenderEmail"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="#AAFFFFFF"
-                    android:hint="email" />
-
-                <EditText
-                    android:id="@+id/edittextSenderPhone"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:layout_weight="1"
-                    android:background="#AAFFFFFF"
-                    android:hint="Phone" />
-            </LinearLayout>
-
-            <EditText
-                android:id="@+id/edittextSendmessege"
-                android:layout_width="fill_parent"
-                android:layout_height="150dp"
-                android:layout_below="@+id/linearlayoutuserDetails"
-                android:background="#AAFFFFFF"
-                android:gravity="top"
-                android:hint="Messege" />
-
-            <Button
-                android:id="@+id/buttonSendMessage"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_below="@+id/edittextSendmessege"
-                android:background="@color/button_color"
-                android:text="SEND"
-                android:textSize="15sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rellayoutImageButtonContainer"
+        <LinearLayout
+            android:id="@+id/linearlayoutuserDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:layout_below="@+id/seperator"
-            android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@+id/rellayoutMessageDetailsContainer" >
+            android:weightSum="100" >
 
-            <ImageButton
-                android:id="@+id/imageButtonFacebook"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_facebook" />
+                android:layout_weight="70"
+                android:orientation="vertical"
+                android:weightSum="1" >
 
-            <ImageButton
-                android:id="@+id/imagetripAdvisor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/imageButtonFacebook"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_tripadvisor" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:weightSum="3" >
 
-            <ImageButton
-                android:id="@+id/imageButtonGreen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/imageButtonFacebook"
-                android:layout_margin="4dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_green" />
+                    <EditText
+                        android:id="@+id/edittextSenderName"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#AAFFFFFF"
+                        android:hint="Name" />
 
-            <ImageButton
-                android:id="@+id/imageButtonRed"
-                android:layout_width="wrap_content"
+                    <EditText
+                        android:id="@+id/edittextSenderEmail"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#AAFFFFFF"
+                        android:hint="email" />
+
+                    <EditText
+                        android:id="@+id/edittextSenderPhone"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:layout_weight="1"
+                        android:background="#AAFFFFFF"
+                        android:hint="Phone" />
+                </LinearLayout>
+
+                <EditText
+                    android:id="@+id/edittextSendmessege"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:layout_below="@+id/linearlayoutuserDetails"
+                    android:background="#AAFFFFFF"
+                    android:gravity="top"
+                    android:hint="Messege" />
+
+                <Button
+                    android:id="@+id/buttonSendMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_below="@+id/edittextSendmessege"
+                    android:background="@color/button_color"
+                    android:text="SEND"
+                    android:textSize="15sp" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/rellayoutImageButtonContainer"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imagetripAdvisor"
-                android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/imageButtonGreen"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_red" />
-        </RelativeLayout>
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/seperator"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_toRightOf="@+id/rellayoutMessageDetailsContainer"
+                android:layout_weight="30" >
+
+                <ImageButton
+                    android:id="@+id/imageButtonFacebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_facebook" />
+
+                <ImageButton
+                    android:id="@+id/imagetripAdvisor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:layout_toRightOf="@+id/imageButtonFacebook"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_tripadvisor" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonGreen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageButtonFacebook"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_green" />
+
+                <ImageButton
+                    android:id="@+id/imageButtonRed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imagetripAdvisor"
+                    android:layout_margin="4dp"
+                    android:layout_toRightOf="@+id/imageButtonGreen"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/ic_red" />
+
+                <TextView
+                    android:id="@+id/textViewContact"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/imageButtonGreen"
+                    android:layout_below="@+id/imageButtonGreen"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="CONTACT" />
+
+                <TextView
+                    android:id="@+id/textViewContactPhoneNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@+id/textViewContact"
+                    android:layout_below="@+id/textViewContact"
+                    android:text="9854354354" />
+            </RelativeLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rellayoutMessageDetailsContainer"
+            android:layout_below="@+id/linearlayoutuserDetails"
             android:layout_marginTop="20dp"
             android:orientation="horizontal"
             android:weightSum="3" >
@@ -199,24 +226,6 @@
                 android:text="RESERVE TABLE"
                 android:textSize="15sp" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/textViewContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/rellayoutImageButtonContainer"
-            android:layout_below="@+id/rellayoutImageButtonContainer"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="CONTACT" />
-
-        <TextView
-            android:id="@+id/textViewContactPhoneNumber"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/textViewContact"
-            android:layout_below="@+id/textViewContact"
-            android:text="9854354354" />
     </RelativeLayout>
 
 </ScrollView>

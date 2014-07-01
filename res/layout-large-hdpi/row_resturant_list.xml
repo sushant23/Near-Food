@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textViewRowResturantListResturantName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="RestauranTANme"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/textViewRowResturantListResturantStreet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRowResturantListResturantName"
+        android:text="RestauranTANme"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewRowResturantListResturantCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textViewRowResturantListResturantStreet"
+        android:text="text"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imageViewRowResturantListDirectionIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textViewRowResturantListDistance"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_launcher" >
+    </ImageView>
+
+    <TextView
+        android:id="@+id/textViewRowResturantListDistance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:textSize="20sp" />
+
+</RelativeLayout>
