@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#55FFFFFF"
+    android:background="@color/light_white"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -17,8 +17,9 @@
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:layout_weight="1"
-            android:background="@color/button_color"
+            android:background="@drawable/button_selector"
             android:text="SHOW ORDER"
+            android:textColor="@color/white"
             android:textSize="15sp" />
 
         <Button
@@ -26,10 +27,10 @@
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_margin="5dp"
-           
             android:layout_weight="1"
-            android:background="@color/button_color"
+            android:background="@drawable/button_selector"
             android:text="SEND ORDER"
+            android:textColor="@color/white"
             android:textSize="15sp" />
     </LinearLayout>
 

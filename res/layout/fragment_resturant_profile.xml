@@ -6,7 +6,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#55FFFFFF" >
+        android:background="@color/light_white" >
 
         <LinearLayout
             android:id="@+id/LinearlayoutRestaurantDetail"
@@ -18,21 +18,22 @@
                 android:id="@+id/textviewReataurantName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reataurant Name" />
+                android:text="Reataurant Name"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/textviewReataurantStreetAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reataurant Street Address"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/textviewReataurantCityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reataurant City Name"
-                android:textSize="10sp" />
+                android:textSize="12sp" />
         </LinearLayout>
 
         <TextView
@@ -55,35 +56,35 @@
             android:id="@+id/linearlayoutuserDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/seperator"
-            android:orientation="horizontal"
+            android:layout_below="@+id/relativeLayout1"
+            android:orientation="vertical"
             android:weightSum="3" >
 
             <EditText
                 android:id="@+id/edittextSenderName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="#AAFFFFFF"
+                android:background="@color/dark_white"
                 android:hint="Name" />
 
             <EditText
                 android:id="@+id/edittextSenderEmail"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="#AAFFFFFF"
-                android:hint="email" />
+                android:background="@color/dark_white"
+                android:hint="Email" />
 
             <EditText
                 android:id="@+id/edittextSenderPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
-                android:background="#AAFFFFFF"
+                android:background="@color/dark_white"
                 android:hint="Phone" />
         </LinearLayout>
 
@@ -92,26 +93,27 @@
             android:layout_width="fill_parent"
             android:layout_height="100dp"
             android:layout_below="@+id/linearlayoutuserDetails"
-            android:background="#AAFFFFFF"
-            android:hint="Messege" 
+            android:background="@color/dark_white"
             android:gravity="top"
-            />
+            android:hint="Message" />
 
         <Button
             android:id="@+id/buttonSendMessage"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="20dp"
-            android:layout_below="@+id/edittextSendmessege"
-            android:background="@color/button_color"
-            android:text="Send"
-            android:textSize="15sp" />
+            android:layout_alignBottom="@+id/edittextSendmessege"
+            android:layout_alignLeft="@+id/edittextSendmessege"
+            android:background="@drawable/button_selector"
+            android:text="SEND"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
 
         <RelativeLayout
             android:id="@+id/relativeLayout1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/edittextSendmessege"
-            android:layout_below="@+id/buttonSendMessage" >
+            android:layout_below="@+id/LinearlayoutRestaurantDetail"
+            android:gravity="center" >
 
             <ImageButton
                 android:id="@+id/imageButtonFacebook"
@@ -134,8 +136,8 @@
                 android:id="@+id/imageButtonGreen"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageButtonFacebook"
                 android:layout_margin="4dp"
+                android:layout_toRightOf="@+id/imagetripAdvisor"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_green" />
 
@@ -143,7 +145,6 @@
                 android:id="@+id/imageButtonRed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imagetripAdvisor"
                 android:layout_margin="4dp"
                 android:layout_toRightOf="@+id/imageButtonGreen"
                 android:background="@android:color/transparent"
@@ -151,56 +152,73 @@
         </RelativeLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/edittextSendmessege"
+            android:id="@+id/linearlayoutButtonsCombo"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:layout_below="@+id/buttonSendMessage"
-            android:gravity="right"
-            android:orientation="vertical" >
+            android:layout_centerHorizontal="true"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:weightSum="2" >
 
             <Button
                 android:id="@+id/buttonSetTimeandDate"
-                android:layout_width="100dp"
-                android:layout_height="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
                 android:layout_margin="5dp"
-                android:background="@color/button_color"
+                android:layout_weight="1"
+                android:background="@drawable/button_selector"
                 android:text="SET DATE AND TIME"
+                android:textColor="@color/white"
                 android:textSize="10sp" />
 
-            <Button
-                android:id="@+id/buttonChooseMenu"
-                android:layout_width="100dp"
-                android:layout_height="20dp"
-                android:layout_margin="5dp"
-                android:background="@color/button_color"
-                android:text="CHOOSE MENU"
-                android:textSize="10sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="2" >
 
-            <Button
-                android:id="@+id/buttonReserveTable"
-                android:layout_width="100dp"
-                android:layout_height="20dp"
-                android:layout_margin="5dp"
-                android:background="@color/button_color"
-                android:text="RESERVE TABLE"
-                android:textSize="10sp" />
+                <Button
+                    android:id="@+id/buttonChooseMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_selector"
+                    android:text="CHOOSE MENU"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+
+                <Button
+                    android:id="@+id/buttonReserveTable"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_selector"
+                    android:text="RESERVE TABLE"
+                    android:textColor="@color/white"
+                    android:textSize="10sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <TextView
             android:id="@+id/textViewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/relativeLayout1"
-            android:layout_below="@+id/relativeLayout1"
+            android:layout_below="@+id/linearlayoutButtonsCombo"
+            android:layout_centerHorizontal="true"
             android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
             android:text="CONTACT" />
 
         <TextView
             android:id="@+id/textViewContactPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           
             android:layout_below="@+id/textViewContact"
+            android:layout_centerHorizontal="true"
             android:text="9854354354" />
     </RelativeLayout>
 

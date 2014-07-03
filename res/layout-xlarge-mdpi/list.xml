@@ -15,9 +15,9 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_alignParentRight="true"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="40dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
         android:background="#33AD33"
         android:padding="5dp"
         android:scaleType="fitXY"
@@ -27,9 +27,9 @@
         android:id="@+id/imageButtonNotification"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
         android:layout_toLeftOf="@+id/imageButtonCalendar"
         android:background="#33AD33"
         android:padding="5dp"
@@ -40,14 +40,13 @@
         android:id="@+id/ibSuscribe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="25dp"
-          android:layout_marginBottom="10dp"
         android:layout_toLeftOf="@+id/imageButtonNotification"
         android:background="#33AD33"
         android:padding="5dp"
         android:scaleType="fitXY"
-        
         android:text="SUBSCRIBE" />
 
     <ImageView
@@ -64,9 +63,9 @@
         android:id="@+id/relLayoutSearchContainer"
         android:layout_width="500dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButtonNotification"
-       android:layout_marginLeft="20dp"
         android:layout_alignParentRight="true"
+        android:layout_below="@+id/imageButtonNotification"
+        android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/imagebuttonNearFoodLogo" >
 
         <EditText

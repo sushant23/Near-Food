@@ -1,30 +1,32 @@
 package com.tr.nearfood.activity;
 
 
-import com.tr.nearfood.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
+
+import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.NearFoodTextView;
 
 public class RestaurantCatagory extends Activity {
 
-	ImageButton takeAway, table, delivery,suscribe;
+	ImageButton takeAway, table, delivery;
+	Button suscribe;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.catagory);
+		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 
 		takeAway = (ImageButton) findViewById(R.id.ibTakeAway);
 		table = (ImageButton) findViewById(R.id.ibTable);
 		delivery = (ImageButton) findViewById(R.id.ibDelivery);
-		suscribe=(ImageButton) findViewById(R.id.ibSuscribe);
+		suscribe=(Button) findViewById(R.id.buttonSuscribe);
 		takeAway.setOnClickListener(new View.OnClickListener() {
 
 			@Override

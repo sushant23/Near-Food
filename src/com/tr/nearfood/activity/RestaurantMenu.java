@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
+import com.tr.nearfood.adapter.NearFoodTextView;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -29,6 +30,7 @@ public class RestaurantMenu extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_restraurant_menu_list);
+		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 
 		// get the listview
 		expListView = (ExpandableListView) findViewById(R.id.expandableListMenuCollasapable);

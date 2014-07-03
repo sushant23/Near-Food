@@ -1,6 +1,7 @@
 package com.tr.nearfood.activity;
 
 import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.NearFoodTextView;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +21,7 @@ public class RestaurantProfile extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.fragment_resturant_profile);
+		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 
 		chooseMenu=(Button) findViewById(R.id.buttonChooseMenu);
 		chooseMenu.setOnClickListener(new View.OnClickListener() {

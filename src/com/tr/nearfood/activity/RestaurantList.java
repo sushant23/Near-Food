@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.NearFoodTextView;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentResturantList;
 import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
@@ -28,7 +29,7 @@ public class RestaurantList extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
-
+		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 		try {
 			ActionBar myActionBar = getSupportActionBar();
 			myActionBar.hide();

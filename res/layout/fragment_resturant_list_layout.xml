@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_below="@+id/editTextSearchResturantLists"
-    android:background="#AAFFFFFF"
+    android:background="@color/dark_white"
     android:divider="#000"
     android:dividerHeight="2px"
     android:padding="20dp" />
