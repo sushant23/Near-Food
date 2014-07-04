@@ -67,7 +67,9 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Name" />
+                android:hint="Name" 
+                android:inputType="textMultiLine"
+                />
 
             <EditText
                 android:id="@+id/edittextSenderEmail"
@@ -76,7 +78,9 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Email" />
+                android:hint="Email"
+				android:inputType="textEmailAddress"
+                />
 
             <EditText
                 android:id="@+id/edittextSenderPhone"
@@ -85,7 +89,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Phone" />
+                android:hint="Phone" 
+                android:inputType="phone"/>
         </LinearLayout>
 
         <EditText
@@ -95,7 +100,8 @@
             android:layout_below="@+id/linearlayoutuserDetails"
             android:background="@color/dark_white"
             android:gravity="top"
-            android:hint="Message" />
+            android:hint="Message"
+            android:inputType="textMultiLine" />
 
         <Button
             android:id="@+id/buttonSendMessage"

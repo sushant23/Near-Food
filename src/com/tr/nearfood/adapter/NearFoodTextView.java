@@ -8,7 +8,7 @@ import android.graphics.Typeface;
 public final class NearFoodTextView {
 
     public static void setDefaultFont(Context context,
-            String staticTypefaceFieldName, String fontAssetName) {
+			String staticTypefaceFieldName, String fontAssetName) {
         final Typeface regular = Typeface.createFromAsset(context.getAssets(),
                 fontAssetName);
         replaceFont(staticTypefaceFieldName, regular);

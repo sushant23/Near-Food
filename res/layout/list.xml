@@ -11,18 +11,18 @@
         android:src="@drawable/background" />
 
     <LinearLayout
+        android:id="@+id/linearlayoutHeaderContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearlayoutHeaderContainer"
         android:orientation="horizontal"
         android:weightSum="100" >
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginStart="5dp"
             android:layout_weight="30"
-            android:layout_gravity="center_horizontal"
             android:src="@drawable/icon_near_food" />
 
         <LinearLayout
@@ -41,7 +41,7 @@
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:background="@color/button_color"
                     android:padding="5dp"
                     android:scaleType="fitXY"
@@ -52,7 +52,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/imageButtonCalendar"
                     android:background="@color/button_color"
                     android:padding="5dp"
@@ -64,12 +64,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginRight="5dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/imageButtonNotification"
                     android:background="@drawable/button_selector"
                     android:text="SUBSCRIBE"
-                    android:textColor="@color/white" 
-                    android:textSize="12sp"/>
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -81,7 +81,7 @@
                 <EditText
                     android:id="@+id/editTextSearchResturantLists"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -126,9 +126,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/adView"
         android:layout_below="@+id/linearlayoutHeaderContainer"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:orientation="vertical" >
     </LinearLayout>
 

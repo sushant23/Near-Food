@@ -10,7 +10,6 @@
         android:layout_height="30dp"
         android:layout_margin="3dp"
         android:background="@drawable/circle"
-        
         android:text="+" />
 
     <Button

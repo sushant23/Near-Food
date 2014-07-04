@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
+import com.tr.nearfood.adapter.NearFoodTextView;
 
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
 	View view;
@@ -34,6 +35,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_restraurant_menu_list,
 				container, false);
+		
 		initializeUIElements();
 		
 		sendOrder.setOnClickListener(this);
