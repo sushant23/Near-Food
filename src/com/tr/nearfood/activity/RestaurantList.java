@@ -49,7 +49,7 @@ public class RestaurantList extends ActionBarActivity implements
 		}
 
 		initializeUIElements();
-		showNotification();
+		//showNotification();
 
 		AdRequest adRequest = new AdRequest.Builder().build();
 
