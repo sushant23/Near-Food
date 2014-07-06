@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/textViewOrderDetails"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/button_color"
+        android:text="ORDER DETAILS"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+    <ScrollView
+        android:id="@+id/scrollViewTableLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true" >
+
+        <RelativeLayout
+            android:id="@+id/RelativeLayoutTableLayout"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/light_white"
+            android:orientation="vertical" >
+
+            <TableLayout
+                android:id="@+id/TableLayoutShowOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center" >
+            </TableLayout>
+
+            <Button
+                android:id="@+id/buttonConfirmOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/RelativeLayoutTableLayout"
+                android:layout_below="@+id/TableLayoutShowOrder"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/button_selector"
+                android:text="CONFIRM"
+                android:textColor="@color/white"
+                android:textSize="12sp"
+                 />
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

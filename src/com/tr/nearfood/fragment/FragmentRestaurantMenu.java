@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,8 +21,6 @@ import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
-import com.tr.nearfood.adapter.NearFoodTextView;
-
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
 	View view;
 	ExpandableListAdapter listAdapter;
@@ -29,7 +28,19 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
 	Button sendOrder,showOrder;
+	FragmentResturantMenuListCommunicator fragmentResturantMenuListCommunicator;
 	//menu changed
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		try {
+
+			fragmentResturantMenuListCommunicator = (FragmentResturantMenuListCommunicator) activity;
+		} catch (ClassCastException e) {
+			throw new ClassCastException(activity.toString()
+					+ " must implement FragmentResturantProfileCommunicator");
+		}
+	}
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -165,11 +176,15 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 			break;
 		case R.id.buttonShowYourOrder:
 			Toast.makeText(getActivity(), "Show Order Button clicked", Toast.LENGTH_SHORT).show();
+			fragmentResturantMenuListCommunicator.setMenuButtonClicked();
 			break;
 			
 
 		default:
 			break;
 		}
+	}
+	public static interface FragmentResturantMenuListCommunicator {
+		public void setMenuButtonClicked();
 	}
 }

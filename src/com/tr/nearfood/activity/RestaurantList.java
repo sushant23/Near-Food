@@ -7,28 +7,39 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
-import com.tr.nearfood.adapter.NearFoodTextView;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
+import com.tr.nearfood.fragment.FragmentRestaurantMenu.FragmentResturantMenuListCommunicator;
 import com.tr.nearfood.fragment.FragmentResturantList;
 import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
 import com.tr.nearfood.fragment.FragmentResturantProfile;
 import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
+import com.tr.nearfood.fragment.FragmentShowCustomerOrder;
 import com.tr.nearfood.model.ResturantDTO;
+import com.tr.nearfood.utills.BadgeView;
+import com.tr.nearfood.utills.NearFoodTextView;
 
 public class RestaurantList extends ActionBarActivity implements
-		FragmentResturantListCommunicator, FragmentResturantProfileCommunicator {
+		FragmentResturantListCommunicator,
+		FragmentResturantProfileCommunicator,
+		FragmentResturantMenuListCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
+	ImageButton notification;
+	BadgeView badge, badge1;
+	Button subscribe;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 		try {
 			ActionBar myActionBar = getSupportActionBar();
@@ -38,11 +49,20 @@ public class RestaurantList extends ActionBarActivity implements
 		}
 
 		initializeUIElements();
+		showNotification();
 
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		adView.loadAd(adRequest);
 		addResturantListFragment();
+
+	}
+
+	void showNotification() {
+		badge = new BadgeView(this, notification);
+		badge.setText("5");
+		badge.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
+		badge.show();
 
 	}
 
@@ -85,5 +105,20 @@ public class RestaurantList extends ActionBarActivity implements
 
 	public void initializeUIElements() {
 		adView = (AdView) findViewById(R.id.adView);
+		notification = (ImageButton) findViewById(R.id.imageButtonNotification);
+		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 	}
+
+	@Override
+	public void setMenuButtonClicked() {
+		// TODO Auto-generated method stub
+
+		Fragment fragmentShowCustomerOrder = new FragmentShowCustomerOrder();
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				fragmentShowCustomerOrder);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
 }

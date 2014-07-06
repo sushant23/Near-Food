@@ -1,4 +1,4 @@
-package com.tr.nearfood.adapter;
+package com.tr.nearfood.utills;
 
 import java.lang.reflect.Field;
 import android.content.Context;

@@ -1,7 +1,9 @@
 package com.tr.nearfood.activity;
 
 import com.tr.nearfood.R;
-import com.tr.nearfood.adapter.NearFoodTextView;
+
+
+import com.tr.nearfood.utills.NearFoodTextView;
 
 import android.app.Activity;
 import android.content.Intent;

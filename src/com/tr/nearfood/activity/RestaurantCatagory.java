@@ -1,15 +1,18 @@
 package com.tr.nearfood.activity;
 
-
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.tr.nearfood.R;
-import com.tr.nearfood.adapter.NearFoodTextView;
+import com.tr.nearfood.utills.NearFoodTextView;
+
 
 public class RestaurantCatagory extends Activity {
 
@@ -26,46 +29,78 @@ public class RestaurantCatagory extends Activity {
 		takeAway = (ImageButton) findViewById(R.id.ibTakeAway);
 		table = (ImageButton) findViewById(R.id.ibTable);
 		delivery = (ImageButton) findViewById(R.id.ibDelivery);
-		suscribe=(Button) findViewById(R.id.buttonSuscribe);
-		takeAway.setOnClickListener(new View.OnClickListener() {
+		suscribe = (Button) findViewById(R.id.buttonSuscribe);
 
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
-				Intent start = new Intent(getApplicationContext(),RestaurantList.class);
-				startActivity(start);
-			}
-		});
-		table.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-				
-				Intent start = new Intent(getApplicationContext(),RestaurantList.class);
-				startActivity(start);
-			}
-		});
-		delivery.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View arg0) {
-				// TODO Auto-generated method stub
-			
-				Intent start = new Intent(getApplicationContext(),RestaurantList.class);
-				startActivity(start);
-			}
-		});
+		
 		suscribe.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent start = new Intent(getApplicationContext(),Login.class);
+				Intent start = new Intent(getApplicationContext(), Login.class);
 				startActivity(start);
 			}
 		});
-	}
 
+		takeAway.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					takeAway.setColorFilter(Color.argb(150, 155, 155, 155));
+					Intent start = new Intent(getApplicationContext(),
+							RestaurantList.class);
+					startActivity(start);
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					takeAway.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																			// null
+					return true;
+				}
+				return false;
+			}
+
+		});
+		table.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					table.setColorFilter(Color.argb(150, 155, 155, 155));
+					Intent start = new Intent(getApplicationContext(),
+							RestaurantList.class);
+					startActivity(start);
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					table.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																			// null
+					return true;
+				}
+				return false;
+			}
+
+		});
+		delivery.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					delivery.setColorFilter(Color.argb(150, 155, 155, 155));
+					Intent start = new Intent(getApplicationContext(),
+							RestaurantList.class);
+					startActivity(start);
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					delivery.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																			// null
+					return true;
+				}
+				return false;
+			}
+
+		});
+	}
 }
