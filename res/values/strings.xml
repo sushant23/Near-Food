@@ -2,7 +2,7 @@
 
     <string name="app_name">Near Food</string>
 	<color name="button_color">#669900</color>
-	<color name="button_click_color">#06323D</color>
+	<color name="button_click_color">#53933f</color>
 	<color name="white">#ffffff</color>
 	<color name="light_white">#AAFFFFFF</color>
 	<color name="dark_white">#AAFFFFFF</color>

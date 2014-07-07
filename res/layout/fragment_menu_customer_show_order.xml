@@ -36,16 +36,15 @@
 
             <Button
                 android:id="@+id/buttonConfirmOrder"
-                android:layout_width="wrap_content"
+                android:layout_width="60dp"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@+id/RelativeLayoutTableLayout"
                 android:layout_below="@+id/TableLayoutShowOrder"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/button_selector"
+                android:background="@drawable/button_gradiant"
                 android:text="CONFIRM"
                 android:textColor="@color/white"
-                android:textSize="12sp"
-                 />
+                android:textSize="12sp" />
         </RelativeLayout>
     </ScrollView>
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-   <ImageView
+    android:layout_height="match_parent" >
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -27,7 +27,7 @@
         android:layout_below="@+id/ibTable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@drawable/button_selector"
+        android:background="@drawable/button_gradiant"
         android:text="SUBSCRIBE"
         android:textColor="@color/white" />
 

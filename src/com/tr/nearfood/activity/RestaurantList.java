@@ -1,5 +1,7 @@
 package com.tr.nearfood.activity;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -7,12 +9,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
+import com.tr.nearfood.fragment.FragmentNotification;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu.FragmentResturantMenuListCommunicator;
 import com.tr.nearfood.fragment.FragmentResturantList;
@@ -31,7 +38,8 @@ public class RestaurantList extends ActionBarActivity implements
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
-	ImageButton notification;
+	ImageButton notification, homeButton;
+
 	BadgeView badge, badge1;
 	Button subscribe;
 
@@ -55,6 +63,50 @@ public class RestaurantList extends ActionBarActivity implements
 
 		adView.loadAd(adRequest);
 		addResturantListFragment();
+		homeButton.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					homeButton.setColorFilter(Color.argb(150, 155, 155, 155));
+					Intent start = new Intent(getApplicationContext(),
+							RestaurantCatagory.class);
+					startActivity(start);
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					homeButton.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																				// null
+					return true;
+				}
+				return false;
+			}
+
+		});
+
+		notification.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					notification.setColorFilter(Color.argb(150, 155, 155, 155));
+					Fragment restaurantNotification = new FragmentNotification();
+					fragmentTransaction = getSupportFragmentManager().beginTransaction();
+					fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+							restaurantNotification);
+					fragmentTransaction.addToBackStack(null);
+					fragmentTransaction.commit();
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					notification.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																				// null
+					return true;
+				}
+				return false;
+			}
+
+		});
 
 	}
 
@@ -107,6 +159,7 @@ public class RestaurantList extends ActionBarActivity implements
 		adView = (AdView) findViewById(R.id.adView);
 		notification = (ImageButton) findViewById(R.id.imageButtonNotification);
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
+		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
 	}
 
 	@Override
