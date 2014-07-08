@@ -1,6 +1,12 @@
 package com.tr.nearfood.fragment;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,6 +21,7 @@ import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.model.ResturantDTO;
+import com.tr.nearfood.utills.CustomDateTimePicker;
 
 public class FragmentResturantProfile extends Fragment implements
 		OnClickListener {
@@ -45,12 +52,14 @@ public class FragmentResturantProfile extends Fragment implements
 		view = inflater.inflate(R.layout.fragment_resturant_profile, container,
 				false);
 		initializeUIElements();
-		Log.i(getActivity().getClass().toString(), "oncreate view fragment resturant profile");
+		Log.i(getActivity().getClass().toString(),
+				"oncreate view fragment resturant profile");
 		setSelectedData(SELECTED_RESTURANT_DTO);
 		chooseMenu.setOnClickListener(this);
 		sendMessage.setOnClickListener(this);
 		setDateAndTime.setOnClickListener(this);
 		reserveTable.setOnClickListener(this);
+		restaurantPhoneNumber.setOnClickListener(this);
 		return view;
 	}
 
@@ -97,16 +106,54 @@ public class FragmentResturantProfile extends Fragment implements
 		case R.id.buttonSendMessage:
 			Toast.makeText(getActivity(), "Message Send Button clicked",
 					Toast.LENGTH_SHORT).show();
+
 			break;
 		case R.id.buttonReserveTable:
 			Toast.makeText(getActivity(), "Reserve Table Button clicked",
 					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.buttonSetTimeandDate:
-			Toast.makeText(getActivity(), "Time and Date Button clicked",
-					Toast.LENGTH_SHORT).show();
-			break;
 
+			CustomDateTimePicker custom = new CustomDateTimePicker(
+					getActivity(),
+					new CustomDateTimePicker.ICustomDateTimeListener() {
+
+						@Override
+						public void onSet(Dialog dialog,
+								Calendar calendarSelected, Date dateSelected,
+								int year, String monthFullName,
+								String monthShortName, int monthNumber,
+								int date, String weekDayFullName,
+								String weekDayShortName, int hour24,
+								int hour12, int min, int sec, String AM_PM) {
+							// TODO Auto-generated method stub
+							String datetime = (calendarSelected
+									.get(Calendar.DAY_OF_MONTH)
+									+ "/"
+									+ (monthNumber + 1)
+									+ "/"
+									+ year
+									+ ","
+									+ hour12 + ":" + min + " " + AM_PM);
+							Toast.makeText(getActivity(), datetime,
+									Toast.LENGTH_LONG).show();
+						}
+
+						@Override
+						public void onCancel() {
+							// TODO Auto-generated method stub
+
+						}
+					});
+			custom.showDialog();
+			break;
+		case R.id.textViewContactPhoneNumber:
+
+			Intent callIntent1 = new Intent(Intent.ACTION_CALL);
+			callIntent1.setData(Uri.parse("tel:"
+					+ restaurantPhoneNumber.getText().toString().trim()));
+			startActivity(callIntent1);
+			break;
 		default:
 			break;
 		}
@@ -114,8 +161,8 @@ public class FragmentResturantProfile extends Fragment implements
 
 	public void setSelectedData(ResturantDTO resturantDTO) {
 		restaurantName.setText(SELECTED_RESTURANT_DTO.getResturantName());
-		restaurantStreetAdd.setText(SELECTED_RESTURANT_DTO.getResturantAddress()
-				.getResturantStreetAddress());
+		restaurantStreetAdd.setText(SELECTED_RESTURANT_DTO
+				.getResturantAddress().getResturantStreetAddress());
 		restaurantCityName.setText(SELECTED_RESTURANT_DTO.getResturantAddress()
 				.getReturantCityName());
 		restaurantDistance.setText(String.valueOf(SELECTED_RESTURANT_DTO

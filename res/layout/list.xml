@@ -76,51 +76,57 @@
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/relLayoutSearchContainer"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/imageButtonNotification" >
-
-                <EditText
-                    android:id="@+id/editTextSearchResturantLists"
-                    android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
-                    android:background="#AAFFFFFF"
-                    android:paddingLeft="45dp"
-                    android:paddingRight="45dp" />
-
-                <ImageButton
-                    android:id="@+id/imageButtonSearch"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/editTextSearchResturantLists"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignTop="@+id/editTextSearchResturantLists"
-                    android:background="@android:color/transparent"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/search"
-                    android:tint="#FFFFFFFF" />
+                android:orientation="horizontal"
+                android:weightSum="100" >
 
                 <ImageButton
                     android:id="@+id/imageButtonGPS"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/editTextSearchResturantLists"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignTop="@+id/editTextSearchResturantLists"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
                     android:layout_marginLeft="0dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="20"
                     android:background="@android:color/transparent"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
-                    android:scaleType="centerInside"
+                    android:scaleType="fitXY"
                     android:src="@drawable/ic_gps" />
-            </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relLayoutSearchContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/imageButtonNotification"
+                    android:layout_weight="80" >
+
+                    <EditText
+                        android:id="@+id/editTextSearchResturantLists"
+                        android:layout_width="match_parent"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginTop="10dp"
+                        android:background="#AAFFFFFF"
+                        android:paddingLeft="45dp"
+                        android:paddingRight="45dp" />
+
+                    <ImageButton
+                        android:id="@+id/imageButtonSearch"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/editTextSearchResturantLists"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@+id/editTextSearchResturantLists"
+                        android:background="@android:color/transparent"
+                        android:paddingBottom="5dp"
+                        android:paddingTop="5dp"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/search"
+                        android:tint="#FFFFFFFF" />
+                </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
@@ -132,7 +138,6 @@
         android:layout_below="@+id/linearlayoutHeaderContainer"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="10dp"
         android:orientation="vertical" >
     </LinearLayout>
 

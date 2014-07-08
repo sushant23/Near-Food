@@ -54,7 +54,7 @@
 
         <LinearLayout
             android:id="@+id/linearlayoutuserDetails"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeLayout1"
             android:orientation="vertical"
@@ -213,8 +213,9 @@
             android:id="@+id/textViewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/linearlayoutButtonsCombo"
-            android:layout_centerHorizontal="true"
+         
+          android:layout_alignTop="@+id/linearlayoutuserDetails"
+            android:layout_toRightOf="@+id/linearlayoutuserDetails"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
             android:text="CONTACT" />
@@ -223,8 +224,9 @@
             android:id="@+id/textViewContactPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+              android:layout_toRightOf="@+id/linearlayoutuserDetails"
             android:layout_below="@+id/textViewContact"
-            android:layout_centerHorizontal="true"
+          
             android:text="9854354354" />
     </RelativeLayout>
 

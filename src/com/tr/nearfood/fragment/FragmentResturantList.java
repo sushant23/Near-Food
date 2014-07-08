@@ -72,7 +72,7 @@ public class FragmentResturantList extends Fragment implements
 			tempResturantAddress.setReturantCityName("City " + i);
 			tempResturantAddress.setResturantDistance(1000);
 			ResturantContactInfo tempResturantContactInfo = new ResturantContactInfo();
-			tempResturantContactInfo.setResturantphoneNoA("+977989493888" + i);
+			tempResturantContactInfo.setResturantphoneNoA("+97798949389" + i);
 			tempResturantDTO.setResturantContactInfo(tempResturantContactInfo);
 			tempResturantDTO.setResturantAddress(tempResturantAddress);
 

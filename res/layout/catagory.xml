@@ -27,6 +27,7 @@
         android:layout_below="@+id/ibTable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
+		android:padding="5dp"       
         android:background="@drawable/button_gradiant"
         android:text="SUBSCRIBE"
         android:textColor="@color/white" />
