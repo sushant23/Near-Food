@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.tr.nearfood.R;
@@ -19,6 +20,7 @@ import com.tr.nearfood.adapter.CustomAdapterResturantLists;
 import com.tr.nearfood.model.ResturantAddress;
 import com.tr.nearfood.model.ResturantContactInfo;
 import com.tr.nearfood.model.ResturantDTO;
+import com.tr.nearfood.utills.AndroidBug5497Workaround;
 
 public class FragmentResturantList extends Fragment implements
 		OnItemClickListener {
@@ -45,8 +47,9 @@ public class FragmentResturantList extends Fragment implements
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_resturant_list_layout,
 				container, false);
+		
 		initializeUIElements();
-
+		AndroidBug5497Workaround.assistActivity(getActivity());
 		resturantList = getDummyResturantList();
 
 		listViewResturantList.setAdapter(new CustomAdapterResturantLists(

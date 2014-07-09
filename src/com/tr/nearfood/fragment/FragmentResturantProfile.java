@@ -10,13 +10,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
@@ -59,7 +63,9 @@ public class FragmentResturantProfile extends Fragment implements
 		sendMessage.setOnClickListener(this);
 		setDateAndTime.setOnClickListener(this);
 		reserveTable.setOnClickListener(this);
+
 		restaurantPhoneNumber.setOnClickListener(this);
+
 		return view;
 	}
 
@@ -154,6 +160,7 @@ public class FragmentResturantProfile extends Fragment implements
 					+ restaurantPhoneNumber.getText().toString().trim()));
 			startActivity(callIntent1);
 			break;
+
 		default:
 			break;
 		}
