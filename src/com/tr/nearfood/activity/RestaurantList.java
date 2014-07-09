@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -47,7 +48,8 @@ public class RestaurantList extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
-
+		getWindow().setSoftInputMode(
+				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 		try {
 			ActionBar myActionBar = getSupportActionBar();
@@ -57,7 +59,7 @@ public class RestaurantList extends ActionBarActivity implements
 		}
 
 		initializeUIElements();
-		//showNotification();
+		// showNotification();
 
 		AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -92,8 +94,10 @@ public class RestaurantList extends ActionBarActivity implements
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					notification.setColorFilter(Color.argb(150, 155, 155, 155));
 					Fragment restaurantNotification = new FragmentNotification();
-					fragmentTransaction = getSupportFragmentManager().beginTransaction();
-					fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+					fragmentTransaction = getSupportFragmentManager()
+							.beginTransaction();
+					fragmentTransaction.replace(
+							R.id.linLayoutFragmentContainer,
 							restaurantNotification);
 					fragmentTransaction.addToBackStack(null);
 					fragmentTransaction.commit();

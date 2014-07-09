@@ -26,14 +26,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reataurant Street Address"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/textviewReataurantCityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Reataurant City Name"
-                android:textSize="12sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
         <TextView
@@ -42,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/seperator"
             android:layout_alignParentRight="true"
-            android:text="Distance" />
+            android:text="Distance"
+            android:textSize="10sp" />
 
         <View
             android:id="@+id/seperator"
@@ -67,9 +68,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Name" 
-                android:inputType="textMultiLine"
-                />
+                android:hint="Name"
+                android:inputType="textMultiLine" />
 
             <EditText
                 android:id="@+id/edittextSenderEmail"
@@ -79,8 +79,7 @@
                 android:layout_weight="1"
                 android:background="@color/dark_white"
                 android:hint="Email"
-				android:inputType="textEmailAddress"
-                />
+                android:inputType="textEmailAddress" />
 
             <EditText
                 android:id="@+id/edittextSenderPhone"
@@ -89,8 +88,8 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Phone" 
-                android:inputType="phone"/>
+                android:hint="Phone"
+                android:inputType="phone" />
         </LinearLayout>
 
         <EditText
@@ -191,7 +190,7 @@
                     android:layout_height="match_parent"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                     android:background="@drawable/button_gradiant"
+                    android:background="@drawable/button_gradiant"
                     android:text="CHOOSE MENU"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
@@ -213,20 +212,18 @@
             android:id="@+id/textViewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-         
-          android:layout_alignTop="@+id/linearlayoutuserDetails"
-            android:layout_toRightOf="@+id/linearlayoutuserDetails"
+            android:layout_alignTop="@+id/linearlayoutuserDetails"
             android:layout_marginLeft="15dp"
             android:layout_marginTop="15dp"
+            android:layout_toRightOf="@+id/linearlayoutuserDetails"
             android:text="CONTACT" />
 
         <TextView
             android:id="@+id/textViewContactPhoneNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-              android:layout_toRightOf="@+id/linearlayoutuserDetails"
             android:layout_below="@+id/textViewContact"
-          
+            android:layout_toRightOf="@+id/linearlayoutuserDetails"
             android:text="9854354354" />
     </RelativeLayout>
 
