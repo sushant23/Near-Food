@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-  
-     >
+    android:layout_height="fill_parent" >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -105,8 +103,7 @@
             android:background="@color/dark_white"
             android:gravity="top"
             android:hint="Message"
-            android:inputType="text"
-            android:imeOptions="actionDone|flagNoExtractUi" />
+            android:inputType="textMultiLine" />
 
         <Button
             android:id="@+id/buttonSendMessage"
