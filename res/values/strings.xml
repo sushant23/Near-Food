@@ -1,6 +1,10 @@
 <resources>
 
     <string name="app_name">Near Food</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="phone">Phone</string>
+    <string name="message">Message</string>
 
     <color name="button_color">#117f98</color>
     <color name="button_click_color">#58A5B7</color>

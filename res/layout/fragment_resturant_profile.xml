@@ -25,15 +25,13 @@
                 android:id="@+id/textviewReataurantStreetAddress"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reataurant Street Address"
-                android:textSize="10sp" />
+                android:text="Reataurant Street Address" />
 
             <TextView
                 android:id="@+id/textviewReataurantCityName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reataurant City Name"
-                android:textSize="10sp" />
+                android:text="Reataurant City Name" />
         </LinearLayout>
 
         <TextView
@@ -42,8 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/seperator"
             android:layout_alignParentRight="true"
-            android:text="Distance"
-            android:textSize="10sp" />
+            android:text="Distance" />
 
         <View
             android:id="@+id/seperator"
@@ -68,7 +65,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Name"
+                android:hint="@string/name"
                 android:imeOptions="actionNext|flagNavigateNext"
                 android:inputType="text" />
 
@@ -79,7 +76,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Email"
+                android:hint="@string/email"
                 android:imeOptions="actionNext|flagNavigateNext"
                 android:inputType="textEmailAddress" />
 
@@ -90,7 +87,7 @@
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/dark_white"
-                android:hint="Phone"
+                android:hint="@string/phone"
                 android:imeOptions="actionNext|flagNavigateNext"
                 android:inputType="phone" />
         </LinearLayout>
@@ -102,7 +99,7 @@
             android:layout_below="@+id/linearlayoutuserDetails"
             android:background="@color/dark_white"
             android:gravity="top"
-            android:hint="Message"
+            android:hint="@string/message"
             android:inputType="textMultiLine" />
 
         <Button
