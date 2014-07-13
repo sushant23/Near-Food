@@ -1,14 +1,11 @@
 package com.tr.nearfood.activity;
 
-
-
 import com.tr.nearfood.R;
 
 import android.app.Activity;
 import android.os.Bundle;
 
-
-public class Register extends Activity{
+public class Register extends Activity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -16,6 +13,5 @@ public class Register extends Activity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.register);
 	}
-	
-	
+
 }

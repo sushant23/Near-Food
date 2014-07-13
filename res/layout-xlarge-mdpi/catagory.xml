@@ -31,7 +31,7 @@
         android:background="#008094"
         android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_clock" />
+        android:src="@drawable/ic_notification" />
 
     <RelativeLayout
         android:id="@+id/relLayoutSearchContainer"

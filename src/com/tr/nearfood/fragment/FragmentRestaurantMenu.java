@@ -21,15 +21,17 @@ import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
+
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
 	View view;
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-	Button sendOrder,showOrder;
+	Button sendOrder, showOrder;
 	FragmentResturantMenuListCommunicator fragmentResturantMenuListCommunicator;
-	//menu changed
+
+	// menu changed
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -41,17 +43,18 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 					+ " must implement FragmentResturantProfileCommunicator");
 		}
 	}
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_restraurant_menu_list,
 				container, false);
-		
+
 		initializeUIElements();
-		
+
 		sendOrder.setOnClickListener(this);
 		showOrder.setOnClickListener(this);
-		
+
 		// preparing list data
 		prepareListData();
 
@@ -122,9 +125,9 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		// get the listview
 		expListView = (ExpandableListView) view
 				.findViewById(R.id.expandableListMenuCollasapable);
-		
-		sendOrder=(Button) view.findViewById(R.id.buttonSendYourOrder);
-		showOrder=(Button) view.findViewById(R.id.buttonShowYourOrder);
+
+		sendOrder = (Button) view.findViewById(R.id.buttonSendYourOrder);
+		showOrder = (Button) view.findViewById(R.id.buttonShowYourOrder);
 	}
 
 	private void prepareListData() {
@@ -169,21 +172,23 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	@Override
 	public void onClick(View click) {
 		// TODO Auto-generated method stub
-		
+
 		switch (click.getId()) {
 		case R.id.buttonSendYourOrder:
-			Toast.makeText(getActivity(), "Send Order Button clicked", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Send Order Button clicked",
+					Toast.LENGTH_SHORT).show();
 			break;
 		case R.id.buttonShowYourOrder:
-			Toast.makeText(getActivity(), "Show Order Button clicked", Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), "Show Order Button clicked",
+					Toast.LENGTH_SHORT).show();
 			fragmentResturantMenuListCommunicator.setMenuButtonClicked();
 			break;
-			
 
 		default:
 			break;
 		}
 	}
+
 	public static interface FragmentResturantMenuListCommunicator {
 		public void setMenuButtonClicked();
 	}

@@ -16,9 +16,11 @@ import android.widget.Toast;
 
 import com.tr.nearfood.R;
 
-public class FragmentShowCustomerOrder extends Fragment implements OnClickListener{
+public class FragmentShowCustomerOrder extends Fragment implements
+		OnClickListener {
 	View view;
 	Button confirmOrderButton;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -26,7 +28,8 @@ public class FragmentShowCustomerOrder extends Fragment implements OnClickListen
 
 		view = inflater.inflate(R.layout.fragment_menu_customer_show_order,
 				container, false);
-		confirmOrderButton=(Button) view.findViewById(R.id.buttonConfirmOrder);
+		confirmOrderButton = (Button) view
+				.findViewById(R.id.buttonConfirmOrder);
 		confirmOrderButton.setOnClickListener(this);
 		showCustomerOrder();
 		return view;
@@ -45,13 +48,12 @@ public class FragmentShowCustomerOrder extends Fragment implements OnClickListen
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			llp1.setMargins(0, 0, 2, 0);// 2px right-margin
 
-			
 			// New Cell
 			LinearLayout cellx1 = new LinearLayout(getActivity());
 			// cellx1.setBackgroundColor(R.color.dark_white);
 			cellx1.setLayoutParams(llp1);// 2px border on the right for the cell
 			TextView tvx1 = new TextView(getActivity());
-			tvx1.setText((i+1)+". "+"Order Name" + i);
+			tvx1.setText((i + 1) + ". " + "Order Name" + i);
 			tvx1.setPadding(0, 0, 4, 3);
 			cellx1.addView(tvx1);
 			tr.addView(cellx1);
@@ -84,7 +86,9 @@ public class FragmentShowCustomerOrder extends Fragment implements OnClickListen
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.buttonConfirmOrder:
-			Toast.makeText(getActivity(), "Your Order is Confirmed. Thankyou!!! ",Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(),
+					"Your Order is Confirmed. Thankyou!!! ", Toast.LENGTH_SHORT)
+					.show();
 			break;
 
 		default:

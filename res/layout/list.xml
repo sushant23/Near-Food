@@ -41,13 +41,12 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonCalendar"
-                    android:layout_width="30dp"
+                    android:layout_width="60dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                    android:background="@color/button_color"
-                    android:padding="5dp"
+                   android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_calendar" />
 
@@ -58,10 +57,9 @@
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/imageButtonCalendar"
-                    android:background="@color/button_color"
-                    android:padding="5dp"
+                    android:background="@null"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_clock" />
+                    android:src="@drawable/ic_notification" />
 
                 <Button
                     android:id="@+id/buttonSuscribe"
@@ -140,7 +138,6 @@
         android:orientation="vertical" >
     </LinearLayout>
 
-    
     <com.google.android.gms.ads.AdView
         android:id="@+id/adView"
         android:layout_width="match_parent"

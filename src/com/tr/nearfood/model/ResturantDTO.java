@@ -37,7 +37,8 @@ public class ResturantDTO {
 		return resturantContactInfo;
 	}
 
-	public void setResturantContactInfo(ResturantContactInfo resturantContactInfo) {
+	public void setResturantContactInfo(
+			ResturantContactInfo resturantContactInfo) {
 		this.resturantContactInfo = resturantContactInfo;
 	}
 

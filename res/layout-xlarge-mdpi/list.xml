@@ -34,7 +34,7 @@
         android:background="#33AD33"
         android:padding="5dp"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_clock" />
+        android:src="@drawable/ic_notification" />
 
     <Button
         android:id="@+id/ibSuscribe"

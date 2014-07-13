@@ -1,8 +1,14 @@
 package com.tr.nearfood.activity;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -38,7 +44,7 @@ public class RestaurantList extends ActionBarActivity implements
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
-	ImageButton notification, homeButton;
+	ImageButton notification, homeButton, calender;
 
 	BadgeView badge, badge1;
 	Button subscribe;
@@ -110,6 +116,36 @@ public class RestaurantList extends ActionBarActivity implements
 			}
 
 		});
+		calender.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					calender.setColorFilter(Color.argb(150, 155, 155, 155));
+
+					/*Calendar cal = new GregorianCalendar();
+					cal.setTime(new Date());
+					cal.add(Calendar.MONTH, 2);
+					long time = cal.getTime().getTime();
+					Uri.Builder builder =
+					CalendarContract.CONTENT_URI.buildUpon();
+					builder.appendPath("time");
+					builder.appendPath(Long.toString(time));
+					Intent intent =
+					new Intent(Intent.ACTION_VIEW, builder.build());
+					startActivity(intent);
+					*/
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					calender.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																			// null
+					return true;
+				}
+				return false;
+			}
+
+		});
 
 	}
 
@@ -163,6 +199,7 @@ public class RestaurantList extends ActionBarActivity implements
 		notification = (ImageButton) findViewById(R.id.imageButtonNotification);
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
+		calender = (ImageButton) findViewById(R.id.imageButtonCalendar);
 	}
 
 	@Override

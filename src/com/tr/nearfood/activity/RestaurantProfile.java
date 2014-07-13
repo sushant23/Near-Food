@@ -2,7 +2,6 @@ package com.tr.nearfood.activity;
 
 import com.tr.nearfood.R;
 
-
 import com.tr.nearfood.utills.NearFoodTextView;
 
 import android.app.Activity;
@@ -15,7 +14,7 @@ import android.widget.EditText;
 public class RestaurantProfile extends Activity {
 
 	EditText etName, etEmail, etPhone, etMessage;
-	Button send,chooseMenu;
+	Button send, chooseMenu;
 	String name, email, phone, message;
 
 	@Override
@@ -25,13 +24,13 @@ public class RestaurantProfile extends Activity {
 		setContentView(R.layout.fragment_resturant_profile);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 
-		chooseMenu=(Button) findViewById(R.id.buttonChooseMenu);
+		chooseMenu = (Button) findViewById(R.id.buttonChooseMenu);
 		chooseMenu.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 		send.setOnClickListener(new View.OnClickListener() {

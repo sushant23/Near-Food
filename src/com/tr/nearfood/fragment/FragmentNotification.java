@@ -36,7 +36,6 @@ public class FragmentNotification extends Fragment {
 		TableLayout table = (TableLayout) view
 				.findViewById(R.id.TableLayoutShowOrder);
 
-
 		for (int i = 0; i < 10; i++) {
 			TableRow tr = new TableRow(getActivity());
 			// tr.setBackgroundColor(R.color.light_white);
@@ -46,13 +45,12 @@ public class FragmentNotification extends Fragment {
 					LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			llp1.setMargins(0, 0, 2, 0);// 2px right-margin
 
-			
 			// New Cell
 			LinearLayout cellx1 = new LinearLayout(getActivity());
 			// cellx1.setBackgroundColor(R.color.dark_white);
 			cellx1.setLayoutParams(llp1);// 2px border on the right for the cell
 			TextView tvx1 = new TextView(getActivity());
-			tvx1.setText((i+1)+". "+"You" );
+			tvx1.setText((i + 1) + ". " + "You");
 			tvx1.setPadding(0, 0, 4, 3);
 			cellx1.addView(tvx1);
 			tr.addView(cellx1);
@@ -62,7 +60,7 @@ public class FragmentNotification extends Fragment {
 			// cellx2.setBackgroundColor(R.color.dark_white);
 			cellx2.setLayoutParams(llp1);// 2px border on the right for the cell
 			TextView tvx2 = new TextView(getActivity());
-			tvx2.setText("Have a" );
+			tvx2.setText("Have a");
 			tvx2.setPadding(0, 0, 4, 3);
 			cellx2.addView(tvx2);
 			tr.addView(cellx2);
@@ -87,7 +85,6 @@ public class FragmentNotification extends Fragment {
 
 		notification = (TextView) view.findViewById(R.id.textViewOrderDetails);
 		notification.setText("NOTIFICATIONS");
-		
 
 	}
 }

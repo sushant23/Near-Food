@@ -13,7 +13,6 @@ import android.widget.ImageButton;
 import com.tr.nearfood.R;
 import com.tr.nearfood.utills.NearFoodTextView;
 
-
 public class RestaurantCatagory extends Activity {
 
 	ImageButton takeAway, table, delivery;
@@ -31,7 +30,6 @@ public class RestaurantCatagory extends Activity {
 		delivery = (ImageButton) findViewById(R.id.ibDelivery);
 		suscribe = (Button) findViewById(R.id.buttonSuscribe);
 
-		
 		suscribe.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -75,7 +73,7 @@ public class RestaurantCatagory extends Activity {
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
 					table.setColorFilter(Color.argb(0, 155, 155, 155)); // or
-																			// null
+																		// null
 					return true;
 				}
 				return false;
