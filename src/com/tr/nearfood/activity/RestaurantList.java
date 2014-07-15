@@ -64,7 +64,7 @@ public class RestaurantList extends ActionBarActivity implements
 		}
 
 		initializeUIElements();
-		// showNotification();
+		showNotification();
 
 		AdRequest adRequest = new AdRequest.Builder().build();
 
@@ -96,6 +96,7 @@ public class RestaurantList extends ActionBarActivity implements
 			@Override
 			public boolean onTouch(View arg0, MotionEvent me) {
 				// TODO Auto-generated method stub
+				badge.hide();
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					notification.setColorFilter(Color.argb(150, 155, 155, 155));
 					Fragment restaurantNotification = new FragmentNotification();
@@ -124,18 +125,16 @@ public class RestaurantList extends ActionBarActivity implements
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					calender.setColorFilter(Color.argb(150, 155, 155, 155));
 
-					/*Calendar cal = new GregorianCalendar();
-					cal.setTime(new Date());
-					cal.add(Calendar.MONTH, 2);
-					long time = cal.getTime().getTime();
-					Uri.Builder builder =
-					CalendarContract.CONTENT_URI.buildUpon();
-					builder.appendPath("time");
-					builder.appendPath(Long.toString(time));
-					Intent intent =
-					new Intent(Intent.ACTION_VIEW, builder.build());
-					startActivity(intent);
-					*/
+					/*
+					 * Calendar cal = new GregorianCalendar(); cal.setTime(new
+					 * Date()); cal.add(Calendar.MONTH, 2); long time =
+					 * cal.getTime().getTime(); Uri.Builder builder =
+					 * CalendarContract.CONTENT_URI.buildUpon();
+					 * builder.appendPath("time");
+					 * builder.appendPath(Long.toString(time)); Intent intent =
+					 * new Intent(Intent.ACTION_VIEW, builder.build());
+					 * startActivity(intent);
+					 */
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
 					calender.setColorFilter(Color.argb(0, 155, 155, 155)); // or

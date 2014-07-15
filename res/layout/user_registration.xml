@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout
+            android:id="@+id/linLayoutUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2" >
+
+            <EditText
+                android:id="@+id/editTextFirstName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="FirstName" />
+
+            <EditText
+                android:id="@+id/editTextLastName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Lastname" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayoutLoginInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linLayoutUserName"
+            android:orientation="vertical"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Login Information"
+                android:textColor="#372c24" />
+
+            <EditText
+                android:id="@+id/editTextUserName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="UserName" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="Password"
+                android:password="true" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayoutUserEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linLayoutLoginInfo"
+            android:orientation="vertical"
+            android:weightSum="3" >
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Email"
+                android:textColor="#372c24" />
+
+            <EditText
+                android:id="@+id/editTextOfficialEmail"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="Official Email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/editTextPersonalEmail"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:hint="Personal Email"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewContact"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linLayoutUserEmail"
+            android:text="Contact"
+            android:textColor="#372c24" />
+
+        <LinearLayout
+            android:id="@+id/linLayoutContact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewContact"
+            android:orientation="horizontal"
+            android:weightSum="100" >
+
+            <EditText
+                android:id="@+id/editTextUserContact"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="80"
+                android:hint="Contact"
+                android:inputType="phone" />
+
+            <Button
+                android:id="@+id/buttonAddContact"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="20"
+                android:inputType="textEmailAddress"
+                android:text="Add" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linLayoutContactContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linLayoutContact"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewUserAddress"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linLayoutContactContainer"
+            android:text="Address"
+            android:textColor="#372c24" />
+
+        <LinearLayout
+            android:id="@+id/linLayoutUserAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewUserAddress"
+            android:orientation="horizontal"
+            android:weightSum="100" >
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteUserAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="20"
+                android:hint="Address"
+                android:textColor="#372c24" />
+
+            <Button
+                android:id="@+id/buttonUserCurrentLovationFinder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="80"
+                android:text="GPS" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonSubmitUserInformation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/linLayoutUserAddress"
+            android:text="SUBMIT" />
+    </RelativeLayout>
+
+</ScrollView>

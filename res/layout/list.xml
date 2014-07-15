@@ -46,7 +46,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
-                   android:background="@android:color/transparent"
+                    android:background="@android:color/transparent"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_calendar" />
 
@@ -56,7 +56,7 @@
                     android:layout_height="30dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toLeftOf="@+id/imageButtonCalendar"
+                    android:layout_toLeftOf="@+id/buttonSuscribe"
                     android:background="@null"
                     android:scaleType="fitXY"
                     android:src="@drawable/ic_notification" />
@@ -67,7 +67,8 @@
                     android:layout_height="30dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="10dp"
-                    android:layout_toLeftOf="@+id/imageButtonNotification"
+                     android:layout_toLeftOf="@+id/imageButtonCalendar"
+                  
                     android:background="@drawable/button_gradiant"
                     android:text="SUBSCRIBE"
                     android:textColor="@color/white"
