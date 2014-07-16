@@ -7,67 +7,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/tab_background" />
+        android:src="@drawable/background" />
+
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <ImageButton
-        android:id="@+id/imageButtonNearFoodLogo"
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:layout_below="@+id/relLayoutSearchContainer"
+        android:id="@+id/ibTakeAway"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_above="@+id/seperator"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:background="@android:color/transparent"
+        android:background="@drawable/shape"
         android:scaleType="fitXY"
-        android:src="@drawable/near_food_logo" />
+        android:src="@drawable/take" />
 
-    <RelativeLayout
-        android:id="@+id/relLayoutCatagory"
+    <Button
+        android:id="@+id/buttonSuscribe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButtonNearFoodLogo"
+        android:layout_below="@+id/ibTable"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="100dp" >
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_gradiant"
+        android:padding="5dp"
+        android:text="SUBSCRIBE"
+        android:textSize="20sp"
+        android:textColor="@color/white" />
 
-        <ImageButton
-            android:id="@+id/ibTakeAway"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/shape"
-            android:scaleType="fitXY"
-            android:src="@drawable/takeawayf" />
+    <ImageButton
+        android:id="@+id/ibDelivery"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_below="@+id/ibTakeAway"
+        android:layout_toRightOf="@+id/seperator"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/shape"
+        android:scaleType="centerInside"
+        android:src="@drawable/deliver" />
 
-        <ImageButton
-            android:id="@+id/ibDelivery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ibTakeAway"
-            android:background="@drawable/shape"
-            android:scaleType="fitXY"
-            android:src="@drawable/deliverf" />
-
-        <ImageButton
-            android:id="@+id/ibTable"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ibTakeAway"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/ibDelivery"
-            android:background="@drawable/shape"
-            android:scaleType="fitXY"
-            android:src="@drawable/tablef" />
-
-        <Button
-            android:id="@+id/ibSuscribe"
-            android:layout_width="100dp"
-            android:layout_height="35dp"
-            android:layout_below="@+id/ibTable"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:background="@color/button_color"
-            android:scaleType="fitXY"
-            android:text="SUBSCRIBE"
-            android:textSize="15sp" />
-    </RelativeLayout>
+    <ImageButton
+        android:id="@+id/ibTable"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+      android:layout_marginRight="20dp"
+        android:layout_below="@+id/ibTakeAway"
+        android:layout_toLeftOf="@+id/seperator"
+        android:background="@drawable/shape"
+        android:scaleType="centerInside"
+        android:src="@drawable/table" />
 
 </RelativeLayout>

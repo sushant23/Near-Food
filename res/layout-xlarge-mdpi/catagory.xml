@@ -7,140 +7,58 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@drawable/tab_background" />
+        android:src="@drawable/background" />
+
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
 
     <ImageButton
-        android:id="@+id/imageButtonCalendar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignEnd="@+id/relLayoutSearchContainer"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp"
-        android:background="#008094"
-        android:padding="5dp"
+        android:id="@+id/ibTakeAway"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_above="@+id/seperator"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape"
         android:scaleType="fitXY"
-        android:src="@drawable/ic_calendar" />
+        android:src="@drawable/take" />
 
-    <ImageButton
-        android:id="@+id/imageButtonNotification"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@+id/imageButtonCalendar"
-        android:background="#008094"
-        android:padding="5dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_notification" />
-
-    <RelativeLayout
-        android:id="@+id/relLayoutSearchContainer"
-        android:layout_width="1000dp"
+    <Button
+        android:id="@+id/buttonSuscribe"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageButtonNotification"
-        android:layout_centerHorizontal="true" >
-
-        <EditText
-            android:id="@+id/editTextSearchResturantLists"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:background="#33000000"
-            android:paddingLeft="45dp"
-            android:paddingRight="45dp" />
-
-        <ImageButton
-            android:id="@+id/imageButtonSearch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editTextSearchResturantLists"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/editTextSearchResturantLists"
-            android:background="@android:color/transparent"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/search"
-            android:tint="#FFFFFFFF" />
-
-        <ImageButton
-            android:id="@+id/imageButtonGPS"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/editTextSearchResturantLists"
-            android:layout_alignParentLeft="true"
-            android:layout_alignTop="@+id/editTextSearchResturantLists"
-            android:layout_marginLeft="0dp"
-            android:background="@android:color/transparent"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:scaleType="centerInside"
-            android:src="@drawable/ic_gps" />
-    </RelativeLayout>
+        android:layout_below="@+id/ibTable"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_gradiant"
+        android:padding="5dp"
+        android:text="SUBSCRIBE"
+        android:textSize="20sp"
+        android:textColor="@color/white" />
 
     <ImageButton
-        android:id="@+id/imageButtonNearFoodLogo"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_below="@+id/relLayoutSearchContainer"
-        android:layout_centerHorizontal="true"
-        android:scaleType="fitXY"
-        android:layout_marginTop="15dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/near_food_logo" />
+        android:id="@+id/ibDelivery"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+        android:layout_below="@+id/ibTakeAway"
+        android:layout_toRightOf="@+id/seperator"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/shape"
+        android:scaleType="centerInside"
+        android:src="@drawable/deliver" />
 
-    <RelativeLayout
-        android:id="@+id/relLayoutCatagory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
-        android:layout_below="@+id/imageButtonNearFoodLogo"
-        android:layout_centerHorizontal="true"
-        >
-
-        <ImageButton
-            android:id="@+id/ibTakeAway"
-            android:layout_width="170dp"
-            android:layout_height="170dp"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/shape"
-            android:scaleType="fitXY"
-            android:src="@drawable/takeawayf" />
-
-        <ImageButton
-            android:id="@+id/ibDelivery"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@+id/ibTakeAway"
-            android:layout_marginLeft="50dp"
-            android:background="@drawable/shape"
-            android:scaleType="fitXY"
-            android:src="@drawable/deliverf" />
-
-        <ImageButton
-            android:id="@+id/ibTable"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_below="@+id/ibTakeAway"
-            android:layout_marginLeft="30dp"
-            
-            android:layout_toRightOf="@+id/ibDelivery"
-            android:background="@drawable/shape"
-            android:scaleType="fitXY"
-            android:src="@drawable/tablef" />
-
-        <Button
-            android:id="@+id/ibSuscribe"
-            android:layout_width="200dp"
-            android:layout_height="50dp"
-            android:layout_below="@+id/ibTable"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:background="#33AD33"
-            android:scaleType="fitXY"
-            android:text="SUBSCRIBE"
-            android:textSize="30sp" />
-    </RelativeLayout>
+    <ImageButton
+        android:id="@+id/ibTable"
+        android:layout_width="170dp"
+        android:layout_height="170dp"
+      android:layout_marginRight="20dp"
+        android:layout_below="@+id/ibTakeAway"
+        android:layout_toLeftOf="@+id/seperator"
+        android:background="@drawable/shape"
+        android:scaleType="centerInside"
+        android:src="@drawable/table" />
 
 </RelativeLayout>
