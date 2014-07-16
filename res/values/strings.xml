@@ -11,5 +11,8 @@
     <color name="white">#ffffff</color>
     <color name="light_white">#AAFFFFFF</color>
     <color name="dark_white">#AAFFFFFF</color>
+    <!-- Button text -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
 
 </resources>

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
+import com.tr.nearfood.activity.LoginWithGooglePlus;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
 
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
@@ -177,6 +179,8 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		case R.id.buttonSendYourOrder:
 			Toast.makeText(getActivity(), "Send Order Button clicked",
 					Toast.LENGTH_SHORT).show();
+			Intent startLogin= new Intent(getActivity(),LoginWithGooglePlus.class);
+			startActivity(startLogin);
 			break;
 		case R.id.buttonShowYourOrder:
 			Toast.makeText(getActivity(), "Show Order Button clicked",
@@ -191,5 +195,6 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 	public static interface FragmentResturantMenuListCommunicator {
 		public void setMenuButtonClicked();
+	
 	}
 }
