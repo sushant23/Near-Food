@@ -1,0 +1,31 @@
+apply plugin: 'android-library'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+}
+
+android.libraryVariants.all { variant ->
+    task("generateBolts${variant.name.capitalize()}Javadoc", type: Javadoc) {
+        description "Generates Javadoc for $variant.name."
+        source = variant.javaCompile.source
+        def androidJar = project.plugins.findPlugin("android-library").bootClasspath
+        classpath = files(variant.javaCompile.classpath.files) + files(androidJar)
+        exclude '**/com/bolts/**'
+    }
+}

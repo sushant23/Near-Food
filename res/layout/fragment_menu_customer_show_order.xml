@@ -38,7 +38,7 @@
                 android:id="@+id/buttonConfirmOrder"
                 android:layout_width="60dp"
                 android:layout_height="20dp"
-                android:layout_alignLeft="@+id/RelativeLayoutTableLayout"
+                android:layout_alignParentRight="true"
                 android:layout_below="@+id/TableLayoutShowOrder"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_gradiant"
