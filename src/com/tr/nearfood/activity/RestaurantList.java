@@ -145,6 +145,15 @@ public class RestaurantList extends ActionBarActivity implements
 			}
 
 		});
+		subscribe.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent subscribeActivity =new Intent(getApplicationContext(),RestaurantSubscribtion.class);
+				startActivity(subscribeActivity);
+			}
+		});
 
 	}
 

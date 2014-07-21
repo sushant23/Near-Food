@@ -10,7 +10,8 @@
         android:layout_height="30dp"
         android:layout_margin="3dp"
         android:background="@drawable/circle"
-        android:text="+" />
+        android:text="+"
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/buttonDeleteMenuItem"
@@ -19,28 +20,61 @@
         android:layout_margin="3dp"
         android:layout_toRightOf="@+id/buttonAddMenuItem"
         android:background="@drawable/circle"
-        android:text="-" />
+        android:text="-"
+        android:visibility="gone" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_toRightOf="@+id/buttonDeleteMenuItem" >
+        android:layout_toRightOf="@+id/buttonDeleteMenuItem"
+        android:orientation="horizontal" >
 
         <TextView
             android:id="@+id/textViewMenuItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
+            android:text="ITEM NAME"
             android:textColor="#000000" />
 
         <TextView
             android:id="@+id/textViewMenuItemPrices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginLeft="20dp"
             android:text="$20" />
-    </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/linlayouteditparameters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:visibility="gone"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/imageButtonMessageIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_msg" />
+
+            <ImageButton
+                android:id="@+id/imageButtonCompleteOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_tick" />
+
+            <ImageButton
+                android:id="@+id/imageButtonDeleteIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/icon_cross" />
+        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

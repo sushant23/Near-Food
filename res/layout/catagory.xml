@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/shape"
         android:scaleType="fitXY"
-        android:src="@drawable/take" />
+        android:src="@drawable/icon_tablelarge" />
 
     <Button
         android:id="@+id/buttonSuscribe"
@@ -47,7 +47,7 @@
         android:layout_toRightOf="@+id/seperator"
         android:background="@drawable/shape"
         android:scaleType="centerInside"
-        android:src="@drawable/deliver" />
+        android:src="@drawable/icon_delvierlarge" />
 
     <ImageButton
         android:id="@+id/ibTable"
@@ -58,6 +58,6 @@
         android:layout_toLeftOf="@+id/seperator"
         android:background="@drawable/shape"
         android:scaleType="centerInside"
-        android:src="@drawable/table" />
+        android:src="@drawable/icon_tablelarge" />
 
 </RelativeLayout>

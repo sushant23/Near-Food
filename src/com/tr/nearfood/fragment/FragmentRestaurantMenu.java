@@ -22,12 +22,12 @@ import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.activity.ChooseLoginMethod;
-
 import com.tr.nearfood.adapter.ExpandableListAdapter;
+import com.tr.nearfood.adapter.ExpandableMenuListAdapter;
 
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
 	View view;
-	ExpandableListAdapter listAdapter;
+	ExpandableMenuListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
@@ -54,15 +54,16 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 				container, false);
 
 		initializeUIElements();
-
+		sendOrder.setVisibility(View.VISIBLE);
+		showOrder.setVisibility(View.VISIBLE);
 		sendOrder.setOnClickListener(this);
 		showOrder.setOnClickListener(this);
 
 		// preparing list data
 		prepareListData();
 
-		listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader,
-				listDataChild);
+		listAdapter = new ExpandableMenuListAdapter(getActivity(),
+				listDataHeader, listDataChild);
 
 		// setting list adapter
 		expListView.setAdapter(listAdapter);
@@ -178,15 +179,15 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 		switch (click.getId()) {
 		case R.id.buttonSendYourOrder:
-			Toast.makeText(getActivity(), "Send Order Button clicked",
-					Toast.LENGTH_SHORT).show();
+		//	Toast.makeText(getActivity(), "Send Order Button clicked",
+			//		Toast.LENGTH_SHORT).show();
 			Intent startLogin = new Intent(getActivity(),
 					ChooseLoginMethod.class);
 			startActivity(startLogin);
 			break;
 		case R.id.buttonShowYourOrder:
-			Toast.makeText(getActivity(), "Show Order Button clicked",
-					Toast.LENGTH_SHORT).show();
+			//Toast.makeText(getActivity(), "Show Order Button clicked",
+				//	Toast.LENGTH_SHORT).show();
 			fragmentResturantMenuListCommunicator.setMenuButtonClicked();
 			break;
 

@@ -107,7 +107,8 @@
             android:layout_width="60dp"
             android:layout_height="20dp"
             android:layout_alignBottom="@+id/edittextSendmessege"
-            android:layout_alignLeft="@+id/edittextSendmessege"
+            android:layout_alignRight="@+id/edittextSendmessege"
+            android:layout_marginRight="4dp"
             android:background="@drawable/button_gradiant"
             android:text="SEND"
             android:textColor="@color/white"
@@ -126,7 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_facebook" />
+                android:src="@drawable/icon_facebok" />
 
             <ImageButton
                 android:id="@+id/imagetripAdvisor"
@@ -135,7 +136,7 @@
                 android:layout_margin="4dp"
                 android:layout_toRightOf="@+id/imageButtonFacebook"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_tripadvisor" />
+                android:src="@drawable/icon_tripadvisor" />
 
             <ImageButton
                 android:id="@+id/imageButtonGreen"
@@ -144,7 +145,7 @@
                 android:layout_margin="4dp"
                 android:layout_toRightOf="@+id/imagetripAdvisor"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_green" />
+                android:src="@drawable/icon_gmap" />
 
             <ImageButton
                 android:id="@+id/imageButtonRed"
@@ -153,7 +154,7 @@
                 android:layout_margin="4dp"
                 android:layout_toRightOf="@+id/imageButtonGreen"
                 android:background="@android:color/transparent"
-                android:src="@drawable/ic_red" />
+                android:src="@drawable/icon_navavigation" />
         </RelativeLayout>
 
         <LinearLayout

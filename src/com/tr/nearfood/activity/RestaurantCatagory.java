@@ -35,7 +35,7 @@ public class RestaurantCatagory extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent start = new Intent(getApplicationContext(), Login.class);
+				Intent start = new Intent(getApplicationContext(), RestaurantSubscribtion.class);
 				startActivity(start);
 			}
 		});

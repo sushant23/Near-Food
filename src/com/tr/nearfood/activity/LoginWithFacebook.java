@@ -64,8 +64,7 @@ public class LoginWithFacebook extends Activity {
 		// logout from facebook
 		/*
 		 * if (currentSession != null) {
-		 * currentSession.closeAndClearTokenInformation(); 
-		 * editor.clear();
+		 * currentSession.closeAndClearTokenInformation(); editor.clear();
 		 * editor.commit();}
 		 */
 

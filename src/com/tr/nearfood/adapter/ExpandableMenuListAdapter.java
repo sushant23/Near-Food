@@ -3,26 +3,25 @@ package com.tr.nearfood.adapter;
 import java.util.HashMap;
 import java.util.List;
 
-import com.tr.nearfood.R;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+import android.widget.Button;
 import android.widget.TextView;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+import com.tr.nearfood.R;
 
+public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 	private Context _context;
 	private List<String> _listDataHeader; // header titles
 	// child data in format of header title, child title
 	private HashMap<String, List<String>> _listDataChild;
 
-	public ExpandableListAdapter(Context context, List<String> listDataHeader,
+	public ExpandableMenuListAdapter(Context context,
+			List<String> listDataHeader,
 			HashMap<String, List<String>> listChildData) {
 		this._context = context;
 		this._listDataHeader = listDataHeader;
@@ -53,11 +52,15 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 					R.layout.expandalelist_menu_lisitem, null);
 		}
 
+		Button addmenuItem = (Button) convertView
+				.findViewById(R.id.buttonAddMenuItem);
+		addmenuItem.setVisibility(View.VISIBLE);
+		Button deleteMenuItem = (Button) convertView
+				.findViewById(R.id.buttonDeleteMenuItem);
+		deleteMenuItem.setVisibility(View.VISIBLE);
 		TextView txtListChild = (TextView) convertView
 				.findViewById(R.id.textViewMenuItemName);
-		LinearLayout linlayout = (LinearLayout) convertView
-				.findViewById(R.id.linlayouteditparameters);
-		linlayout.setVisibility(View.VISIBLE);
+
 		txtListChild.setText(childText);
 		return convertView;
 	}

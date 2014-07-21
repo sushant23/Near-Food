@@ -138,50 +138,46 @@
 
                 <ImageButton
                     android:id="@+id/imageButtonFacebook"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_facebook" />
+                    android:src="@drawable/icon_facebok" />
 
                 <ImageButton
                     android:id="@+id/imagetripAdvisor"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:layout_toRightOf="@+id/imageButtonFacebook"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_tripadvisor" />
+                    android:src="@drawable/icon_tripadvisor" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonGreen"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/imageButtonGoogleMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/imageButtonFacebook"
                     android:layout_margin="4dp"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_green" />
+                    android:src="@drawable/icon_gmap" />
 
                 <ImageButton
-                    android:id="@+id/imageButtonRed"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:id="@+id/imageButtonNavigation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_below="@+id/imagetripAdvisor"
                     android:layout_margin="4dp"
-                    android:layout_toRightOf="@+id/imageButtonGreen"
+                    android:layout_toRightOf="@+id/imageButtonGoogleMap"
                     android:background="@android:color/transparent"
-                    android:scaleType="fitXY"
-                    android:src="@drawable/ic_red" />
+                    android:src="@drawable/icon_navavigation" />
 
                 <TextView
                     android:id="@+id/textViewContact"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignLeft="@+id/imageButtonGreen"
-                    android:layout_below="@+id/imageButtonGreen"
+                    android:layout_alignLeft="@+id/imageButtonGoogleMap"
+                    android:layout_below="@+id/imageButtonGoogleMap"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
                     android:text="CONTACT"

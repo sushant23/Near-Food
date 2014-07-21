@@ -20,17 +20,28 @@ public class Register extends Activity {
 
 	EditText firstName, lastName, userName, password, officialEmail,
 			personalEmail, contactNumber;
-	Button addContact,submit;
+	Button addContact, submit;
 	LinearLayout contactContainer;
+	String fname = null, lname = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_registration);
+		Bundle googlePlusData = getIntent().getExtras();
+		fname = googlePlusData.getString("fname");
+		lname = googlePlusData.getString("lname");
 		intitializrUIElements();
+		
+		if(fname!=null&&lname!=null)
+		{
+			firstName.setText(fname);
+			lastName.setText(lname);
+		}
 		AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
-	    autoCompView.setAdapter(new PlaceAutoCompleteAdapter(this, R.layout.autocomplete_list));
+		autoCompView.setAdapter(new PlaceAutoCompleteAdapter(this,
+				R.layout.autocomplete_list));
 		addContact.setOnClickListener(new OnClickListener() {
 
 			@Override
@@ -57,21 +68,26 @@ public class Register extends Activity {
 			}
 		});
 		submit.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(officialEmail.getText().toString()).matches() && !TextUtils.isEmpty(officialEmail.getText().toString())) {
-				    officialEmail.setError("Invalid Email");
-				    officialEmail.requestFocus();
+				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
+						officialEmail.getText().toString()).matches()
+						&& !TextUtils.isEmpty(officialEmail.getText()
+								.toString())) {
+					officialEmail.setError("Invalid Email");
+					officialEmail.requestFocus();
 				}
-				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(personalEmail.getText().toString()).matches() && !TextUtils.isEmpty(personalEmail.getText().toString())) {
-				    personalEmail.setError("Invalid Email");
-				    personalEmail.requestFocus();
+				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
+						personalEmail.getText().toString()).matches()
+						&& !TextUtils.isEmpty(personalEmail.getText()
+								.toString())) {
+					personalEmail.setError("Invalid Email");
+					personalEmail.requestFocus();
 				}
 			}
 		});
-		
 
 	}
 
@@ -86,7 +102,7 @@ public class Register extends Activity {
 		contactNumber = (EditText) findViewById(R.id.editTextUserContact);
 
 		addContact = (Button) findViewById(R.id.buttonAddContact);
-		submit=(Button) findViewById(R.id.buttonSubmitUserInformation);
+		submit = (Button) findViewById(R.id.buttonSubmitUserInformation);
 
 		contactContainer = (LinearLayout) findViewById(R.id.linLayoutContactContainer);
 	}

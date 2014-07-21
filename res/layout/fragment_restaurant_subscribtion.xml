@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textviewRestaurantSubscribtion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/button_color"
+            android:text="RESTAURANT SUBSCRIBTION"
+            android:textColor="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/dark_white" >
+
+            <LinearLayout
+                android:id="@+id/LinlayoutRestaurantOwnerUserName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textviewRestaurantSubscribtion"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/textViewRestaurantOwnerUserName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="USERNAME"
+                    android:textColor="@color/button_color" />
+
+                <EditText
+                    android:id="@+id/editTextRestaurantOwnerUserName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:background="@color/dark_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/LinlayoutRestaurantOwnerPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/LinlayoutRestaurantOwnerUserName"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="3dp"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/textViewRestaurantOwnerPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="PASSWORD"
+                    android:textColor="@color/button_color" />
+
+                <EditText
+                    android:id="@+id/editTextRestaurantOwnerPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:background="@color/dark_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlayoutRestaurantName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/LinlayoutRestaurantOwnerPassword"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="3dp"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/textViewRestaurantName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="NAME"
+                    android:textColor="@color/button_color" />
+
+                <EditText
+                    android:id="@+id/editTextRestaurantName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:background="@color/dark_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlayoutRestaurantContactInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlayoutRestaurantName"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="3dp"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/textViewRestaurantContactInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="CONTACT No."
+                    android:textColor="@color/button_color" />
+
+                <EditText
+                    android:id="@+id/editTextRestaurantContactInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:background="@color/dark_white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linlayoutRestaurantEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlayoutRestaurantContactInfo"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="3dp"
+                android:weightSum="100" >
+
+                <TextView
+                    android:id="@+id/textViewRestaurantEmailAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="40"
+                    android:text="EMAIL"
+                    android:textColor="@color/button_color" />
+
+                <EditText
+                    android:id="@+id/editTextRestaurantEmailAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="60"
+                    android:background="@color/dark_white" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewRestaurantLOcation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linlayoutRestaurantEmailAddress"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="LOCATION"
+                android:textColor="@color/button_color" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupRestaurantLocationChooser"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textViewRestaurantLOcation"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/textViewRestaurantLOcation" >
+
+                <RadioButton
+                    android:id="@+id/radioButtonCurrentLOcation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="CURRENT LOCATION"
+                    android:textColor="@color/button_color" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonAddCoordinates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ADD COORDINATES"
+                    android:textColor="@color/button_color" />
+
+                <EditText
+                    android:id="@+id/editTextRestaurantLoationCoordinates"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonUseMap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="USE MAP"
+                    android:textColor="@color/button_color" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/buttonRestaurantSubscriptionSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/radioGroupRestaurantLocationChooser"
+                android:background="@drawable/button_gradiant"
+                android:padding="5dp"
+                android:text="SUBMIT"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/buttonRestaurantAdminLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/buttonRestaurantSubscriptionSubmit"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@+id/buttonRestaurantSubscriptionSubmit"
+                android:background="@drawable/button_gradiant"
+                android:padding="5dp"
+                android:text="SIGNIN"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</ScrollView>
