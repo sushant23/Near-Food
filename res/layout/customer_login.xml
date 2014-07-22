@@ -14,8 +14,8 @@
     <LinearLayout
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:layout_marginTop="50dp"
         android:orientation="vertical"
         android:padding="10dp" >
@@ -30,22 +30,22 @@
             xmlns:fb="http://schemas.android.com/apk/res-auto"
             android:id="@+id/buttonFacebookSignin"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_height="45dp"
             android:layout_marginBottom="20dp"
             android:padding="10dp"
-            fb:login_text="Login"
-            fb:logout_text="Login" />
+            fb:login_text="Sign in"
+            fb:logout_text="Sign in" />
 
         <Button
             android:id="@+id/buttonUserManualLOgin"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/button_gradiant"
             android:padding="10dp"
-            android:text="MANUAL SIGNUP"
-            android:textColor="@color/white" />
+            android:text="User Sign in"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
     </LinearLayout>
 
 </RelativeLayout>

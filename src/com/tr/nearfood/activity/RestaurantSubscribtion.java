@@ -9,6 +9,7 @@ import com.tr.nearfood.fragment.FragmentAdminHomePage.FragmentResturantAdminHome
 import com.tr.nearfood.fragment.FragmentAdminLogin;
 import com.tr.nearfood.fragment.FragmentAdminLogin.FragmentResturantAdminLoginCommunicator;
 import com.tr.nearfood.fragment.FragmentAdminManageMenu;
+import com.tr.nearfood.fragment.FragmentAdminManageRestaurantDetails;
 import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion.FragmentResturantSubscribtionCommunicator;
@@ -160,6 +161,17 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminmanageMenu);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setButtonManageDetail() {
+		// TODO Auto-generated method stub
+		Fragment restaurantAdminmanageRestaurantDetails = new FragmentAdminManageRestaurantDetails();
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantAdminmanageRestaurantDetails);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}

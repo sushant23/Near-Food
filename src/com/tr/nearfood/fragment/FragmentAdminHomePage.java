@@ -56,6 +56,7 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 		public void setButtonManageOrder();
 
 		public void setButtonMangeMenu();
+		public void setButtonManageDetail();
 
 	}
 
@@ -70,7 +71,8 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 		case R.id.buttonManageMenus:
 			fragmentRestaurantAdminHomePageCommunicator.setButtonMangeMenu();
 			break;
-
+		case R.id.buttonManageRestaurantDetails:
+			fragmentRestaurantAdminHomePageCommunicator.setButtonManageDetail();
 		default:
 			break;
 		}

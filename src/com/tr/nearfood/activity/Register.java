@@ -1,5 +1,7 @@
 package com.tr.nearfood.activity;
 
+import java.util.StringTokenizer;
+
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
 
@@ -20,9 +22,10 @@ public class Register extends Activity {
 
 	EditText firstName, lastName, userName, password, officialEmail,
 			personalEmail, contactNumber;
-	Button addContact, submit;
-	LinearLayout contactContainer;
-	String fname = null, lname = null;
+	Button submit;
+	LinearLayout userLoginInfo, emailAddress;
+	String id = "", name = "";
+	Boolean fromgoogel = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,43 +33,29 @@ public class Register extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_registration);
 		Bundle googlePlusData = getIntent().getExtras();
-		fname = googlePlusData.getString("fname");
-		lname = googlePlusData.getString("lname");
+		if (googlePlusData != null) {
+			fromgoogel = googlePlusData.getBoolean("googlePlus");
+			id = googlePlusData.getString("id");
+			name = googlePlusData.getString("name");
+		}
 		intitializrUIElements();
-		
-		if(fname!=null&&lname!=null)
-		{
-			firstName.setText(fname);
-			lastName.setText(lname);
+		userLoginInfo.setVisibility(View.VISIBLE);
+		emailAddress.setVisibility(View.VISIBLE);
+
+		if (fromgoogel) {
+			StringTokenizer tokens = new StringTokenizer(name, " ");
+			String first = tokens.nextToken();
+			String second = tokens.nextToken();
+			String third = tokens.nextToken();
+			firstName.setText(first);
+			lastName.setText(second + " " + third);
+			userLoginInfo.setVisibility(View.GONE);
+			emailAddress.setVisibility(View.GONE);
 		}
 		AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
 		autoCompView.setAdapter(new PlaceAutoCompleteAdapter(this,
 				R.layout.autocomplete_list));
-		addContact.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View arg0) {
-				LayoutInflater layoutInflater = (LayoutInflater) getBaseContext()
-						.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				final View addView = layoutInflater.inflate(
-						R.layout.user_contact, null);
-				TextView textOut = (TextView) addView
-						.findViewById(R.id.textViewUserContactNumber);
-				textOut.setText(contactNumber.getText().toString());
-				Button buttonRemove = (Button) addView
-						.findViewById(R.id.buttonRemoveContactNumber);
-				buttonRemove.setOnClickListener(new OnClickListener() {
-
-					@Override
-					public void onClick(View v) {
-						((LinearLayout) addView.getParent())
-								.removeView(addView);
-					}
-				});
-
-				contactContainer.addView(addView);
-			}
-		});
 		submit.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -97,14 +86,14 @@ public class Register extends Activity {
 		lastName = (EditText) findViewById(R.id.editTextLastName);
 		userName = (EditText) findViewById(R.id.editTextUserName);
 		password = (EditText) findViewById(R.id.editTextPassword);
-		officialEmail = (EditText) findViewById(R.id.editTextOfficialEmail);
+
 		personalEmail = (EditText) findViewById(R.id.editTextPersonalEmail);
 		contactNumber = (EditText) findViewById(R.id.editTextUserContact);
 
-		addContact = (Button) findViewById(R.id.buttonAddContact);
 		submit = (Button) findViewById(R.id.buttonSubmitUserInformation);
 
-		contactContainer = (LinearLayout) findViewById(R.id.linLayoutContactContainer);
+		userLoginInfo = (LinearLayout) findViewById(R.id.linLayoutLoginInfo);
+		emailAddress = (LinearLayout) findViewById(R.id.linLayoutUserEmail);
 	}
 
 	public final static boolean isValidEmail(CharSequence target) {

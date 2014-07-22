@@ -27,11 +27,13 @@ import com.tr.nearfood.R;
 public class ChooseLoginMethod extends Activity implements OnClickListener,
 		ConnectionCallbacks, OnConnectionFailedListener {
 	Button facebookLogin;
+	Button manualLogin;
 	SignInButton googleplusLogin;
 	private static final int RC_SIGN_IN = 0;
 	// Logcat tag
 	private static final String TAG = "GooglePlus Login";
-
+	String id, name;
+	Boolean fromGooglePlus = true;
 	// Google client to interact with Google API
 	private GoogleApiClient mGoogleApiClient;
 
@@ -52,8 +54,11 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		setContentView(R.layout.customer_login);
 		facebookLogin = (Button) findViewById(R.id.buttonFacebookSignin);
 		googleplusLogin = (SignInButton) findViewById(R.id.buttonGooglePlusSignin);
+		manualLogin = (Button) findViewById(R.id.buttonUserManualLOgin);
+
 		facebookLogin.setOnClickListener(this);
 		googleplusLogin.setOnClickListener(this);
+		manualLogin.setOnClickListener(this);
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this).addApi(Plus.API)
@@ -82,12 +87,7 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-		if (mGoogleApiClient.isConnected()) {
-			Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
-			mGoogleApiClient.disconnect();
-			mGoogleApiClient.connect();
-
-		}
+		signOutFromGplus();
 	}
 
 	@Override
@@ -149,6 +149,11 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		// Get user's information
 		getProfileInformation();
 
+		Intent startReg = new Intent(this, Register.class);
+		startReg.putExtra("googlePlus", fromGooglePlus);
+		startReg.putExtra("id", id);
+		startReg.putExtra("name", name);
+		startActivity(startReg);
 		// Update the UI after signin
 
 	}
@@ -161,10 +166,10 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 			if (Plus.PeopleApi.getCurrentPerson(mGoogleApiClient) != null) {
 				Person currentPerson = Plus.PeopleApi
 						.getCurrentPerson(mGoogleApiClient);
-				String id = currentPerson.getId();
-				String Name = currentPerson.getDisplayName();
-				Log.d("UserProfileGoogleplus", "enetereted" + Name);
-				Toast.makeText(getApplicationContext(), Name,
+				id = currentPerson.getId();
+				name = currentPerson.getDisplayName();
+				Log.d("UserProfileGoogleplus", "enetereted" + name);
+				Toast.makeText(getApplicationContext(), name,
 						Toast.LENGTH_SHORT).show();
 
 				/*
@@ -237,7 +242,10 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 			// Signin button clicked
 			signInWithGplus();
 			break;
-
+		case R.id.buttonUserManualLOgin:
+			Intent startRegisterActivity = new Intent(this, Register.class);
+			startActivity(startRegisterActivity);
+			break;
 		default:
 			break;
 		}

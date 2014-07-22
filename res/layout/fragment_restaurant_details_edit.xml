@@ -1,7 +1,278 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
-</LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background" />
+
+        <TextView
+            android:id="@+id/textViewRestaurantEdit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/button_color"
+            android:text="Restaurant Details Edit"
+            android:textColor="@color/white" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewRestaurantEdit"
+            android:background="@color/dark_white"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" >
+
+            <LinearLayout
+                android:id="@+id/linLayoutRestaurantEditStreetAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:id="@+id/linLayoutRestaurantStreetAddressShowPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
+
+                    <TextView
+                        android:id="@+id/tvEditRestaurantStreetAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:text="Restaurant Street Address" />
+
+                    <Button
+                        android:id="@+id/bRestaurantStreetAddressEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Edit" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lineditLayoutRestaurantStreetAddressEditPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="100" >
+
+                    <EditText
+                        android:id="@+id/editTextchangedRestaurantStreetAddresss"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:background="@color/white"
+                        android:padding="5dp" />
+
+                    <Button
+                        android:id="@+id/bRestaurantStreetAddressCommit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Done" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linLayoutRestaurantEditCityAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linLayoutRestaurantEditStreetAddress"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:id="@+id/linLayoutRestaurantCityAddressShowPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
+
+                    <TextView
+                        android:id="@+id/tvEditRestaurantCityAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:text="Restaurant City Address" />
+
+                    <Button
+                        android:id="@+id/bRestaurantCityAddressEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Edit" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lineditLayoutRestaurantCityAddressEditPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="100" >
+
+                    <EditText
+                        android:id="@+id/editTextchangedRestaurantCityAddresss"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:background="@color/white"
+                        android:padding="5dp" />
+
+                    <Button
+                        android:id="@+id/bRestaurantCityAddressCommit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Done" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linLayoutRestaurantEditEmailAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linLayoutRestaurantEditCityAddress"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:id="@+id/linLayoutRestaurantEmailAddressShowPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
+
+                    <TextView
+                        android:id="@+id/tvEditRestaurantEmailAddress"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:text="Restaurant Email Address" />
+
+                    <Button
+                        android:id="@+id/bRestaurantEmailAddressEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Edit" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lineditLayoutRestaurantEmailAddressEditPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="100" >
+
+                    <EditText
+                        android:id="@+id/editTextchangedRestaurantEmailAddresss"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:background="@color/white"
+                        android:padding="5dp"
+                        android:inputType="textEmailAddress" />
+
+                    <Button
+                        android:id="@+id/bRestaurantEmailAddressCommit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Done" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linLayoutRestaurantEditContactNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linLayoutRestaurantEditEmailAddress"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:weightSum="2" >
+
+                <LinearLayout
+                    android:id="@+id/linLayoutRestaurantContactNumberShowPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="100" >
+
+                    <TextView
+                        android:id="@+id/tvEditRestaurantContactNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:text="Restaurant Contact Number" />
+
+                    <Button
+                        android:id="@+id/bRestaurantContactNumberEdit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Edit" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lineditLayoutRestaurantContactNumberEditPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone"
+                    android:weightSum="100" >
+
+                    <EditText
+                        android:id="@+id/editTextchangedRestaurantContactNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:background="@color/white"
+                        android:padding="5dp"
+                        android:inputType="phone" />
+
+                    <Button
+                        android:id="@+id/bRestaurantContactNumberCommit"
+                        android:layout_width="0dp"
+                        android:layout_height="30dp"
+                        android:layout_weight="20"
+                        android:background="@drawable/button_gradiant"
+                        android:text="Done" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</ScrollView>

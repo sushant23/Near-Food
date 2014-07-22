@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,12 +20,14 @@ import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
 import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
 
 public class LoginWithFacebook extends Activity {
 
 	private Session.StatusCallback sessionStatusCallback;
 	private Session currentSession;
-	EditText firstName, lastName, userContactNumber, userAddress;
+	EditText firstName, lastName, userContactNumber;
+	AutoCompleteTextView userAddress;
 	SharedPreferences sharedPreference;
 	Editor editor;
 	Boolean autologin = false;
@@ -35,7 +38,10 @@ public class LoginWithFacebook extends Activity {
 		setContentView(R.layout.user_registration);
 		firstName = (EditText) findViewById(R.id.editTextFirstName);
 		lastName = (EditText) findViewById(R.id.editTextLastName);
+		userAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
 
+		userAddress.setAdapter(new PlaceAutoCompleteAdapter(this,
+				R.layout.autocomplete_list));
 		sharedPreference = getApplicationContext().getSharedPreferences(
 				"MyPrefs", 0);
 		editor = sharedPreference.edit();
