@@ -14,10 +14,10 @@
         android:id="@+id/ibTakeAway"
         android:layout_width="130dp"
         android:layout_height="130dp"
-       android:scaleType="fitXY"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:background="@drawable/shape"
+        android:scaleType="fitXY"
         android:src="@drawable/icon_takeawaylarge" />
 
     <ImageButton
@@ -25,28 +25,29 @@
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_centerVertical="true"
-        android:scaleType="fitXY"
         android:layout_toLeftOf="@+id/buttonSuscribe"
         android:background="@drawable/shape"
+        android:scaleType="fitXY"
         android:src="@drawable/icon_tablelarge" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonSuscribe"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ibTable"
         android:layout_centerHorizontal="true"
-       android:src="@drawable/icon_subscribe"
-        android:text="SUBSCRIBE" />
+        android:layout_marginTop="15dp"
+        android:background="@drawable/rectangle"
+        android:src="@drawable/icon_subscribe" />
 
     <ImageButton
         android:id="@+id/ibDelivery"
         android:layout_width="130dp"
         android:layout_height="130dp"
         android:layout_centerVertical="true"
-       android:scaleType="fitXY"
         android:layout_toRightOf="@+id/buttonSuscribe"
         android:background="@drawable/shape"
+        android:scaleType="fitXY"
         android:src="@drawable/icon_delvierlarge" />
 
 </RelativeLayout>

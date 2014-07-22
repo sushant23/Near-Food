@@ -15,7 +15,7 @@ import com.tr.nearfood.utills.NearFoodTextView;
 
 public class RestaurantCatagory extends Activity {
 
-	ImageButton takeAway, table, delivery;
+	ImageButton takeAway, table, delivery, suscribeIB;
 	Button suscribe;
 
 	@Override
@@ -28,18 +28,29 @@ public class RestaurantCatagory extends Activity {
 		takeAway = (ImageButton) findViewById(R.id.ibTakeAway);
 		table = (ImageButton) findViewById(R.id.ibTable);
 		delivery = (ImageButton) findViewById(R.id.ibDelivery);
-		suscribe = (Button) findViewById(R.id.buttonSuscribe);
+		suscribeIB = (ImageButton) findViewById(R.id.buttonSuscribe);
 
-		suscribe.setOnClickListener(new View.OnClickListener() {
+	
+		suscribeIB.setOnTouchListener(new OnTouchListener() {
 
 			@Override
-			public void onClick(View arg0) {
+			public boolean onTouch(View arg0, MotionEvent me) {
 				// TODO Auto-generated method stub
-				Intent start = new Intent(getApplicationContext(), RestaurantSubscribtion.class);
-				startActivity(start);
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					suscribeIB.setColorFilter(Color.argb(150, 155, 155, 155));
+					Intent start = new Intent(getApplicationContext(),
+							RestaurantSubscribtion.class);
+					startActivity(start);
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					suscribeIB.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																			// null
+					return true;
+				}
+				return false;
 			}
-		});
 
+		});
 		takeAway.setOnTouchListener(new OnTouchListener() {
 
 			@Override

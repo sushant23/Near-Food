@@ -26,17 +26,15 @@
         android:scaleType="fitXY"
         android:src="@drawable/icon_tablelarge" />
 
-    <Button
+    <ImageButton
         android:id="@+id/buttonSuscribe"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ibTable"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:background="@drawable/button_gradiant"
-        android:padding="5dp"
-        android:text="SUBSCRIBE"
-        android:textColor="@color/white" />
+        android:background="@drawable/rectangle"
+        android:src="@drawable/icon_subscribe" />
 
     <ImageButton
         android:id="@+id/ibDelivery"
