@@ -273,15 +273,13 @@
                 android:layout_below="@+id/linLayoutRestaurantEditContactNumber"
                 android:layout_marginTop="15dp"
                 android:gravity="center_horizontal"
-                android:orientation="horizontal"
-              >
+                android:orientation="horizontal" >
 
                 <Button
                     android:id="@+id/bSaveRestaurantEditedDetails"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_marginRight="10dp"
-                  
                     android:background="@drawable/button_gradiant"
                     android:padding="5dp"
                     android:text="SAVE"
@@ -290,8 +288,7 @@
                 <Button
                     android:id="@+id/bCancelRestaurantEditedDetails"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                 
+                    android:layout_height="30dp"
                     android:background="@drawable/button_gradiant"
                     android:padding="5dp"
                     android:text="CANCEL"

@@ -201,7 +201,7 @@
             <Button
                 android:id="@+id/buttonRestaurantSubscriptionSubmit"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_below="@+id/radioGroupRestaurantLocationChooser"
                 android:background="@drawable/button_gradiant"
                 android:padding="5dp"
@@ -211,13 +211,13 @@
             <Button
                 android:id="@+id/buttonRestaurantAdminLogin"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:layout_alignBaseline="@+id/buttonRestaurantSubscriptionSubmit"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@+id/buttonRestaurantSubscriptionSubmit"
                 android:background="@drawable/button_gradiant"
                 android:padding="5dp"
-                android:text="SIGNIN"
+                android:text="SIGN IN"
                 android:textColor="@android:color/white" />
         </RelativeLayout>
     </LinearLayout>
