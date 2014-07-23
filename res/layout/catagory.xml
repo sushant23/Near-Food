@@ -24,7 +24,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/shape"
         android:scaleType="fitXY"
-        android:src="@drawable/icon_tablelarge" />
+        android:src="@drawable/icon_takeawaylarge" />
 
     <ImageButton
         android:id="@+id/buttonSuscribe"
