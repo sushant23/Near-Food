@@ -122,7 +122,7 @@ public class FragmentAdminManageRestaurantDetails extends Fragment implements
 		case R.id.bRestaurantCityAddressCommit:
 			String restaurantCityAddress = etrestaurantCityAddress.getText()
 					.toString();
-			tvrestaurantEmailAddress.setText(restaurantCityAddress);
+			tvrestaurantCityAddress.setText(restaurantCityAddress);
 			lLayoutRestaurantCityAddress.setVisibility(View.GONE);
 			break;
 		case R.id.bRestaurantEmailAddressEdit:

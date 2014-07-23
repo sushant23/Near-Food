@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
+import com.tr.nearfood.utills.ActivityLayoutAdjuster;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ public class Register extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_registration);
+		ActivityLayoutAdjuster.assistActivity(this);
 		Bundle googlePlusData = getIntent().getExtras();
 		if (googlePlusData != null) {
 			fromgoogel = googlePlusData.getBoolean("googlePlus");
