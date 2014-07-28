@@ -10,6 +10,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewParent;
 import android.view.WindowManager;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -112,6 +113,7 @@ public class DragNDropListView extends ExpandableListView {
 				adapter = (DragNDropAdapter) this.getExpandableListAdapter();
 				if (adapter != null) {
 					adapter.onDrop(mStartPosition, mEndPosition);
+					
 				}
 				if (listeners != null) {
 					listeners.onDrop(mStartPosition, mEndPosition);
@@ -144,6 +146,8 @@ public class DragNDropListView extends ExpandableListView {
 		// stopDrag(itemIndex);
 
 		View item = getChildAt(itemIndex);
+		
+		
 		if (item == null)
 			return;
 		item.setDrawingCacheEnabled(true);

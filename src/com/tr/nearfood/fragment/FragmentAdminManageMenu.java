@@ -32,8 +32,8 @@ public class FragmentAdminManageMenu extends Fragment {
 				.findViewById(R.id.list_view_customizer);
 
 		eList.setAdapter(new com.tr.nearfood.dragndrop.DragNDropAdapter(
-				getActivity(), new int[] { R.layout.dropndrag_menu_listitem },
-				new int[] { R.id.txt__customizer_item }, children));
+				getActivity(), new int[] { R.layout.dropndrag_menu_listitem,R.layout.dragndropmenu_parant },
+				new int[] { R.id.txt__customizer_item,R.id.txt__parent_item}, children));
 		return view;
 	}
 

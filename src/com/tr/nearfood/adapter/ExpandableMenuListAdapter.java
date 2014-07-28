@@ -1,24 +1,33 @@
 package com.tr.nearfood.adapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tr.nearfood.R;
+import com.tr.nearfood.dbhelper.DatabaseHelper;
+import com.tr.nearfood.model.MigratingDatas;
+import com.tr.nearfood.utills.AppConstants;
 
 public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
-	private Context _context;
-	private List<String> _listDataHeader; // header titles
+	public Context _context;
+	DatabaseHelper db;
+	public List<String> _listDataHeader; // header titles
 	// child data in format of header title, child title
-	private HashMap<String, List<String>> _listDataChild;
+	public HashMap<String, List<String>> _listDataChild;
+	public static MigratingDatas migratingDtos=new MigratingDatas();
+	List<Integer> selectedMenuItemList = new ArrayList<Integer>();
 
 	public ExpandableMenuListAdapter(Context context,
 			List<String> listDataHeader,
@@ -26,6 +35,8 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 		this._context = context;
 		this._listDataHeader = listDataHeader;
 		this._listDataChild = listChildData;
+		db = new DatabaseHelper(_context);
+
 	}
 
 	@Override
@@ -62,6 +73,45 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 				.findViewById(R.id.textViewMenuItemName);
 
 		txtListChild.setText(childText);
+
+		addmenuItem.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Toast.makeText(_context,
+						"Child ko add button clicked" + childText,
+						Toast.LENGTH_LONG).show();
+				int itmID = db.getItemId(childText);
+				if (itmID != 0)
+					selectedMenuItemList.add(itmID);
+				Log.d("Add button",
+						"clicked ITEM ID= " + Integer.toString(itmID));
+			}
+		});
+		deleteMenuItem.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Toast.makeText(_context,
+						"Child ko delete button clicked" + childText,
+						Toast.LENGTH_LONG).show();
+				int itmID = db.getItemId(childText);
+				if (itmID != 0) {
+					for (int rem = 0; rem < selectedMenuItemList.size(); rem++) {
+						if (itmID == selectedMenuItemList.get(rem))
+							selectedMenuItemList.remove(rem);
+					}
+				}
+				Log.d("Delete button", "clicked");
+			}
+		});
+		Log.d("Size of the added items",
+				Integer.toString(selectedMenuItemList.size()));
+		migratingDtos = new MigratingDatas();
+		migratingDtos.setConfirmedOrderList(selectedMenuItemList);
+
 		return convertView;
 	}
 

@@ -47,6 +47,12 @@
             android:hardwareAccelerated="false"
             android:windowSoftInputMode="adjustPan|adjustResize|stateVisible" >
         </activity>
+        <activity
+            android:name="com.tr.nearfood.activity.RestaurantSubscribtion"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="false"
+            android:windowSoftInputMode="adjustPan|adjustResize|stateVisible" >
+        </activity>
         <activity android:name="com.tr.nearfood.activity.Login" >
         </activity>
         <activity android:name="com.tr.nearfood.activity.RestaurantProfile" >

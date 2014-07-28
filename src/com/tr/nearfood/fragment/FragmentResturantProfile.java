@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,12 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
+import com.tr.nearfood.dbhelper.DatabaseHelper;
 import com.tr.nearfood.model.ResturantDTO;
 import com.tr.nearfood.utills.CustomDateTimePicker;
 
 public class FragmentResturantProfile extends Fragment implements
 		OnClickListener {
 	View view;
+
 	TextView restaurantName, restaurantStreetAdd, restaurantCityName,
 			restaurantDistance, restaurantPhoneNumber;
 	Button sendMessage, chooseMenu, setDateAndTime, reserveTable;
@@ -52,6 +53,7 @@ public class FragmentResturantProfile extends Fragment implements
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_resturant_profile, container,
 				false);
+
 		initializeUIElements();
 		Log.i(getActivity().getClass().toString(),
 				"oncreate view fragment resturant profile");
@@ -105,7 +107,8 @@ public class FragmentResturantProfile extends Fragment implements
 		// TODO Auto-generated method stub
 		switch (click.getId()) {
 		case R.id.buttonChooseMenu:
-			fragmentResturantProfileCommunicator.setButtonClicked();
+			fragmentResturantProfileCommunicator
+					.setButtonClicked(SELECTED_RESTURANT_DTO.getResturantID());
 			// Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
 		case R.id.buttonSendMessage:
@@ -178,7 +181,7 @@ public class FragmentResturantProfile extends Fragment implements
 	}
 
 	public static interface FragmentResturantProfileCommunicator {
-		public void setButtonClicked();
+		public void setButtonClicked(int restaurantID);
 	}
 
 }

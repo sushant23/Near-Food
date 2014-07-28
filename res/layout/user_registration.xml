@@ -85,72 +85,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linLayoutLoginInfo"
+                android:id="@+id/linLayoutUserEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/linLayoutUserName"
                 android:layout_marginTop="10dp"
-                android:orientation="vertical"
-                android:weightSum="2" 
-                android:visibility="gone">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="2" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="UserName"
-                        android:textColor="@color/button_color" />
-
-                    <EditText
-                        android:id="@+id/editTextUserName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/white" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"
-                    android:weightSum="2" >
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Password"
-                        android:textColor="@color/button_color" />
-
-                    <EditText
-                        android:id="@+id/editTextPassword"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@color/white"
-                        android:password="true" />
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linLayoutUserEmail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linLayoutLoginInfo"
-                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:weightSum="2" 
-                android:visibility="gone">
+                android:weightSum="2" >
 
                 <TextView
                     android:layout_width="0dp"
@@ -215,8 +156,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:textColor="@android:color/black"
-                    android:background="@android:color/background_light" />
+                    android:background="@android:color/background_light"
+                    android:textColor="@android:color/black" />
             </LinearLayout>
 
             <Button

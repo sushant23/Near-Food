@@ -3,6 +3,7 @@ package com.tr.nearfood.activity;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -32,7 +33,9 @@ import com.tr.nearfood.fragment.FragmentResturantList;
 import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
 import com.tr.nearfood.fragment.FragmentResturantProfile;
 import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
+import com.tr.nearfood.fragment.FragmentShowCustomerOrder.FragmentShowCustomerOrderCommunicator;
 import com.tr.nearfood.fragment.FragmentShowCustomerOrder;
+import com.tr.nearfood.model.MigratingDatas;
 import com.tr.nearfood.model.ResturantDTO;
 import com.tr.nearfood.utills.BadgeView;
 import com.tr.nearfood.utills.NearFoodTextView;
@@ -40,12 +43,13 @@ import com.tr.nearfood.utills.NearFoodTextView;
 public class RestaurantList extends ActionBarActivity implements
 		FragmentResturantListCommunicator,
 		FragmentResturantProfileCommunicator,
-		FragmentResturantMenuListCommunicator {
+		FragmentResturantMenuListCommunicator,
+		FragmentShowCustomerOrderCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
 	ImageButton notification, homeButton, calender;
-
+	int SELECTED_CATEGORY = 0;
 	BadgeView badge, badge1;
 	Button subscribe;
 
@@ -53,6 +57,9 @@ public class RestaurantList extends ActionBarActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+		Bundle dataFromRestaurantCategory = getIntent().getExtras();
+		SELECTED_CATEGORY = dataFromRestaurantCategory.getInt("catagory_id");
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
@@ -69,7 +76,8 @@ public class RestaurantList extends ActionBarActivity implements
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		adView.loadAd(adRequest);
-		addResturantListFragment();
+		addResturantListFragment(SELECTED_CATEGORY);
+		Log.d("value of category", Integer.toString(SELECTED_CATEGORY));
 		homeButton.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -146,11 +154,12 @@ public class RestaurantList extends ActionBarActivity implements
 
 		});
 		subscribe.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Intent subscribeActivity =new Intent(getApplicationContext(),RestaurantSubscribtion.class);
+				Intent subscribeActivity = new Intent(getApplicationContext(),
+						RestaurantSubscribtion.class);
 				startActivity(subscribeActivity);
 			}
 		});
@@ -181,20 +190,21 @@ public class RestaurantList extends ActionBarActivity implements
 						.getResturantName());
 	}
 
-	public void addResturantListFragment() {
+	public void addResturantListFragment(int SELECTED_CATAGORY) {
 		fragmentManager = getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		FragmentResturantList fragmentResturantList = new FragmentResturantList();
-
+		FragmentResturantList.selected_catagory = SELECTED_CATAGORY;
 		fragmentTransaction.add(R.id.linLayoutFragmentContainer,
 				fragmentResturantList, "Resturant List");
 		fragmentTransaction.commit();
 	}
 
 	@Override
-	public void setButtonClicked() {
+	public void setButtonClicked(int restaurantID) {
 		// TODO Auto-generated method stub
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
+		FragmentRestaurantMenu.SELECTED_RESTAURANTID = restaurantID;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantMenuFragment);
@@ -211,13 +221,26 @@ public class RestaurantList extends ActionBarActivity implements
 	}
 
 	@Override
-	public void setMenuButtonClicked() {
+	public void setMenuButtonClicked(List<Integer> selected_Menu_Item_List) {
 		// TODO Auto-generated method stub
 
 		Fragment fragmentShowCustomerOrder = new FragmentShowCustomerOrder();
+		FragmentShowCustomerOrder.SELECTED_MENU_ITEM_LIST=selected_Menu_Item_List;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				fragmentShowCustomerOrder);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setConfirmButtonClicked(MigratingDatas migratingDtos) {
+		// TODO Auto-generated method stub
+		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
+		FragmentRestaurantMenu.migratingdata =migratingDtos;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantMenuFragment);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}

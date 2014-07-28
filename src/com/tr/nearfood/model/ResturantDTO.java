@@ -1,7 +1,7 @@
 package com.tr.nearfood.model;
 
 public class ResturantDTO {
-	private long resturantID;
+	private int resturantID;
 	private String resturantName;
 	private ResturantAddress resturantAddress;
 	private ResturantContactInfo resturantContactInfo;
@@ -9,11 +9,11 @@ public class ResturantDTO {
 	private int resturantRating;
 	private String resturantReview;
 
-	public long getResturantID() {
+	public int getResturantID() {
 		return resturantID;
 	}
 
-	public void setResturantID(long resturantID) {
+	public void setResturantID(int resturantID) {
 		this.resturantID = resturantID;
 	}
 

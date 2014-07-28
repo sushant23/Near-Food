@@ -27,7 +27,7 @@ public class ReadFromApi {
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
 			try {
-				String jsonData = httpGETConnection("ENTER YOUR URL HERE");
+				String jsonData = httpGETConnection(AppConstants.RESTAURANTS_LIST+"1");
 			} catch (ConnectTimeoutException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

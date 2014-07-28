@@ -1,5 +1,7 @@
 package com.tr.nearfood.activity;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import android.app.Activity;
@@ -34,6 +36,7 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	private static final String TAG = "GooglePlus Login";
 	String id, name;
 	Boolean fromGooglePlus = true;
+	List<Integer> confirmedMenuList;
 	// Google client to interact with Google API
 	private GoogleApiClient mGoogleApiClient;
 
@@ -52,6 +55,11 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.customer_login);
+		Bundle getConfirmedMenuList = getIntent().getExtras();
+		if (getConfirmedMenuList != null) {
+			confirmedMenuList = getConfirmedMenuList
+					.getIntegerArrayList("confirmedMenuItems");
+		}
 		facebookLogin = (Button) findViewById(R.id.buttonFacebookSignin);
 		googleplusLogin = (SignInButton) findViewById(R.id.buttonGooglePlusSignin);
 		manualLogin = (Button) findViewById(R.id.buttonUserManualLOgin);
@@ -153,6 +161,8 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		startReg.putExtra("googlePlus", fromGooglePlus);
 		startReg.putExtra("id", id);
 		startReg.putExtra("name", name);
+		startReg.putIntegerArrayListExtra("confirmedMenuItems",
+				(ArrayList<Integer>) confirmedMenuList);
 		startActivity(startReg);
 		// Update the UI after signin
 
@@ -236,6 +246,8 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		case R.id.buttonFacebookSignin:
 			Intent facebookLoginIntent = new Intent(getApplicationContext(),
 					LoginWithFacebook.class);
+			facebookLoginIntent.putIntegerArrayListExtra("confirmedMenuItems",
+					(ArrayList<Integer>) confirmedMenuList);
 			startActivity(facebookLoginIntent);
 			break;
 		case R.id.buttonGooglePlusSignin:
@@ -244,6 +256,9 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 			break;
 		case R.id.buttonUserManualLOgin:
 			Intent startRegisterActivity = new Intent(this, Register.class);
+			startRegisterActivity.putIntegerArrayListExtra(
+					"confirmedMenuItems",
+					(ArrayList<Integer>) confirmedMenuList);
 			startActivity(startRegisterActivity);
 			break;
 		default:

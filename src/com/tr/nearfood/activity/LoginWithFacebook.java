@@ -31,11 +31,19 @@ public class LoginWithFacebook extends Activity {
 	SharedPreferences sharedPreference;
 	Editor editor;
 	Boolean autologin = false;
-
+	List<Integer> confirmedMenuList;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_registration);
+		
+		Bundle getConfirmedMenuList=getIntent().getExtras();
+		if(getConfirmedMenuList!=null)
+		{
+			confirmedMenuList=getConfirmedMenuList.getIntegerArrayList("confirmedMenuItems");
+		}
+		
+		
 		firstName = (EditText) findViewById(R.id.editTextFirstName);
 		lastName = (EditText) findViewById(R.id.editTextLastName);
 		userAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);

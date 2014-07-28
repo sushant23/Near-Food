@@ -17,7 +17,7 @@ public class RestaurantCatagory extends Activity {
 
 	ImageButton takeAway, table, delivery, suscribeIB;
 	Button suscribe;
-
+	int SELECT_TAKE_AWAY=1,SELECT_DELIVERY=2,SELECT_TABLE=3;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -60,6 +60,7 @@ public class RestaurantCatagory extends Activity {
 					takeAway.setColorFilter(Color.argb(150, 155, 155, 155));
 					Intent start = new Intent(getApplicationContext(),
 							RestaurantList.class);
+					start.putExtra("catagory_id", SELECT_TAKE_AWAY);
 					startActivity(start);
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
@@ -80,6 +81,7 @@ public class RestaurantCatagory extends Activity {
 					table.setColorFilter(Color.argb(150, 155, 155, 155));
 					Intent start = new Intent(getApplicationContext(),
 							RestaurantList.class);
+					start.putExtra("catagory_id", SELECT_TABLE);
 					startActivity(start);
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
@@ -100,6 +102,7 @@ public class RestaurantCatagory extends Activity {
 					delivery.setColorFilter(Color.argb(150, 155, 155, 155));
 					Intent start = new Intent(getApplicationContext(),
 							RestaurantList.class);
+					start.putExtra("catagory_id", SELECT_DELIVERY);
 					startActivity(start);
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {

@@ -70,6 +70,16 @@ public final class DragNDropAdapter extends BaseExpandableListAdapter {
 		notifyDataSetChanged();
 	}
 
+	public void onDropGroup(int from, int to) {
+		if (to > groups.size() || to < 0)
+			return;
+		groups.remove(from);
+		groups.add(to, groups.get(from));
+
+		selectedGroup = -1;
+		notifyDataSetChanged();
+	}
+
 	private String getValue(int[] id) {
 		return (String) children.get(children.keySet().toArray()[id[0]]).get(
 				id[1]);
@@ -82,12 +92,14 @@ public final class DragNDropAdapter extends BaseExpandableListAdapter {
 				childPosition);
 	}
 
+	// call when child is clicked
 	@Override
 	public long getChildId(int groupPosition, int childPosition) {
 		// TODO Auto-generated method stub
 		return childPosition;
 	}
 
+	// function used to inflate the child row view
 	@Override
 	public View getChildView(int groupPosition, int childPosition,
 			boolean isLastChild, View convertView, ViewGroup parent) {
@@ -144,35 +156,51 @@ public final class DragNDropAdapter extends BaseExpandableListAdapter {
 		return groups.size();
 	}
 
+	// call when parent is clicked
 	@Override
 	public long getGroupId(int groupPosition) {
 		// TODO Auto-generated method stub
 		return groupPosition;
 	}
 
+	// function used to inflate the parent row view
 	@Override
 	public View getGroupView(int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		TextView tv = getGenericView();
-		tv.setText(groups.get(groupPosition));
 
-		return tv;
-	}
+		ViewHolder holder;
 
-	public TextView getGenericView() {
-		// Layout parameters for the ExpandableListView
-		AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT, 64);
+		// When convertView is not null, we can reuse it directly, there is no
+		// need
+		// to reinflate it. We only inflate a new View when the convertView
+		// supplied
+		// by ListView is null.
+		if (convertView == null) {
+			convertView = mInflater.inflate(mLayouts[1], null);
 
-		TextView textView = new TextView(mContext);
-		textView.setLayoutParams(lp);
+			// Creates a ViewHolder and store references to the two children
+			// views
+			// we want to bind data to.
+			holder = new ViewHolder();
+			holder.text = (TextView) convertView.findViewById(mIds[1]);
+			convertView.setTag(holder);
+		} else {
+			// Get the ViewHolder back to get fast access to the TextView
+			// and the ImageView.
+			holder = (ViewHolder) convertView.getTag();
+		}
 
-		// Center the text vertically
-		textView.setGravity(Gravity.CENTER_VERTICAL | Gravity.LEFT);
-		// Set the text starting position
-		textView.setPadding(36, 0, 0, 0);
-		return textView;
+		// Bind the data efficiently with the holder.
+		holder.text.setText((String) (groups.get(groupPosition)));
+		if (groupPosition != selectedGroup) {
+			convertView.setVisibility(View.VISIBLE);
+			ImageView iv = (ImageView) convertView
+					.findViewById(R.id.move_icon_parent_item);
+			iv.setVisibility(View.VISIBLE);
+		}
+		return convertView;
+
 	}
 
 	@Override
