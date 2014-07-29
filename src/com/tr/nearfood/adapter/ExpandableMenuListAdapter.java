@@ -26,7 +26,7 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 	public List<String> _listDataHeader; // header titles
 	// child data in format of header title, child title
 	public HashMap<String, List<String>> _listDataChild;
-	public static MigratingDatas migratingDtos=new MigratingDatas();
+	public static MigratingDatas migratingDtos = new MigratingDatas();
 	List<Integer> selectedMenuItemList = new ArrayList<Integer>();
 
 	public ExpandableMenuListAdapter(Context context,
@@ -79,9 +79,8 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast.makeText(_context,
-						"Child ko add button clicked" + childText,
-						Toast.LENGTH_LONG).show();
+				Toast.makeText(_context, "ADDED" + childText,
+						Toast.LENGTH_SHORT).show();
 				int itmID = db.getItemId(childText);
 				if (itmID != 0)
 					selectedMenuItemList.add(itmID);
@@ -94,14 +93,18 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast.makeText(_context,
-						"Child ko delete button clicked" + childText,
+				Toast.makeText(_context, "REMOVED" + childText,
 						Toast.LENGTH_LONG).show();
 				int itmID = db.getItemId(childText);
+				boolean one_item_removed = false;
 				if (itmID != 0) {
 					for (int rem = 0; rem < selectedMenuItemList.size(); rem++) {
-						if (itmID == selectedMenuItemList.get(rem))
-							selectedMenuItemList.remove(rem);
+						if (!one_item_removed) {
+							if (itmID == selectedMenuItemList.get(rem)) {
+								selectedMenuItemList.remove(rem);
+								one_item_removed = true;
+							}
+						}
 					}
 				}
 				Log.d("Delete button", "clicked");
