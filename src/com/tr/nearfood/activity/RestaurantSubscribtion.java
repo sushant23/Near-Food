@@ -1,15 +1,21 @@
 package com.tr.nearfood.activity;
 
+import java.io.IOException;
+import java.util.List;
+
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.games.multiplayer.turnbased.TurnBasedMultiplayer.InitiateMatchResult;
 import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
 import com.tr.nearfood.fragment.FragmentAdminHomePage;
 import com.tr.nearfood.fragment.FragmentAdminHomePage.FragmentResturantAdminHomePageCommunicator;
 import com.tr.nearfood.fragment.FragmentAdminLogin;
 import com.tr.nearfood.fragment.FragmentAdminLogin.FragmentResturantAdminLoginCommunicator;
 import com.tr.nearfood.fragment.FragmentAdminManageMenu;
 import com.tr.nearfood.fragment.FragmentAdminManageRestaurantDetails;
+import com.tr.nearfood.fragment.FragmentGoogleMap;
+import com.tr.nearfood.fragment.FragmentGoogleMap.FragmentGoogleMapListener;
 import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion.FragmentResturantSubscribtionCommunicator;
@@ -21,6 +27,8 @@ import com.tr.nearfood.utills.NearFoodTextView;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -32,21 +40,25 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 public class RestaurantSubscribtion extends ActionBarActivity implements
 		FragmentResturantSubscribtionCommunicator,
 		FragmentResturantAdminLoginCommunicator,
-		FragmentResturantAdminHomePageCommunicator {
-	private FragmentManager fragmentManager;
+		FragmentResturantAdminHomePageCommunicator, FragmentGoogleMapListener {
+	FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
 	ImageButton notification, homeButton, calender;
 	Button subscribe;
 	BadgeView badge, badge1;
 	Button signIn;
-
+	AutoCompleteTextView searchplace;
+	LinearLayout searchContainer;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -106,6 +118,8 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		signIn = (Button) findViewById(R.id.buttonRestaurantAdminLogin);
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
+		searchplace = (AutoCompleteTextView) findViewById(R.id.editTextSearchResturantLists);
+		searchContainer=(LinearLayout) findViewById(R.id.linsearchcontainer);
 	}
 
 	private void addResturantSubscribtionFragment() {
@@ -172,6 +186,32 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminmanageRestaurantDetails);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setGetCoordinateFromMap() {
+		// TODO Auto-generated method stub
+		Fragment fragmentGoogleMap = new FragmentGoogleMap();
+		searchContainer.setVisibility(View.GONE);
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				fragmentGoogleMap);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void onLocationSetClicked(double longitude, double latitude) {
+		// TODO Auto-generated method stub
+		Fragment restaurantSubscribtion = new FragmentRestaturantSubscribtion();
+		FragmentRestaturantSubscribtion.longitude = longitude;
+		FragmentRestaturantSubscribtion.latitude = latitude;
+		searchContainer.setVisibility(View.VISIBLE);
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantSubscribtion);
 		fragmentTransaction.addToBackStack(null);
 		fragmentTransaction.commit();
 	}

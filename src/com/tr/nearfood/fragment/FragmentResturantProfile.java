@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,9 +113,24 @@ public class FragmentResturantProfile extends Fragment implements
 			// Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
 		case R.id.buttonSendMessage:
-			Toast.makeText(getActivity(), "Message Send Button clicked",
-					Toast.LENGTH_SHORT).show();
+			if (senderName.getText().toString().matches("")
+					|| senderEmail.getText().toString().matches("")
+					|| senderPhone.getText().toString().matches("")
+					|| senderMessage.getText().toString().matches("")) {
+				Toast.makeText(getActivity(),
+						"Please Enter All Field Correctly", Toast.LENGTH_SHORT)
+						.show();
 
+			} else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
+					senderEmail.getText().toString()).matches()
+					&& !TextUtils.isEmpty(senderEmail.getText().toString())) {
+				senderEmail.setError("Invalid Email");
+				senderEmail.requestFocus();
+				return;
+			} else {
+				Toast.makeText(getActivity(), "Messege sent ",
+						Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.buttonReserveTable:
 			Toast.makeText(getActivity(), "Reserve Table Button clicked",

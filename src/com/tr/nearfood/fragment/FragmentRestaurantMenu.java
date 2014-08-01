@@ -176,8 +176,6 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 			// Toast.makeText(getActivity(), "Show Order Button clicked",
 			// Toast.LENGTH_SHORT).show();
 			List<Integer> SELECTED_MENU_ITEM_LIST = ExpandableMenuListAdapter.migratingDtos.getConfirmedOrderList();
-			Log.d("Size of confirmed orders is ",
-					Integer.toString(SELECTED_MENU_ITEM_LIST.size()));
 			fragmentResturantMenuListCommunicator.setMenuButtonClicked(SELECTED_MENU_ITEM_LIST);
 			break;
 
