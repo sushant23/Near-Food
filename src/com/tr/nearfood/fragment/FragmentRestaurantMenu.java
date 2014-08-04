@@ -33,23 +33,15 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
+
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.activity.ChooseLoginMethod;
-import com.tr.nearfood.adapter.CustomAdapterResturantLists;
-import com.tr.nearfood.adapter.ExpandableListAdapter;
 import com.tr.nearfood.adapter.ExpandableMenuListAdapter;
 import com.tr.nearfood.model.Catagory;
 import com.tr.nearfood.model.ItemMenuDTO;
 import com.tr.nearfood.model.MigratingDatas;
-import com.tr.nearfood.model.ResturantAddress;
-import com.tr.nearfood.model.ResturantContactInfo;
-import com.tr.nearfood.model.ResturantDTO;
 import com.tr.nearfood.utills.AppConstants;
 import com.tr.nearfood.dbhelper.DatabaseHelper;
 
@@ -109,6 +101,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		showOrder = (Button) view.findViewById(R.id.buttonShowYourOrder);
 	}
 
+	// make the array of catagory with unique id
 	public static int[] toArray(List<Integer> src) {
 
 		int[] res = new int[src.size()];
@@ -126,6 +119,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		return res;
 	}
 
+	// prepare the menu list items and is get from the sqlite
 	private void prepareListData() throws IndexOutOfBoundsException {
 
 		// preparing the list for menu from data stored in sqlite
@@ -165,9 +159,10 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 			// Toast.LENGTH_SHORT).show();
 			Intent startLogin = new Intent(getActivity(),
 					ChooseLoginMethod.class);
-			//List<Integer> CONFIRMED_MENUITEM_LIST = ExpandableMenuListAdapter.migratingDtos.getConfirmedOrderList();
-			Log.d("Size of confirmed orders is ",
-					Integer.toString(migratingdata.getConfirmedOrderList().size()));
+			// List<Integer> CONFIRMED_MENUITEM_LIST =
+			// ExpandableMenuListAdapter.migratingDtos.getConfirmedOrderList();
+			Log.d("Size of confirmed orders is ", Integer
+					.toString(migratingdata.getConfirmedOrderList().size()));
 			startLogin.putIntegerArrayListExtra("confirmedMenuItems",
 					(ArrayList<Integer>) migratingdata.getConfirmedOrderList());
 			startActivity(startLogin);
@@ -175,8 +170,10 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		case R.id.buttonShowYourOrder:
 			// Toast.makeText(getActivity(), "Show Order Button clicked",
 			// Toast.LENGTH_SHORT).show();
-			List<Integer> SELECTED_MENU_ITEM_LIST = ExpandableMenuListAdapter.migratingDtos.getConfirmedOrderList();
-			fragmentResturantMenuListCommunicator.setMenuButtonClicked(SELECTED_MENU_ITEM_LIST);
+			List<Integer> SELECTED_MENU_ITEM_LIST = ExpandableMenuListAdapter.migratingDtos
+					.getConfirmedOrderList();
+			fragmentResturantMenuListCommunicator
+					.setMenuButtonClicked(SELECTED_MENU_ITEM_LIST);
 			break;
 
 		default:
@@ -189,6 +186,9 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 	}
 
+	// get the json data from the restaurant menu items of a selected restaurant
+	// as per
+	// restaurant id
 	public class makeHttpGetConnection extends
 			AsyncTask<String, String, String> {
 		ProgressDialog pd = null;
@@ -288,6 +288,8 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 	}
 
+	// parse the json data of menu items and store it in the sqllite for further
+	// processing
 	void jsonDataParse(String jsonData) throws JSONException {
 		JSONArray menuArray = new JSONArray(jsonData);
 		List<Integer> itemList = db.getItemIdList();
@@ -312,6 +314,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 				String catagory_created_at = catagory.getString("created_at");
 				String catagory_updated_at = catagory.getString("updated_at");
 
+				// itemune dto ma data set gareko
 				ItemMenuDTO itemMenuDTO = new ItemMenuDTO();
 				Catagory catagoryDTO = new Catagory();
 				itemMenuDTO.setId(item_id);
@@ -323,6 +326,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 				itemMenuDTO.setCreated_at(item_created_at);
 				itemMenuDTO.setUpdated_at(item_updated_at);
 
+				// catagory dto ma set gareko data
 				catagoryDTO.setId(id);
 				catagoryDTO.setCatagoryName(catagory_name);
 				catagoryDTO.setDescription(catagory_description);

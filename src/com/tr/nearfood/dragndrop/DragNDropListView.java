@@ -58,7 +58,7 @@ public class DragNDropListView extends ExpandableListView {
 		dragRatio = getHeight() / screenHeight;
 		packagedPosition = getExpandableListPosition(flatPosition);
 		if (action == MotionEvent.ACTION_DOWN && x < this.getWidth() / 4) {
-			if (getPackedPositionType(packagedPosition) == 1)
+			if (getPackedPositionType(packagedPosition) == ExpandableListView.PACKED_POSITION_TYPE_CHILD)
 				mDragMode = true;
 		}
 		if (!mDragMode)
@@ -113,7 +113,7 @@ public class DragNDropListView extends ExpandableListView {
 				adapter = (DragNDropAdapter) this.getExpandableListAdapter();
 				if (adapter != null) {
 					adapter.onDrop(mStartPosition, mEndPosition);
-					
+
 				}
 				if (listeners != null) {
 					listeners.onDrop(mStartPosition, mEndPosition);
@@ -146,8 +146,7 @@ public class DragNDropListView extends ExpandableListView {
 		// stopDrag(itemIndex);
 
 		View item = getChildAt(itemIndex);
-		
-		
+
 		if (item == null)
 			return;
 		item.setDrawingCacheEnabled(true);
@@ -176,7 +175,6 @@ public class DragNDropListView extends ExpandableListView {
 		Context context = getContext();
 		ImageView v = new ImageView(context);
 		v.setImageBitmap(bitmap);
-
 		WindowManager mWindowManager = (WindowManager) context
 				.getSystemService(Context.WINDOW_SERVICE);
 		mWindowManager.addView(v, mWindowParams);
