@@ -8,8 +8,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,31 +22,42 @@ import com.facebook.Session;
 import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.model.GraphUser;
+import com.google.gson.Gson;
 import com.tr.nearfood.R;
+import com.tr.nearfood.activity.Register.OrderDetails;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
+import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 
 public class LoginWithFacebook extends Activity {
 
 	private Session.StatusCallback sessionStatusCallback;
 	private Session currentSession;
-	EditText firstName, lastName, userContactNumber;
+	EditText firstName, lastName, userContactNumber,userEmail;
 	AutoCompleteTextView userAddress;
 	SharedPreferences sharedPreference;
 	Editor editor;
 	Boolean autologin = false;
 	List<Integer> confirmedMenuList;
+	int[] confirmedMenuArray;
+	Button submitorderButton;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_registration);
 		
-		Bundle getConfirmedMenuList=getIntent().getExtras();
-		if(getConfirmedMenuList!=null)
-		{
-			confirmedMenuList=getConfirmedMenuList.getIntegerArrayList("confirmedMenuItems");
+		Bundle getConfirmedMenuList = getIntent().getExtras();
+		if (getConfirmedMenuList != null) {
+			confirmedMenuList = getConfirmedMenuList
+					.getIntegerArrayList("confirmedMenuItems");
+			Log.d("Register Activity",
+					Integer.toString(confirmedMenuList.size()));
+
+			confirmedMenuArray = new int[confirmedMenuList.size()];
+			for (int i = 0; i < confirmedMenuList.size(); i++)
+				confirmedMenuArray[i] = confirmedMenuList.get(i);
 		}
 		
-		
+		submitorderButton=(Button) findViewById(R.id.buttonSubmitUserInformation);
 		firstName = (EditText) findViewById(R.id.editTextFirstName);
 		lastName = (EditText) findViewById(R.id.editTextLastName);
 		userAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
@@ -82,8 +96,43 @@ public class LoginWithFacebook extends Activity {
 		 * editor.commit();}
 		 */
 
-	}
+		submitorderButton.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
+						userEmail.getText().toString()).matches()
+						&& !TextUtils.isEmpty(userEmail.getText()
+								.toString())) {
+					userEmail.setError("Invalid Email");
+					userEmail.requestFocus();
+					return;
+				} else {
 
+					Gson gson = new Gson();
+					OrderDetails objectOrderDetails = new OrderDetails();
+					String json = gson.toJson(objectOrderDetails);
+
+					Log.d("orderDetails json data", json);
+					Toast.makeText(getApplicationContext(), json,
+							Toast.LENGTH_LONG).show();
+
+				}
+			}
+		});
+	}
+	class OrderDetails {
+		private String name = firstName.getText().toString() + " "
+				+ lastName.getText().toString();
+		private String email = userEmail.getText().toString();
+		private String phone = userContactNumber.getText().toString();
+		private String address = userAddress.getText().toString();
+		private String datetime = FragmentRestaurantMenu.SETDATETIME;
+		private int restaurant_id=FragmentRestaurantMenu.SELECTED_RESTAURANTID;
+		private int[] items = confirmedMenuArray;
+
+	}
 	/**
 	 * Connects the user to facebook
 	 */

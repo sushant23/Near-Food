@@ -33,7 +33,6 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
@@ -60,6 +59,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	Catagory fromsqliteCatagory;
 	List<ItemMenuDTO> fromsqliteMenuItem = null;
 	public static MigratingDatas migratingdata;
+	public static String SETDATETIME;
 
 	// menu changed
 	@Override
@@ -155,21 +155,20 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 		switch (click.getId()) {
 		case R.id.buttonSendYourOrder:
-			// Toast.makeText(getActivity(), "Send Order Button clicked",
-			// Toast.LENGTH_SHORT).show();
-			Intent startLogin = new Intent(getActivity(),
-					ChooseLoginMethod.class);
-			// List<Integer> CONFIRMED_MENUITEM_LIST =
-			// ExpandableMenuListAdapter.migratingDtos.getConfirmedOrderList();
-			Log.d("Size of confirmed orders is ", Integer
-					.toString(migratingdata.getConfirmedOrderList().size()));
-			startLogin.putIntegerArrayListExtra("confirmedMenuItems",
-					(ArrayList<Integer>) migratingdata.getConfirmedOrderList());
-			startActivity(startLogin);
+
+			
+				Intent startLogin = new Intent(getActivity(),
+						ChooseLoginMethod.class);
+				startLogin.putIntegerArrayListExtra("confirmedMenuItems",
+						(ArrayList<Integer>) migratingdata
+								.getConfirmedOrderList());
+				startActivity(startLogin);
+				Log.d("Size of confirmed orders is ", Integer
+						.toString(migratingdata.getConfirmedOrderList().size()));
+			
 			break;
 		case R.id.buttonShowYourOrder:
-			// Toast.makeText(getActivity(), "Show Order Button clicked",
-			// Toast.LENGTH_SHORT).show();
+
 			List<Integer> SELECTED_MENU_ITEM_LIST = ExpandableMenuListAdapter.migratingDtos
 					.getConfirmedOrderList();
 			fragmentResturantMenuListCommunicator

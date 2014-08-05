@@ -8,6 +8,15 @@ public class ResturantDTO {
 	private ResturantAvaliableServices resturantavaliableServices;
 	private int resturantRating;
 	private String resturantReview;
+	private String dataTime;
+
+	public String getDataTime() {
+		return dataTime;
+	}
+
+	public void setDataTime(String dataTime) {
+		this.dataTime = dataTime;
+	}
 
 	public int getResturantID() {
 		return resturantID;

@@ -201,10 +201,11 @@ public class RestaurantList extends ActionBarActivity implements
 	}
 
 	@Override
-	public void setButtonClicked(int restaurantID) {
+	public void setButtonClicked(int restaurantID,String setDateTime) {
 		// TODO Auto-generated method stub
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
 		FragmentRestaurantMenu.SELECTED_RESTAURANTID = restaurantID;
+		FragmentRestaurantMenu.SETDATETIME=setDateTime;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantMenuFragment);

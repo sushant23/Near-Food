@@ -36,6 +36,7 @@ public class FragmentResturantProfile extends Fragment implements
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
 	// WebView tripadvisor;
 	public static ResturantDTO SELECTED_RESTURANT_DTO;
+	String datetime=null;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -108,8 +109,15 @@ public class FragmentResturantProfile extends Fragment implements
 		// TODO Auto-generated method stub
 		switch (click.getId()) {
 		case R.id.buttonChooseMenu:
-			fragmentResturantProfileCommunicator
-					.setButtonClicked(SELECTED_RESTURANT_DTO.getResturantID());
+			if (datetime==null)
+				Toast.makeText(getActivity(), "Please Set The Data and Time",
+						Toast.LENGTH_LONG).show();
+			else {
+				
+				fragmentResturantProfileCommunicator
+						.setButtonClicked(SELECTED_RESTURANT_DTO
+								.getResturantID(),datetime);
+			}
 			// Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
 		case R.id.buttonSendMessage:
@@ -151,7 +159,7 @@ public class FragmentResturantProfile extends Fragment implements
 								String weekDayShortName, int hour24,
 								int hour12, int min, int sec, String AM_PM) {
 							// TODO Auto-generated method stub
-							String datetime = (calendarSelected
+							datetime = (calendarSelected
 									.get(Calendar.DAY_OF_MONTH)
 									+ "/"
 									+ (monthNumber + 1)
@@ -197,7 +205,7 @@ public class FragmentResturantProfile extends Fragment implements
 	}
 
 	public static interface FragmentResturantProfileCommunicator {
-		public void setButtonClicked(int restaurantID);
+		public void setButtonClicked(int restaurantID,String dateTime);
 	}
 
 }

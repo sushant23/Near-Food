@@ -1,10 +1,17 @@
 package com.tr.nearfood.activity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.google.gson.Gson;
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
+import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.utills.ActivityLayoutAdjuster;
 
 import android.R.integer;
@@ -19,18 +26,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.app.Activity;
 import android.content.Context;
 
 public class Register extends Activity {
 
-	EditText firstName, lastName, userName, password, officialEmail,
-			personalEmail, contactNumber;
+	EditText firstName, lastName, personalEmail, contactNumber;
 	Button submit;
 	LinearLayout emailAddress;
 	String id = "", name = "";
 	Boolean fromgoogel = false;
 	List<Integer> confirmedMenuList;
+	AutoCompleteTextView autoCompView;
+	int[] confirmedMenuArray;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +50,12 @@ public class Register extends Activity {
 		if (getConfirmedMenuList != null) {
 			confirmedMenuList = getConfirmedMenuList
 					.getIntegerArrayList("confirmedMenuItems");
-			Log.d("Register Activity", Integer.toString(confirmedMenuList.size()));
+			Log.d("Register Activity",
+					Integer.toString(confirmedMenuList.size()));
+
+			confirmedMenuArray = new int[confirmedMenuList.size()];
+			for (int i = 0; i < confirmedMenuList.size(); i++)
+				confirmedMenuArray[i] = confirmedMenuList.get(i);
 		}
 		ActivityLayoutAdjuster.assistActivity(this);
 		Bundle googlePlusData = getIntent().getExtras();
@@ -63,7 +77,7 @@ public class Register extends Activity {
 			lastName.setText(second + " " + third);
 
 		}
-		AutoCompleteTextView autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
+
 		autoCompView.setAdapter(new PlaceAutoCompleteAdapter(this,
 				R.layout.autocomplete_list));
 
@@ -72,7 +86,7 @@ public class Register extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				
+
 				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
 						personalEmail.getText().toString()).matches()
 						&& !TextUtils.isEmpty(personalEmail.getText()
@@ -80,9 +94,31 @@ public class Register extends Activity {
 					personalEmail.setError("Invalid Email");
 					personalEmail.requestFocus();
 					return;
+				} else {
+
+					Gson gson = new Gson();
+					OrderDetails objectOrderDetails = new OrderDetails();
+					String json = gson.toJson(objectOrderDetails);
+
+					Log.d("orderDetails json data", json);
+					Toast.makeText(getApplicationContext(), json,
+							Toast.LENGTH_LONG).show();
+
 				}
 			}
 		});
+
+	}
+
+	class OrderDetails {
+		private String name = firstName.getText().toString() + " "
+				+ lastName.getText().toString();
+		private String email = personalEmail.getText().toString();
+		private String phone = contactNumber.getText().toString();
+		private String address = autoCompView.getText().toString();
+		private String datetime = FragmentRestaurantMenu.SETDATETIME;
+		private int restaurant_id=FragmentRestaurantMenu.SELECTED_RESTAURANTID;
+		private int[] items = confirmedMenuArray;
 
 	}
 
@@ -95,6 +131,7 @@ public class Register extends Activity {
 		contactNumber = (EditText) findViewById(R.id.editTextUserContact);
 
 		submit = (Button) findViewById(R.id.buttonSubmitUserInformation);
+		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
 
 		emailAddress = (LinearLayout) findViewById(R.id.linLayoutUserEmail);
 	}
