@@ -111,7 +111,7 @@ public class FragmentResturantProfile extends Fragment implements
 		case R.id.buttonChooseMenu:
 			if (datetime==null)
 				Toast.makeText(getActivity(), "Please Set The Data and Time",
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 			else {
 				
 				fragmentResturantProfileCommunicator
@@ -168,7 +168,7 @@ public class FragmentResturantProfile extends Fragment implements
 									+ ","
 									+ hour12 + ":" + min + " " + AM_PM);
 							Toast.makeText(getActivity(), datetime,
-									Toast.LENGTH_LONG).show();
+									Toast.LENGTH_SHORT).show();
 						}
 
 						@Override

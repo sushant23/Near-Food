@@ -94,7 +94,7 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Toast.makeText(_context, "REMOVED" + childText,
-						Toast.LENGTH_LONG).show();
+						Toast.LENGTH_SHORT).show();
 				int itmID = db.getItemId(childText);
 				boolean one_item_removed = false;
 				if (itmID != 0) {

@@ -99,6 +99,13 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	}
 
 	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		signOutFromGplus();
+	}
+
+	@Override
 	protected void onStop() {
 		// TODO Auto-generated method stub
 		super.onStop();
