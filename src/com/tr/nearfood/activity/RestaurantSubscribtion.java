@@ -26,12 +26,15 @@ import com.tr.nearfood.utills.BadgeView;
 import com.tr.nearfood.utills.NearFoodTextView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -59,13 +62,15 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	Button signIn;
 	AutoCompleteTextView searchplace;
 	LinearLayout searchContainer;
+	Fragment fragmentGoogleMap;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		InitilizeUIElements();
-
+		
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
@@ -119,7 +124,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
 		searchplace = (AutoCompleteTextView) findViewById(R.id.editTextSearchResturantLists);
-		searchContainer=(LinearLayout) findViewById(R.id.linsearchcontainer);
+		searchContainer = (LinearLayout) findViewById(R.id.linsearchcontainer);
 	}
 
 	private void addResturantSubscribtionFragment() {
@@ -193,7 +198,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	@Override
 	public void setGetCoordinateFromMap() {
 		// TODO Auto-generated method stub
-		Fragment fragmentGoogleMap = new FragmentGoogleMap();
+		fragmentGoogleMap = new FragmentGoogleMap();
 		searchContainer.setVisibility(View.GONE);
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
@@ -205,6 +210,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	@Override
 	public void onLocationSetClicked(double longitude, double latitude) {
 		// TODO Auto-generated method stub
+
 		Fragment restaurantSubscribtion = new FragmentRestaturantSubscribtion();
 		FragmentRestaturantSubscribtion.longitude = longitude;
 		FragmentRestaturantSubscribtion.latitude = latitude;

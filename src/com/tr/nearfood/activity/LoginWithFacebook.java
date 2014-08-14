@@ -1,12 +1,24 @@
 package com.tr.nearfood.activity;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -44,7 +56,6 @@ public class LoginWithFacebook extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.user_registration);
-		
 		Bundle getConfirmedMenuList = getIntent().getExtras();
 		if (getConfirmedMenuList != null) {
 			confirmedMenuList = getConfirmedMenuList
@@ -56,12 +67,8 @@ public class LoginWithFacebook extends Activity {
 			for (int i = 0; i < confirmedMenuList.size(); i++)
 				confirmedMenuArray[i] = confirmedMenuList.get(i);
 		}
+		initializeUiElements();
 		
-		submitorderButton=(Button) findViewById(R.id.buttonSubmitUserInformation);
-		firstName = (EditText) findViewById(R.id.editTextFirstName);
-		lastName = (EditText) findViewById(R.id.editTextLastName);
-		userAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
-
 		userAddress.setAdapter(new PlaceAutoCompleteAdapter(this,
 				R.layout.autocomplete_list));
 		sharedPreference = getApplicationContext().getSharedPreferences(
@@ -113,7 +120,7 @@ public class LoginWithFacebook extends Activity {
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
 					String json = gson.toJson(objectOrderDetails);
-
+					//new SendOrderHttpPost().execute(json);
 					Log.d("orderDetails json data", json);
 					Toast.makeText(getApplicationContext(), json,
 							Toast.LENGTH_LONG).show();
@@ -121,6 +128,15 @@ public class LoginWithFacebook extends Activity {
 				}
 			}
 		});
+	}
+	private void initializeUiElements() {
+		// TODO Auto-generated method stub
+		submitorderButton=(Button) findViewById(R.id.buttonSubmitUserInformation);
+		firstName = (EditText) findViewById(R.id.editTextFirstName);
+		lastName = (EditText) findViewById(R.id.editTextLastName);
+		userAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
+		userEmail=(EditText) findViewById(R.id.editTextPersonalEmail);
+		userContactNumber=(EditText) findViewById(R.id.editTextUserContact);
 	}
 	class OrderDetails {
 		private String name = firstName.getText().toString() + " "
@@ -132,6 +148,62 @@ public class LoginWithFacebook extends Activity {
 		private int restaurant_id=FragmentRestaurantMenu.SELECTED_RESTAURANTID;
 		private int[] items = confirmedMenuArray;
 
+	}
+	
+	public class SendOrderHttpPost extends AsyncTask<String, Void, String> {
+		ProgressDialog pd = null;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (pd == null) {
+				pd = new ProgressDialog(getApplicationContext());
+				pd.setCancelable(true);
+				pd.setTitle("Please wait");
+				pd.setMessage("Menu Item list is loading...");
+				pd.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = sendOrderDetails("PostUrl", params[0]);
+			return response;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+			
+			}
+
+		}
+
+	}
+
+	public String sendOrderDetails(String url, String order) {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(url);
+
+		try {
+			httppost.setEntity(new StringEntity("your string"));
+			HttpResponse resp;
+			resp = httpclient.execute(httppost);
+			HttpEntity ent = resp.getEntity();
+			return EntityUtils.toString(ent);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	/**
 	 * Connects the user to facebook

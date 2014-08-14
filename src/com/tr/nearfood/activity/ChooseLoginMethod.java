@@ -28,7 +28,7 @@ import com.tr.nearfood.R;
 
 public class ChooseLoginMethod extends Activity implements OnClickListener,
 		ConnectionCallbacks, OnConnectionFailedListener {
-	Button facebookLogin;
+	LoginButton facebookLogin;
 	Button manualLogin;
 	SignInButton googleplusLogin;
 	private static final int RC_SIGN_IN = 0;
@@ -60,7 +60,8 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 			confirmedMenuList = getConfirmedMenuList
 					.getIntegerArrayList("confirmedMenuItems");
 		}
-		facebookLogin = (Button) findViewById(R.id.buttonFacebookSignin);
+		facebookLogin = (LoginButton) findViewById(R.id.buttonFacebookSignin);
+		facebookLogin.setReadPermissions("email");
 		googleplusLogin = (SignInButton) findViewById(R.id.buttonGooglePlusSignin);
 		manualLogin = (Button) findViewById(R.id.buttonUserManualLOgin);
 

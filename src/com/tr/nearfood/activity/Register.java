@@ -1,20 +1,31 @@
 package com.tr.nearfood.activity;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.ExpandableMenuListAdapter;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.utills.ActivityLayoutAdjuster;
 
 import android.R.integer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -28,6 +39,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 
 public class Register extends Activity {
@@ -99,7 +111,7 @@ public class Register extends Activity {
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
 					String json = gson.toJson(objectOrderDetails);
-
+				//	new SendOrderHttpPost().execute(json);
 					Log.d("orderDetails json data", json);
 					Toast.makeText(getApplicationContext(), json,
 							Toast.LENGTH_LONG).show();
@@ -117,7 +129,7 @@ public class Register extends Activity {
 		private String phone = contactNumber.getText().toString();
 		private String address = autoCompView.getText().toString();
 		private String datetime = FragmentRestaurantMenu.SETDATETIME;
-		private int restaurant_id=FragmentRestaurantMenu.SELECTED_RESTAURANTID;
+		private int restaurant_id = FragmentRestaurantMenu.SELECTED_RESTAURANTID;
 		private int[] items = confirmedMenuArray;
 
 	}
@@ -134,6 +146,62 @@ public class Register extends Activity {
 		autoCompView = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
 
 		emailAddress = (LinearLayout) findViewById(R.id.linLayoutUserEmail);
+	}
+
+	public class SendOrderHttpPost extends AsyncTask<String, Void, String> {
+		ProgressDialog pd = null;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (pd == null) {
+				pd = new ProgressDialog(getApplicationContext());
+				pd.setCancelable(true);
+				pd.setTitle("Please wait");
+				pd.setMessage("Menu Item list is loading...");
+				pd.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = sendOrderDetails("PostUrl", params[0]);
+			return response;
+		}
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+			
+			}
+
+		}
+
+	}
+
+	public String sendOrderDetails(String url, String order) {
+		HttpClient httpclient = new DefaultHttpClient();
+		HttpPost httppost = new HttpPost(url);
+
+		try {
+			httppost.setEntity(new StringEntity("your string"));
+			HttpResponse resp;
+			resp = httpclient.execute(httppost);
+			HttpEntity ent = resp.getEntity();
+			return EntityUtils.toString(ent);
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public final static boolean isValidEmail(CharSequence target) {

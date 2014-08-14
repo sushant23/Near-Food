@@ -23,6 +23,7 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,7 @@ public class FragmentGoogleMap extends Fragment {
 	static String json = "";
 	// contacts JSONArray
 	JSONArray results = null;
+	View view;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -81,22 +83,26 @@ public class FragmentGoogleMap extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		View view = inflater.inflate(R.layout.google_map_integration,
-				container, false);
-		setLocation = (Button) view
-				.findViewById(R.id.buttonAadLocationFromGmap);
-		searchAddress = (AutoCompleteTextView) view
-				.findViewById(R.id.editTextSearchResturantLists);
-		searchAddress.setAdapter(new PlaceAutoCompleteAdapter(getActivity(),
-				R.layout.autocomplete_list));
 
-		submitAddress = (Button) view
-				.findViewById(R.id.ButtonSearchAddressGoogleMap);
+		if (view != null) {
+			ViewGroup parent = (ViewGroup) view.getParent();
+			if (parent != null)
+				parent.removeView(view);
+		}
+		try {
+			view = inflater.inflate(R.layout.google_map_integration, container,
+					false);
+
+		} catch (InflateException e) {
+			/* map is already there, just return view as it is */
+		}
+		initializaUIElements();
 		map = ((SupportMapFragment) getFragmentManager().findFragmentById(
 				R.id.map)).getMap();
-
+		searchAddress.setAdapter(new PlaceAutoCompleteAdapter(getActivity(),
+				R.layout.autocomplete_list));
+		
 		map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-
 			@Override
 			public void onMapClick(LatLng point) {
 				// TODO Auto-generated method stub
@@ -151,6 +157,7 @@ public class FragmentGoogleMap extends Fragment {
 			}
 
 		});
+
 		setLocation.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -161,6 +168,25 @@ public class FragmentGoogleMap extends Fragment {
 			}
 		});
 		return view;
+	}
+
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onViewCreated(view, savedInstanceState);
+		initializaUIElements();
+	}
+
+	void initializaUIElements() {
+
+		searchAddress = (AutoCompleteTextView) view
+				.findViewById(R.id.editTextSearchResturantLists);
+		submitAddress = (Button) view
+				.findViewById(R.id.ButtonSearchAddressGoogleMap);
+		submitAddress = (Button) view
+				.findViewById(R.id.ButtonSearchAddressGoogleMap);
+		setLocation = (Button) view
+				.findViewById(R.id.buttonAadLocationFromGmap);
 	}
 
 	private LatLng getLatLngOfEnteredAddress(String address) {

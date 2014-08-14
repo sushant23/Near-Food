@@ -31,14 +31,15 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="30"
-                android:text="USERNAME"
+                android:text="EMAIL"
                 android:textColor="@color/button_color" />
 
             <EditText
                 android:id="@+id/editTextRestaurantManagerUserName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="60" />
+                android:layout_weight="60" 
+                android:inputType="textEmailAddress"/>
         </LinearLayout>
 
         <LinearLayout
@@ -62,7 +63,8 @@
                 android:id="@+id/editTextRestaurantManagerPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="60" />
+                android:layout_weight="60" 
+                android:inputType="textPassword"/>
         </LinearLayout>
 
         <Button
