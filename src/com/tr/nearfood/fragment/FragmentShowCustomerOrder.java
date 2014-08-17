@@ -123,17 +123,23 @@ public class FragmentShowCustomerOrder extends Fragment implements
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.buttonConfirmOrder:
-			Toast.makeText(getActivity(),
-					"Your Order is Confirmed. Thankyou!!! ", Toast.LENGTH_SHORT)
-					.show();
-			Log.d("size of app constant at show order fragment",
-					Integer.toString(SELECTED_MENU_ITEM_LIST.size()));
-			MigratingDatas migratingDatasDto = new MigratingDatas();
-			migratingDatasDto.setConfirmedOrderList(SELECTED_MENU_ITEM_LIST);
-			migratingDatasDto.setRestaurant_id(restaurant_id);
-			fragmentShowCustomerOrderCommunicator
-					.setConfirmButtonClicked(migratingDatasDto);
+			try {
 
+				Log.d("size of app constant at show order fragment",
+						Integer.toString(SELECTED_MENU_ITEM_LIST.size()));
+				MigratingDatas migratingDatasDto = new MigratingDatas();
+				migratingDatasDto
+						.setConfirmedOrderList(SELECTED_MENU_ITEM_LIST);
+				migratingDatasDto.setRestaurant_id(restaurant_id);
+				Toast.makeText(getActivity(),
+						"Your Order is Confirmed. Thankyou!!! ",
+						Toast.LENGTH_SHORT).show();
+				fragmentShowCustomerOrderCommunicator
+						.setConfirmButtonClicked(migratingDatasDto);
+			} catch (NullPointerException e) {
+				Toast.makeText(getActivity(), "No Item is Selected",
+						Toast.LENGTH_SHORT).show();
+			}
 			break;
 
 		default:

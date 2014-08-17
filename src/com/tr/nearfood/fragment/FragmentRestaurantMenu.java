@@ -156,7 +156,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		switch (click.getId()) {
 		case R.id.buttonSendYourOrder:
 
-			
+			try {
 				Intent startLogin = new Intent(getActivity(),
 						ChooseLoginMethod.class);
 				startLogin.putIntegerArrayListExtra("confirmedMenuItems",
@@ -165,7 +165,10 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 				startActivity(startLogin);
 				Log.d("Size of confirmed orders is ", Integer
 						.toString(migratingdata.getConfirmedOrderList().size()));
-			
+			} catch (NullPointerException e) {
+				Toast.makeText(getActivity(), "Order Not Confirmed",
+						Toast.LENGTH_SHORT).show();
+			}
 			break;
 		case R.id.buttonShowYourOrder:
 

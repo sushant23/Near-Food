@@ -12,6 +12,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -93,8 +95,10 @@ public class LoginWithFacebook extends Activity {
 			Log.d("autologin", "autologin bhayo la badhai xa");
 			String fname = sharedPreference.getString("fname", "no value");
 			String lname = sharedPreference.getString("lname", "no value");
+			String email=sharedPreference.getString("email", null);
 			firstName.setText(fname);
 			lastName.setText(lname);
+			userEmail.setText(email);
 		}
 		// logout from facebook
 		/*
@@ -252,8 +256,16 @@ public class LoginWithFacebook extends Activity {
 		firstName.setText(fname);
 		lastName.setText(lname);
 		String id = user.getId();
-
-		Log.d("user info ", user.toString());
+		JSONObject userData=user.getInnerJSONObject();
+		try {
+			String email=userData.getString("email");
+			userEmail.setText(email);
+			Log.d("user info ", email);
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		Toast.makeText(getApplicationContext(),
 				id + "\n" + fname + "\n" + lname, Toast.LENGTH_LONG).show();
 
@@ -284,6 +296,13 @@ public class LoginWithFacebook extends Activity {
 								buildUserInfoDisplay(user);
 								editor.putString("fname", user.getFirstName());
 								editor.putString("lname", user.getLastName());
+								JSONObject userData=user.getInnerJSONObject();
+								try {
+									editor.putString("email", userData.getString("email"));
+								} catch (JSONException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
 								editor.commit();
 							}
 						}

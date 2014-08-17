@@ -19,15 +19,13 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.location.Location;
-import android.location.LocationManager;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.InflateException;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -46,7 +44,7 @@ import com.tr.nearfood.utills.AppConstants;
 import com.tr.nearfood.utills.GPSTracker;
 
 public class FragmentRestaturantSubscribtion extends Fragment implements
-		OnClickListener, OnCheckedChangeListener, LocationListener {
+		OnClickListener, OnCheckedChangeListener {
 
 	View view;
 	FragmentResturantSubscribtionCommunicator fragmentRestaurantSubscribtionCommunicator;
@@ -60,7 +58,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			resEmail = "", resPass = "";
 	SharedPreferences regPrefs;
 	Editor editor;
-	private LocationManager locationManager;
+
 	GPSTracker gps;
 
 	@Override
@@ -150,9 +148,10 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 
 		prefdata();
 		if (longitude != 0 && latitude != 0)
-			Toast.makeText(getActivity(),
-					"Longitude=" + longitude + "Latitude=" + latitude,
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(
+					getActivity(),
+					"Your Location is - \nLat: " + latitude + "\nLong: "
+							+ longitude, Toast.LENGTH_SHORT).show();
 		restaurantLocationRadioGroup.setOnCheckedChangeListener(this);
 
 		adminLogin.setOnClickListener(this);
@@ -245,13 +244,14 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			break;
 		case R.id.radioButtonCurrentLOcation:
 			// Create class object
+			getRequiredFields();
 			gps = new GPSTracker(getActivity());
 
 			// Check if GPS enabled
 			if (gps.canGetLocation()) {
 
 				latitude = gps.getLatitude();
-				 longitude = gps.getLongitude();
+				longitude = gps.getLongitude();
 
 				// \n is for new line
 				Toast.makeText(
@@ -347,9 +347,4 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		return sb.toString();
 	}
 
-	@Override
-	public void onLocationChanged(Location arg0) {
-		// TODO Auto-generated method stub
-
-	}
 }

@@ -71,8 +71,13 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 		deleteMenuItem.setVisibility(View.VISIBLE);
 		TextView txtListChild = (TextView) convertView
 				.findViewById(R.id.textViewMenuItemName);
+		TextView txtListChildPrice = (TextView) convertView
+				.findViewById(R.id.textViewMenuItemPrices);
+		int itmID = db.getItemId(childText);
+		int price = db.getItemPrice(itmID);
 
 		txtListChild.setText(childText);
+		txtListChildPrice.setText(Integer.toString(price));
 
 		addmenuItem.setOnClickListener(new View.OnClickListener() {
 

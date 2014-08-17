@@ -47,7 +47,7 @@ public class Register extends Activity {
 	EditText firstName, lastName, personalEmail, contactNumber;
 	Button submit;
 	LinearLayout emailAddress;
-	String id = "", name = "";
+	String id = "", name = "",email="";
 	Boolean fromgoogel = false;
 	List<Integer> confirmedMenuList;
 	AutoCompleteTextView autoCompView;
@@ -75,6 +75,8 @@ public class Register extends Activity {
 			fromgoogel = googlePlusData.getBoolean("googlePlus");
 			id = googlePlusData.getString("id");
 			name = googlePlusData.getString("name");
+			email=googlePlusData.getString("email");
+			
 		}
 		intitializrUIElements();
 
@@ -87,7 +89,7 @@ public class Register extends Activity {
 			String third = tokens.nextToken();
 			firstName.setText(first);
 			lastName.setText(second + " " + third);
-
+			personalEmail.setText(email);
 		}
 
 		autoCompView.setAdapter(new PlaceAutoCompleteAdapter(this,

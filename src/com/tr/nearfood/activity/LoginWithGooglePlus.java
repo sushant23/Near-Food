@@ -2,20 +2,7 @@ package com.tr.nearfood.activity;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.content.IntentSender.SendIntentException;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.Switch;
-import android.widget.Toast;
-
-import com.facebook.widget.LoginButton;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.SignInButton;
@@ -26,25 +13,27 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.tr.nearfood.R;
 
-public class ChooseLoginMethod extends Activity implements OnClickListener,
+import android.app.Activity;
+import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+public class LoginWithGooglePlus extends Activity implements
 		ConnectionCallbacks, OnConnectionFailedListener {
-	Button facebookLogin;
-	Button manualLogin;
-	SignInButton googleplusLogin;
 	private static final int RC_SIGN_IN = 0;
 	// Logcat tag
 	private static final String TAG = "GooglePlus Login";
 	String id, name,email;
 	Boolean fromGooglePlus = true;
 	List<Integer> confirmedMenuList;
-	
 	// Google client to interact with Google API
 	private GoogleApiClient mGoogleApiClient;
 
-	/**
-	 * A flag indicating that a PendingIntent is in progress and prevents us
-	 * from starting further intents.
-	 */
 	private boolean mIntentInProgress;
 
 	private boolean mSignInClicked;
@@ -61,19 +50,12 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 			confirmedMenuList = getConfirmedMenuList
 					.getIntegerArrayList("confirmedMenuItems");
 		}
-		facebookLogin = (Button) findViewById(R.id.buttonFacebookSignin);
-
-		googleplusLogin = (SignInButton) findViewById(R.id.buttonGooglePlusSignin);
-		manualLogin = (Button) findViewById(R.id.buttonUserManualLOgin);
-
-		facebookLogin.setOnClickListener(this);
-		googleplusLogin.setOnClickListener(this);
-		manualLogin.setOnClickListener(this);
 		mGoogleApiClient = new GoogleApiClient.Builder(this)
 				.addConnectionCallbacks(this)
 				.addOnConnectionFailedListener(this).addApi(Plus.API)
 				.addScope(Plus.SCOPE_PLUS_LOGIN).build();
-
+		mGoogleApiClient.connect();
+		signInWithGplus();
 	}
 
 	/**
@@ -114,6 +96,13 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		if (mGoogleApiClient.isConnected()) {
 			mGoogleApiClient.disconnect();
 		}
+	}
+
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		mGoogleApiClient.connect();
 	}
 
 	@Override
@@ -170,7 +159,7 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		startReg.putExtra("googlePlus", fromGooglePlus);
 		startReg.putExtra("id", id);
 		startReg.putExtra("name", name);
-		startReg.putExtra("email", email);
+	
 		startReg.putIntegerArrayListExtra("confirmedMenuItems",
 				(ArrayList<Integer>) confirmedMenuList);
 		startActivity(startReg);
@@ -189,22 +178,8 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 				id = currentPerson.getId();
 				name = currentPerson.getDisplayName();
 				email=Plus.AccountApi.getAccountName(mGoogleApiClient);
-				
 				Log.d("UserProfileGoogleplus", "enetereted" + name);
 				
-
-				/*
-				 * String personPhotoUrl = currentPerson.getImage().getUrl();
-				 * String personGooglePlusProfile = currentPerson.getUrl();
-				 * String email =
-				 * Plus.AccountApi.getAccountName(mGoogleApiClient); String id =
-				 * currentPerson.getId(); List<PlacesLived> location =
-				 * currentPerson.getPlacesLived(); Log.e(TAG, "ID:" + id +
-				 * "Name: " + personName + ", plusProfile: " +
-				 * personGooglePlusProfile + ", email: " + email +
-				 * ",current Location:" + location.toString() + ", Image: " +
-				 * personPhotoUrl);
-				 */
 
 			} else {
 				Toast.makeText(getApplicationContext(),
@@ -226,6 +201,7 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 			} catch (SendIntentException e) {
 				mIntentInProgress = false;
 				mGoogleApiClient.connect();
+			} catch (NullPointerException e) {
 			}
 		}
 		Log.d("UserProfileGoogleplus", "resolveSignInerroe");
@@ -250,29 +226,4 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 
 	}
 
-	@Override
-	public void onClick(View arg0) {
-		// TODO Auto-generated method stub
-		switch (arg0.getId()) {
-		case R.id.buttonFacebookSignin:
-			Intent facebookLoginIntent = new Intent(this, LoginWithFacebook.class);
-			facebookLoginIntent.putIntegerArrayListExtra("confirmedMenuItems",
-					(ArrayList<Integer>) confirmedMenuList);
-			startActivity(facebookLoginIntent);
-			break;
-		case R.id.buttonGooglePlusSignin:
-			// Signin button clicked
-			signInWithGplus();
-			break;
-		case R.id.buttonUserManualLOgin:
-			Intent startRegisterActivity = new Intent(this, Register.class);
-			startRegisterActivity.putIntegerArrayListExtra(
-					"confirmedMenuItems",
-					(ArrayList<Integer>) confirmedMenuList);
-			startActivity(startRegisterActivity);
-			break;
-		default:
-			break;
-		}
-	}
 }
