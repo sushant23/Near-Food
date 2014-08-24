@@ -133,16 +133,9 @@ public class RestaurantList extends ActionBarActivity implements
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					calender.setColorFilter(Color.argb(150, 155, 155, 155));
 
-					/*
-					 * Calendar cal = new GregorianCalendar(); cal.setTime(new
-					 * Date()); cal.add(Calendar.MONTH, 2); long time =
-					 * cal.getTime().getTime(); Uri.Builder builder =
-					 * CalendarContract.CONTENT_URI.buildUpon();
-					 * builder.appendPath("time");
-					 * builder.appendPath(Long.toString(time)); Intent intent =
-					 * new Intent(Intent.ACTION_VIEW, builder.build());
-					 * startActivity(intent);
-					 */
+					Intent openCalenderActivity = new Intent(
+							getApplicationContext(), CustumCalenderEvents.class);
+					startActivity(openCalenderActivity);
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
 					calender.setColorFilter(Color.argb(0, 155, 155, 155)); // or
@@ -201,11 +194,11 @@ public class RestaurantList extends ActionBarActivity implements
 	}
 
 	@Override
-	public void setButtonClicked(int restaurantID,String setDateTime) {
+	public void setButtonClicked(int restaurantID, String setDateTime) {
 		// TODO Auto-generated method stub
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
 		FragmentRestaurantMenu.SELECTED_RESTAURANTID = restaurantID;
-		FragmentRestaurantMenu.SETDATETIME=setDateTime;
+		FragmentRestaurantMenu.SETDATETIME = setDateTime;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantMenuFragment);
@@ -226,7 +219,7 @@ public class RestaurantList extends ActionBarActivity implements
 		// TODO Auto-generated method stub
 
 		Fragment fragmentShowCustomerOrder = new FragmentShowCustomerOrder();
-		FragmentShowCustomerOrder.SELECTED_MENU_ITEM_LIST=selected_Menu_Item_List;
+		FragmentShowCustomerOrder.SELECTED_MENU_ITEM_LIST = selected_Menu_Item_List;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				fragmentShowCustomerOrder);
@@ -238,7 +231,7 @@ public class RestaurantList extends ActionBarActivity implements
 	public void setConfirmButtonClicked(MigratingDatas migratingDtos) {
 		// TODO Auto-generated method stub
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
-		FragmentRestaurantMenu.migratingdata =migratingDtos;
+		FragmentRestaurantMenu.migratingdata = migratingDtos;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantMenuFragment);

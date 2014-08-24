@@ -41,12 +41,13 @@ import com.tr.nearfood.R;
 import com.tr.nearfood.activity.Register.OrderDetails;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
+import com.tr.nearfood.utills.AppConstants;
 
 public class LoginWithFacebook extends Activity {
 
 	private Session.StatusCallback sessionStatusCallback;
 	private Session currentSession;
-	EditText firstName, lastName, userContactNumber,userEmail;
+	EditText firstName, lastName, userContactNumber, userEmail;
 	AutoCompleteTextView userAddress;
 	SharedPreferences sharedPreference;
 	Editor editor;
@@ -54,6 +55,8 @@ public class LoginWithFacebook extends Activity {
 	List<Integer> confirmedMenuList;
 	int[] confirmedMenuArray;
 	Button submitorderButton;
+	String json;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -70,7 +73,7 @@ public class LoginWithFacebook extends Activity {
 				confirmedMenuArray[i] = confirmedMenuList.get(i);
 		}
 		initializeUiElements();
-		
+
 		userAddress.setAdapter(new PlaceAutoCompleteAdapter(this,
 				R.layout.autocomplete_list));
 		sharedPreference = getApplicationContext().getSharedPreferences(
@@ -95,7 +98,7 @@ public class LoginWithFacebook extends Activity {
 			Log.d("autologin", "autologin bhayo la badhai xa");
 			String fname = sharedPreference.getString("fname", "no value");
 			String lname = sharedPreference.getString("lname", "no value");
-			String email=sharedPreference.getString("email", null);
+			String email = sharedPreference.getString("email", null);
 			firstName.setText(fname);
 			lastName.setText(lname);
 			userEmail.setText(email);
@@ -108,14 +111,13 @@ public class LoginWithFacebook extends Activity {
 		 */
 
 		submitorderButton.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
 						userEmail.getText().toString()).matches()
-						&& !TextUtils.isEmpty(userEmail.getText()
-								.toString())) {
+						&& !TextUtils.isEmpty(userEmail.getText().toString())) {
 					userEmail.setError("Invalid Email");
 					userEmail.requestFocus();
 					return;
@@ -123,8 +125,8 @@ public class LoginWithFacebook extends Activity {
 
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
-					String json = gson.toJson(objectOrderDetails);
-					//new SendOrderHttpPost().execute(json);
+					json = gson.toJson(objectOrderDetails);
+					new SendOrderHttpPost().execute(json);
 					Log.d("orderDetails json data", json);
 					Toast.makeText(getApplicationContext(), json,
 							Toast.LENGTH_LONG).show();
@@ -133,15 +135,17 @@ public class LoginWithFacebook extends Activity {
 			}
 		});
 	}
+
 	private void initializeUiElements() {
 		// TODO Auto-generated method stub
-		submitorderButton=(Button) findViewById(R.id.buttonSubmitUserInformation);
+		submitorderButton = (Button) findViewById(R.id.buttonSubmitUserInformation);
 		firstName = (EditText) findViewById(R.id.editTextFirstName);
 		lastName = (EditText) findViewById(R.id.editTextLastName);
 		userAddress = (AutoCompleteTextView) findViewById(R.id.autoCompleteUserAddress);
-		userEmail=(EditText) findViewById(R.id.editTextPersonalEmail);
-		userContactNumber=(EditText) findViewById(R.id.editTextUserContact);
+		userEmail = (EditText) findViewById(R.id.editTextPersonalEmail);
+		userContactNumber = (EditText) findViewById(R.id.editTextUserContact);
 	}
+
 	class OrderDetails {
 		private String name = firstName.getText().toString() + " "
 				+ lastName.getText().toString();
@@ -149,11 +153,11 @@ public class LoginWithFacebook extends Activity {
 		private String phone = userContactNumber.getText().toString();
 		private String address = userAddress.getText().toString();
 		private String datetime = FragmentRestaurantMenu.SETDATETIME;
-		private int restaurant_id=FragmentRestaurantMenu.SELECTED_RESTAURANTID;
+		private int restaurant_id = FragmentRestaurantMenu.SELECTED_RESTAURANTID;
 		private int[] items = confirmedMenuArray;
 
 	}
-	
+
 	public class SendOrderHttpPost extends AsyncTask<String, Void, String> {
 		ProgressDialog pd = null;
 
@@ -165,7 +169,7 @@ public class LoginWithFacebook extends Activity {
 				pd = new ProgressDialog(getApplicationContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Menu Item list is loading...");
+				pd.setMessage("Sending Your Order...");
 				pd.show();
 			}
 		}
@@ -173,9 +177,11 @@ public class LoginWithFacebook extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			String response = sendOrderDetails("PostUrl", params[0]);
+			String response = sendOrderDetails(AppConstants.CUSTOMER_ORDER,
+					params[0]);
 			return response;
 		}
+
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
@@ -183,7 +189,22 @@ public class LoginWithFacebook extends Activity {
 			if (pd.isShowing()) {
 				pd.dismiss();
 				pd = null;
-			
+				try {
+					JSONObject login_status = new JSONObject(result);
+					String sucess = login_status.getString("status");
+					String message = login_status.getString("message");
+					if (sucess.equals("success")) {
+						Toast.makeText(getApplicationContext(), message,
+								Toast.LENGTH_SHORT).show();
+					
+					} else if (sucess.equals("error")) {
+						Toast.makeText(getApplicationContext(), message,
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		}
@@ -195,7 +216,7 @@ public class LoginWithFacebook extends Activity {
 		HttpPost httppost = new HttpPost(url);
 
 		try {
-			httppost.setEntity(new StringEntity("your string"));
+			httppost.setEntity(new StringEntity(json));
 			HttpResponse resp;
 			resp = httpclient.execute(httppost);
 			HttpEntity ent = resp.getEntity();
@@ -209,6 +230,7 @@ public class LoginWithFacebook extends Activity {
 		}
 		return null;
 	}
+
 	/**
 	 * Connects the user to facebook
 	 */
@@ -256,16 +278,16 @@ public class LoginWithFacebook extends Activity {
 		firstName.setText(fname);
 		lastName.setText(lname);
 		String id = user.getId();
-		JSONObject userData=user.getInnerJSONObject();
+		JSONObject userData = user.getInnerJSONObject();
 		try {
-			String email=userData.getString("email");
+			String email = userData.getString("email");
 			userEmail.setText(email);
 			Log.d("user info ", email);
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		Toast.makeText(getApplicationContext(),
 				id + "\n" + fname + "\n" + lname, Toast.LENGTH_LONG).show();
 
@@ -296,9 +318,10 @@ public class LoginWithFacebook extends Activity {
 								buildUserInfoDisplay(user);
 								editor.putString("fname", user.getFirstName());
 								editor.putString("lname", user.getLastName());
-								JSONObject userData=user.getInnerJSONObject();
+								JSONObject userData = user.getInnerJSONObject();
 								try {
-									editor.putString("email", userData.getString("email"));
+									editor.putString("email",
+											userData.getString("email"));
 								} catch (JSONException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();

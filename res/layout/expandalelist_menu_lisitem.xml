@@ -25,7 +25,7 @@
         android:textColor="@color/white"
         android:visibility="gone" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_toRightOf="@+id/buttonDeleteMenuItem"
@@ -35,7 +35,7 @@
             android:id="@+id/textViewMenuItemName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="3dp"
+            android:layout_margin="10dp"
             android:text="ITEM NAME"
             android:textColor="#000000" />
 
@@ -43,41 +43,9 @@
             android:id="@+id/textViewMenuItemPrices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_gravity=""
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
             android:text="$20" />
-
-        <LinearLayout
-            android:id="@+id/linlayouteditparameters"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="right"
-            android:orientation="horizontal"
-            android:visibility="gone" >
-
-            <ImageButton
-                android:id="@+id/imageButtonMessageIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:src="@drawable/icon_msg" />
-
-            <ImageButton
-                android:id="@+id/imageButtonCompleteOrder"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/icon_tick" />
-
-            <ImageButton
-                android:id="@+id/imageButtonDeleteIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/icon_cross" />
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -24,8 +24,10 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.InflateException;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -68,6 +70,30 @@ public class FragmentGoogleMap extends Fragment {
 	View view;
 
 	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		setRetainInstance(true);
+		super.onCreate(savedInstanceState);
+	}
+
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		try {
+			SupportMapFragment fragment = (SupportMapFragment) getActivity()
+					.getSupportFragmentManager().findFragmentById(R.id.map);
+			if (fragment != null)
+				getFragmentManager().beginTransaction().remove(fragment)
+						.commit();
+
+		} catch (IllegalStateException e) {
+			// handle this situation because you are necessary will get
+			// an exception here :-(
+		}
+	}
+
+	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		try {
@@ -101,7 +127,7 @@ public class FragmentGoogleMap extends Fragment {
 				R.id.map)).getMap();
 		searchAddress.setAdapter(new PlaceAutoCompleteAdapter(getActivity(),
 				R.layout.autocomplete_list));
-		
+
 		map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 			@Override
 			public void onMapClick(LatLng point) {
@@ -164,7 +190,27 @@ public class FragmentGoogleMap extends Fragment {
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				fragmentGoogleMapListener.onLocationSetClicked(longitude,
-						latitude);
+						latitude,true);
+			}
+		});
+		
+		view.setFocusableInTouchMode(true);
+		view.requestFocus();
+
+		view.setOnKeyListener(new OnKeyListener() {
+			
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    	fragmentGoogleMapListener.onLocationSetClicked(0,
+        						0,false);
+
+                    return true;
+                    }
+                }
+				return false;
 			}
 		});
 		return view;
@@ -276,7 +322,7 @@ public class FragmentGoogleMap extends Fragment {
 	}
 
 	public static interface FragmentGoogleMapListener {
-		public void onLocationSetClicked(double longitude, double latitude);
+		public void onLocationSetClicked(double longitude, double latitude,boolean status);
 
 	}
 }

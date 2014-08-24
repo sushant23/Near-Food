@@ -14,13 +14,19 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +46,7 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 	Button signin;
 	EditText adminEmail, adminPass;
 	String email, pass;
-
+	String auth = null;
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -75,7 +81,7 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 	}
 
 	public static interface FragmentResturantAdminLoginCommunicator {
-		public void setButtonSignin();
+		public void setButtonSignin(String auth);
 	}
 
 	@Override
@@ -83,10 +89,13 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.buttonRestaurantManagerLogin:
+			// email = adminEmail.getText().toString();
+			// pass = adminPass.getText().toString();
+			// new LoginHttpPostConnection().execute();
+			// fragmentResturantAdminLoginCommunicator.setButtonSignin();
 			email = adminEmail.getText().toString();
 			pass = adminPass.getText().toString();
-			//HttpPostConnection();
-			//fragmentResturantAdminLoginCommunicator.setButtonSignin();
+			new AdminLoginHttpPost().execute();
 			break;
 
 		default:
@@ -94,22 +103,29 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 		}
 	}
 
-	public void HttpPostConnection() {
+	public String LoginHttpPostConnection() {
 
-		HttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost(AppConstants.RESTAURANTS_LOGIN);
-		List<NameValuePair> registrationData = new ArrayList<NameValuePair>();
-		registrationData.add(new BasicNameValuePair("email", email));
-		registrationData.add(new BasicNameValuePair("password", pass));
+		
+		try {
+			auth = android.util.Base64.encodeToString(
+					(email + ":" + pass).getBytes("UTF-8"),
+					android.util.Base64.NO_WRAP);
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		Log.d("hashkey", auth);
 
 		try {
-			post.setEntity(new UrlEncodedFormEntity(registrationData));
-			HttpResponse response = client.execute(post);
+			HttpClient client = new DefaultHttpClient();
+			HttpGet get = new HttpGet(AppConstants.RESTAURANTS_LOGIN);
+			get.addHeader("Authorization", "Basic " + auth);
+			HttpResponse response = client.execute(get);
 			HttpEntity entity = response.getEntity();
 			InputStream is = entity.getContent();
 			String result = convertStreamToString(is);
-			Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
-			Log.d("HttpPOst Rest", result);
+			Log.d("HttpGET Rest", result);
+			return result;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -120,6 +136,7 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 
 	private static String convertStreamToString(InputStream is) {
@@ -142,5 +159,60 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 			}
 		}
 		return sb.toString();
+	}
+
+	public class AdminLoginHttpPost extends AsyncTask<String, Void, String> {
+		ProgressDialog pd = null;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (pd == null) {
+				pd = new ProgressDialog(getActivity());
+				pd.setCancelable(true);
+				pd.setTitle("Please wait");
+				pd.setMessage("Logging in ...");
+				pd.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = LoginHttpPostConnection();
+			return response;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+
+				try {
+					JSONObject login_status = new JSONObject(result);
+					String sucess = login_status.getString("status");
+					String message = login_status.getString("message");
+					if (sucess.equals("success")) {
+						Toast.makeText(getActivity(), message,
+								Toast.LENGTH_SHORT).show();
+						fragmentResturantAdminLoginCommunicator
+								.setButtonSignin(auth);
+					} else if (sucess.equals("error")) {
+						Toast.makeText(getActivity(), message,
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+
 	}
 }

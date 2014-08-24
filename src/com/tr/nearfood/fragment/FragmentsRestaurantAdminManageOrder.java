@@ -1,32 +1,51 @@
 package com.tr.nearfood.fragment;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
+import com.tr.nearfood.dbhelper.DatabaseHelper;
+import com.tr.nearfood.model.CustomerInfoDTO;
+import com.tr.nearfood.model.OrderedItemDTO;
+import com.tr.nearfood.utills.AppConstants;
 
 import android.support.v4.app.Fragment;
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.Toast;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
 
 public class FragmentsRestaurantAdminManageOrder extends Fragment {
+	public static String AUTH;
+	DatabaseHelper db;
 	View view;
 	ExpandableListAdapter listAdapter;
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-	
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,112 +53,168 @@ public class FragmentsRestaurantAdminManageOrder extends Fragment {
 		// TODO Auto-generated method stub
 		view = inflater.inflate(R.layout.fragment_restraurant_menu_list,
 				container, false);
+		db = new DatabaseHelper(getActivity());
 		initializeUIElements();
 		// preparing list data
-		prepareListData();
-
-		listAdapter = new ExpandableListAdapter(getActivity(), listDataHeader,
-				listDataChild);
-
-		// setting list adapter
-		expListView.setAdapter(listAdapter);
-
-		// Listview Group click listener
-		expListView.setOnGroupClickListener(new OnGroupClickListener() {
-
-			@Override
-			public boolean onGroupClick(ExpandableListView parent, View v,
-					int groupPosition, long id) {
-				// Toast.makeText(getApplicationContext(),
-				// "Group Clicked " + listDataHeader.get(groupPosition),
-				// Toast.LENGTH_SHORT).show();
-				return false;
-			}
-		});
-
-		// Listview Group expanded listener
-		expListView.setOnGroupExpandListener(new OnGroupExpandListener() {
-
-			@Override
-			public void onGroupExpand(int groupPosition) {
-				// Toast.makeText(getActivity(),
-				// listDataHeader.get(groupPosition) + " Expanded",
-				// Toast.LENGTH_SHORT).show();
-			}
-		});
-
-		// Listview Group collasped listener
-		expListView.setOnGroupCollapseListener(new OnGroupCollapseListener() {
-
-			@Override
-			public void onGroupCollapse(int groupPosition) {
-				// Toast.makeText(getActivity(),
-				// listDataHeader.get(groupPosition) + " Collapsed",
-				// Toast.LENGTH_SHORT).show();
-
-			}
-		});
-
-		// Listview on child click listener
-		expListView.setOnChildClickListener(new OnChildClickListener() {
-
-			@Override
-			public boolean onChildClick(ExpandableListView parent, View v,
-					int groupPosition, int childPosition, long id) {
-				// TODO Auto-generated method stub
-				Toast.makeText(
-						getActivity(),
-						listDataHeader.get(groupPosition)
-								+ " : "
-								+ listDataChild.get(
-										listDataHeader.get(groupPosition)).get(
-										childPosition), Toast.LENGTH_SHORT)
-						.show();
-				return false;
-			}
-		});
+		// prepareListData();
+		db.dropTable();
+		 new getCustomersOrder().execute();
 
 		return view;
 	}
 
-	private void prepareListData() {
-		listDataHeader = new ArrayList<String>();
-		listDataChild = new HashMap<String, List<String>>();
-
-		// Adding child data
-		listDataHeader.add("ABELA");
-		listDataHeader.add("PEDRO");
-		listDataHeader.add("BUFFON");
-
-		// Adding child data
-		List<String> orderList1 = new ArrayList<String>();
-		orderList1.add("1.DRINKS");
-		orderList1.add("2.STRATER");
-		orderList1.add("3.PIZZA");
-		orderList1.add("4.DESERTS");
-
-		List<String> orderList2 = new ArrayList<String>();
-		orderList2.add("1.DRINKS");
-		orderList2.add("2.STRATER");
-		orderList2.add("3.PIZZA");
-		orderList2.add("4.DESERTS");
-
-		List<String> orderList3 = new ArrayList<String>();
-		orderList3.add("1.DRINKS");
-		orderList3.add("2.STRATER");
-		orderList3.add("3.PIZZA");
-		orderList3.add("4.DESERTS");
-
-		listDataChild.put(listDataHeader.get(0), orderList1); // Header, Child
-																// data
-		listDataChild.put(listDataHeader.get(1), orderList2);
-		listDataChild.put(listDataHeader.get(2), orderList3);
-	}
-
 	private void initializeUIElements() {
-		// TODO Auto-generated method stub
+		// TODO Auto-genderated method stub
 		expListView = (ExpandableListView) view
 				.findViewById(R.id.expandableListMenuCollasapable);
-	
+
+	}
+
+	public class getCustomersOrder extends AsyncTask<Void, Void, String> {
+
+		ProgressDialog pd = null;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (pd == null) {
+				pd = new ProgressDialog(view.getContext());
+				pd.setCancelable(true);
+				pd.setTitle("Please wait");
+				pd.setMessage("Menu Item list is loading...");
+				pd.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(Void... arg0) {
+			// TODO Auto-generated method stub
+			String json = "";
+			try {
+				String url=AppConstants.RESTAURANTS_ORDERS_LIST+"?"+"status"+"="+"PENDING";
+				json = httpGETConnection(url);
+
+			} catch (ConnectTimeoutException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return json;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+			}
+			ParseJsonOrders(result);
+
+			listAdapter = new ExpandableListAdapter(getActivity(),
+					listDataHeader, listDataChild);
+
+			// setting list adapter
+			expListView.setAdapter(listAdapter);
+			db.closeDB();
+		}
+
+	}
+
+	public static String httpGETConnection(String url)
+			throws ConnectTimeoutException {
+		Log.d("HTTPGET", "Makilng http connection");
+
+		StringBuilder builder = new StringBuilder();
+		HttpClient client = new DefaultHttpClient();
+
+		HttpGet httpGet = new HttpGet(url);
+		httpGet.setHeader("Authorization", "Basic " + AUTH);
+		try {
+			HttpResponse response = client.execute(httpGet);
+			StatusLine statusLine = response.getStatusLine();
+			int statusCode = statusLine.getStatusCode();
+			if (statusCode == 200) {
+				HttpEntity entity = response.getEntity();
+				InputStream content = entity.getContent();
+				BufferedReader reader = new BufferedReader(
+						new InputStreamReader(content));
+				String line;
+				while ((line = reader.readLine()) != null) {
+					builder.append(line);
+				}
+			} else {
+				Log.d("HTTPCONNECTIOn", "Failed to download file");
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (ConnectTimeoutException e) {
+			// Toast.makeText(this, "Network timeout reached!",
+			// Toast.LENGTH_SHORT).show();
+			Log.d("+++++++++++++++++ ", "Network timeout reached!");
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return builder.toString();
+
+	}
+
+	public void ParseJsonOrders(String jsonArray) {
+		listDataHeader = new ArrayList<String>();
+		listDataChild = new HashMap<String, List<String>>();
+		try {
+			//Log.d("ORderJSONARRAY", jsonArray);
+			JSONArray jArray = new JSONArray(jsonArray);
+			if (jArray != null) {
+				for (int i = 0; i < jArray.length(); i++) {
+
+					JSONObject customer_details = jArray.getJSONObject(i);
+					int customer_id=customer_details.getInt("id");
+					String customer_name = customer_details.getString("name");
+					CustomerInfoDTO customerInfoDTO= new CustomerInfoDTO();
+					customerInfoDTO.setId(customer_id);
+					customerInfoDTO.setName(customer_name);
+					customerInfoDTO.setJson(customer_details.toString());
+					db.createCustomer(customerInfoDTO);
+					
+					listDataHeader.add(customer_name);
+					JSONArray orderDetailsArray = customer_details
+							.getJSONArray("order_detail");
+					List<String> orderList = new ArrayList<String>();
+					for (int j = 0; j < orderDetailsArray.length(); j++) {
+
+						JSONObject item_details = orderDetailsArray
+								.getJSONObject(j);
+						int item_id = item_details.getInt("item_id");
+						String item_name = item_details.getString("item");
+						int item_price = item_details.getInt("price");
+						int restaurant_id = item_details
+								.getInt("restaurant_id");
+						
+						orderList.add(item_name);
+
+						OrderedItemDTO orderedItem = new OrderedItemDTO();
+						orderedItem.setItem_id(item_id);
+						orderedItem.setItem(item_name);
+						orderedItem.setPrice(item_price);
+						orderedItem.setRestaurant_id(restaurant_id);
+					
+						if (db.checkItemPresence(restaurant_id, item_id,
+								"adminorder")) {
+							db.createOrderItem(orderedItem);
+
+						}
+					}
+					listDataChild.put(customer_name, orderList);
+
+				}
+			}
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

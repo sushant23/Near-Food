@@ -236,7 +236,7 @@ public class LoginButton extends Button {
             this.setTextColor(getResources().getColor(R.color.com_facebook_loginview_text_color));
             this.setTextSize(TypedValue.COMPLEX_UNIT_PX,
                     getResources().getDimension(R.dimen.com_facebook_loginview_text_size));
-            this.setTypeface(Typeface.DEFAULT_BOLD);
+            //this.setTypeface(Typeface.DEFAULT_BOLD);
             if (isInEditMode()) {
                 // cannot use a drawable in edit mode, so setting the background color instead
                 // of a background resource.

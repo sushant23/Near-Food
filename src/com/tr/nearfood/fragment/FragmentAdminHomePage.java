@@ -11,11 +11,13 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class FragmentAdminHomePage extends Fragment implements OnClickListener {
+	public static String AUTH;
 	View view;
 	FragmentResturantAdminHomePageCommunicator fragmentRestaurantAdminHomePageCommunicator;
-	Button manageOrders, manageMenu, manageRestaurantsDetails;
+	Button manageOrders, manageAccepted,manageRejected, manageRestaurantsDetails;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -39,7 +41,8 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 				container, false);
 		initializeUIELements();
 		manageOrders.setOnClickListener(this);
-		manageMenu.setOnClickListener(this);
+		manageAccepted.setOnClickListener(this);
+		manageRejected.setOnClickListener(this);
 		manageRestaurantsDetails.setOnClickListener(this);
 		return view;
 	}
@@ -47,15 +50,17 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 	private void initializeUIELements() {
 		// TODO Auto-generated method stub
 		manageOrders = (Button) view.findViewById(R.id.buttonManageOrders);
-		manageMenu = (Button) view.findViewById(R.id.buttonManageMenus);
+		manageAccepted = (Button) view.findViewById(R.id.buttonManageCompleted);
+		manageRejected = (Button) view.findViewById(R.id.buttonManageRejected);
 		manageRestaurantsDetails = (Button) view
 				.findViewById(R.id.buttonManageRestaurantDetails);
 	}
 
 	public static interface FragmentResturantAdminHomePageCommunicator {
-		public void setButtonManageOrder();
+		public void setButtonManageOrder(String auth);
 
-		public void setButtonMangeMenu();
+		public void setButtonMangeAccepted(String auth);
+		public void setButtonMangeRejected(String auth);
 		public void setButtonManageDetail();
 
 	}
@@ -65,11 +70,14 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 		// TODO Auto-generated method stub
 		switch (v.getId()) {
 		case R.id.buttonManageOrders:
-			fragmentRestaurantAdminHomePageCommunicator.setButtonManageOrder();
+			fragmentRestaurantAdminHomePageCommunicator.setButtonManageOrder(AUTH);
 
 			break;
-		case R.id.buttonManageMenus:
-			fragmentRestaurantAdminHomePageCommunicator.setButtonMangeMenu();
+		case R.id.buttonManageCompleted:
+			fragmentRestaurantAdminHomePageCommunicator.setButtonMangeAccepted(AUTH);
+			break;
+		case R.id.buttonManageRejected:
+			fragmentRestaurantAdminHomePageCommunicator.setButtonMangeRejected(AUTH);
 			break;
 		case R.id.buttonManageRestaurantDetails:
 			fragmentRestaurantAdminHomePageCommunicator.setButtonManageDetail();

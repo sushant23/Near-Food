@@ -336,7 +336,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 				catagoryDTO.setCreated_at(catagory_created_at);
 				catagoryDTO.setUpdated_at(catagory_updated_at);
 
-				if (db.checkItemPresence(SELECTED_RESTAURANTID, item_id)) {
+				if (db.checkItemPresence(SELECTED_RESTAURANTID, item_id,"item")) {
 					db.createItems(itemMenuDTO);
 					db.createCatagory(catagoryDTO);
 				}

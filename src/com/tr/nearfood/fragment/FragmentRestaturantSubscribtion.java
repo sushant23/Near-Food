@@ -17,18 +17,23 @@ import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,6 +44,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.LocationListener;
 import com.tr.nearfood.R;
+import com.tr.nearfood.activity.RestaurantCatagory;
 import com.tr.nearfood.utills.ActivityLayoutAdjuster;
 import com.tr.nearfood.utills.AppConstants;
 import com.tr.nearfood.utills.GPSTracker;
@@ -54,6 +60,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 	RadioGroup restaurantLocationRadioGroup;
 	RadioButton currentLocation, locationByCoordinate, locationFromGoogleMap;
 	public static double longitude, latitude;
+	public static boolean STATUS;
 	String fName = "", lName = "", resName = "", resContact = "",
 			resEmail = "", resPass = "";
 	SharedPreferences regPrefs;
@@ -90,20 +97,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		}
 	}
 
-	@Override
-	public void onPause() {
-		// TODO Auto-generated method stub
-		super.onPause();
-		regPrefs.edit().clear().commit();
-	}
-
-	@Override
-	public void onStop() {
-		// TODO Auto-generated method stub
-		super.onStop();
-		regPrefs.edit().clear().commit();
-	}
-
+	
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -146,7 +140,9 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			setTheUIElements();
 		}
 
+		if(STATUS)
 		prefdata();
+		
 		if (longitude != 0 && latitude != 0)
 			Toast.makeText(
 					getActivity(),
@@ -156,6 +152,27 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 
 		adminLogin.setOnClickListener(this);
 		signUpButton.setOnClickListener(this);
+
+		view.setFocusableInTouchMode(true);
+		view.requestFocus();
+
+		view.setOnKeyListener(new OnKeyListener() {
+
+			@Override
+			public boolean onKey(View v, int keyCode, KeyEvent event) {
+				// TODO Auto-generated method stub
+				if (event.getAction() == KeyEvent.ACTION_DOWN) {
+					if (keyCode == KeyEvent.KEYCODE_BACK) {
+						Intent homePage = new Intent(getActivity(),
+								RestaurantCatagory.class);
+						startActivity(homePage);
+
+						return true;
+					}
+				}
+				return false;
+			}
+		});
 		return view;
 	}
 
@@ -218,7 +235,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 						"Please Enter All the Field Properly",
 						Toast.LENGTH_SHORT).show();
 			} else {
-				HttpPostConnection();
+				new AdminRegistraationHttpPost().execute();
 				regPrefs.edit().clear().commit();
 			}
 			break;
@@ -289,7 +306,59 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 
 	}
 
-	public void HttpPostConnection() {
+	public class AdminRegistraationHttpPost extends
+			AsyncTask<String, Void, String> {
+		ProgressDialog pd = null;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (pd == null) {
+				pd = new ProgressDialog(getActivity());
+				pd.setCancelable(true);
+				pd.setTitle("Please wait");
+				pd.setMessage("Registering ...");
+				pd.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = HttpPostConnection();
+			return response;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+				try {
+					JSONObject register_status = new JSONObject(result);
+					String sucess = register_status.getString("status");
+					String message = register_status.getString("message");
+					if (sucess.equals("success")) {
+						Toast.makeText(getActivity(), message,
+								Toast.LENGTH_SHORT).show();
+					} else if (sucess.equals("error")) {
+						Toast.makeText(getActivity(), message,
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+	}
+
+	public String HttpPostConnection() {
 		getRequiredFields();
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(AppConstants.RESTAURANTS_REGISTRATION);
@@ -304,15 +373,16 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 				.valueOf(longitude)));
 		registrationData.add(new BasicNameValuePair("contact", resContact));
 		registrationData.add(new BasicNameValuePair("restaurant", resName));
-
+		registrationData.add(new BasicNameValuePair("role", "restaurant"));
 		try {
 			post.setEntity(new UrlEncodedFormEntity(registrationData));
 			HttpResponse response = client.execute(post);
 			HttpEntity entity = response.getEntity();
 			InputStream is = entity.getContent();
 			String result = convertStreamToString(is);
-			Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+			// Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
 			Log.d("HttpPOst Rest", result);
+			return result;
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -323,9 +393,10 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return null;
 	}
 
-	private static String convertStreamToString(InputStream is) {
+	private String convertStreamToString(InputStream is) {
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 		StringBuilder sb = new StringBuilder();

@@ -63,58 +63,69 @@ public class FragmentShowCustomerOrder extends Fragment implements
 	public void showCustomerOrder() {
 		TableLayout table = (TableLayout) view
 				.findViewById(R.id.TableLayoutShowOrder);
-		if (SELECTED_MENU_ITEM_LIST != null) {
-			restaurant_id = db.getRestaurantId(SELECTED_MENU_ITEM_LIST.get(0));
-			for (int i = 0; i < SELECTED_MENU_ITEM_LIST.size(); i++) {
-				TableRow tr = new TableRow(getActivity());
-				// tr.setBackgroundColor(R.color.light_white);
-				tr.setPadding(0, 0, 0, 2); // Border between rows
+		try {
+			if (SELECTED_MENU_ITEM_LIST != null) {
+				restaurant_id = db.getRestaurantId(SELECTED_MENU_ITEM_LIST
+						.get(0));
+				for (int i = 0; i < SELECTED_MENU_ITEM_LIST.size(); i++) {
+					TableRow tr = new TableRow(getActivity());
+					// tr.setBackgroundColor(R.color.light_white);
+					tr.setPadding(0, 0, 0, 2); // Border between rows
 
-				TableRow.LayoutParams llp1 = new TableRow.LayoutParams(
-						LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-				llp1.setMargins(0, 0, 2, 0);// 2px right-margin
+					TableRow.LayoutParams llp1 = new TableRow.LayoutParams(
+							LayoutParams.WRAP_CONTENT,
+							LayoutParams.WRAP_CONTENT);
+					llp1.setMargins(0, 0, 2, 0);// 2px right-margin
 
-				// New Cell
-				LinearLayout cellx1 = new LinearLayout(getActivity());
-				// cellx1.setBackgroundColor(R.color.dark_white);
-				cellx1.setLayoutParams(llp1);// 2px border on the right for the
-												// cell
-				TextView tvx1 = new TextView(getActivity());
-				String itemname = db
-						.getItemName(SELECTED_MENU_ITEM_LIST.get(i));
-				tvx1.setText((i + 1) + ". " + itemname);
-				tvx1.setPadding(0, 0, 4, 3);
-				cellx1.addView(tvx1);
-				tr.addView(cellx1);
-				// add as many cells you want to a row, using the same approach
+					// New Cell
+					LinearLayout cellx1 = new LinearLayout(getActivity());
+					// cellx1.setBackgroundColor(R.color.dark_white);
+					cellx1.setLayoutParams(llp1);// 2px border on the right for
+													// the
+													// cell
+					TextView tvx1 = new TextView(getActivity());
+					String itemname = db.getItemName(SELECTED_MENU_ITEM_LIST
+							.get(i));
+					tvx1.setText((i + 1) + ". " + itemname);
+					tvx1.setPadding(0, 0, 4, 3);
+					cellx1.addView(tvx1);
+					tr.addView(cellx1);
+					// add as many cells you want to a row, using the same
+					// approach
 
-				LinearLayout cellx2 = new LinearLayout(getActivity());
-				// cellx2.setBackgroundColor(R.color.dark_white);
-				cellx2.setLayoutParams(llp1);// 2px border on the right for the
-												// cell
-				TextView tvx2 = new TextView(getActivity());
-				tvx2.setText("  ");
-				tvx2.setPadding(0, 0, 4, 3);
-				cellx2.addView(tvx2);
-				tr.addView(cellx2);
+					LinearLayout cellx2 = new LinearLayout(getActivity());
+					// cellx2.setBackgroundColor(R.color.dark_white);
+					cellx2.setLayoutParams(llp1);// 2px border on the right for
+													// the
+													// cell
+					TextView tvx2 = new TextView(getActivity());
+					tvx2.setText("  ");
+					tvx2.setPadding(0, 0, 4, 3);
+					cellx2.addView(tvx2);
+					tr.addView(cellx2);
 
-				LinearLayout cellx3 = new LinearLayout(getActivity());
-				// cellx3.setBackgroundColor(R.color.light_white);
-				cellx3.setLayoutParams(llp1);// 2px border on the right for the
-												// cell
-				TextView tvx3 = new TextView(getActivity());
-				int price = db.getItemPrice(SELECTED_MENU_ITEM_LIST.get(i));
-				tvx3.setText(Integer.toString(price));
-				tvx3.setPadding(0, 0, 4, 3);
-				cellx3.addView(tvx3);
-				tr.addView(cellx3);
+					LinearLayout cellx3 = new LinearLayout(getActivity());
+					// cellx3.setBackgroundColor(R.color.light_white);
+					cellx3.setLayoutParams(llp1);// 2px border on the right for
+													// the
+													// cell
+					TextView tvx3 = new TextView(getActivity());
+					int price = db.getItemPrice(SELECTED_MENU_ITEM_LIST.get(i),"item");
+					tvx3.setText(Integer.toString(price));
+					tvx3.setPadding(0, 0, 4, 3);
+					cellx3.addView(tvx3);
+					tr.addView(cellx3);
 
-				table.addView(tr);
+					table.addView(tr);
+				}
+			} else {
+				TextView tvx4 = new TextView(getActivity());
+
+				tvx4.setText("NO ITEM IS SELECTED");
 			}
-		} else {
-			TextView tvx4 = new TextView(getActivity());
-
-			tvx4.setText("NO ITEM IS SELECTED");
+		} catch (IndexOutOfBoundsException e) {
+			Toast.makeText(getActivity(), "No Item Selected",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 

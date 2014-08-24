@@ -14,11 +14,11 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_gradiant"
-        android:text="MANAGE ORDERS"
+        android:text="MANAGE PENDING ORDERS"
         android:textColor="@color/white" />
 
     <Button
-        android:id="@+id/buttonManageMenus"
+        android:id="@+id/buttonManageCompleted"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:layout_below="@+id/buttonManageOrders"
@@ -26,14 +26,24 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/button_gradiant"
-        android:text="MANAGE MENU"
+        android:text="MANAGE COMPLETED ORDER"
         android:textColor="@color/white" />
-
-    <Button
+<Button
+        android:id="@+id/buttonManageRejected"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/buttonManageCompleted"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/button_gradiant"
+        android:text="MANAGE REJECTED ORDER"
+        android:textColor="@color/white" />
+    <Button
         android:id="@+id/buttonManageRestaurantDetails"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/buttonManageMenus"
+        android:layout_below="@+id/buttonManageRejected"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

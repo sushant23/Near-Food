@@ -73,8 +73,8 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 				.findViewById(R.id.textViewMenuItemName);
 		TextView txtListChildPrice = (TextView) convertView
 				.findViewById(R.id.textViewMenuItemPrices);
-		int itmID = db.getItemId(childText);
-		int price = db.getItemPrice(itmID);
+		int itmID = db.getItemId(childText,"item");
+		int price = db.getItemPrice(itmID,"item");
 
 		txtListChild.setText(childText);
 		txtListChildPrice.setText(Integer.toString(price));
@@ -86,7 +86,7 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 				// TODO Auto-generated method stub
 				Toast.makeText(_context, "ADDED" + childText,
 						Toast.LENGTH_SHORT).show();
-				int itmID = db.getItemId(childText);
+				int itmID = db.getItemId(childText,"item");
 				if (itmID != 0)
 					selectedMenuItemList.add(itmID);
 				Log.d("Add button",
@@ -100,7 +100,7 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 				// TODO Auto-generated method stub
 				Toast.makeText(_context, "REMOVED" + childText,
 						Toast.LENGTH_SHORT).show();
-				int itmID = db.getItemId(childText);
+				int itmID = db.getItemId(childText,"item");
 				boolean one_item_removed = false;
 				if (itmID != 0) {
 					for (int rem = 0; rem < selectedMenuItemList.size(); rem++) {

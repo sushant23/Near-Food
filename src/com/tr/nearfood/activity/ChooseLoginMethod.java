@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.os.Bundle;
@@ -34,10 +35,10 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	private static final int RC_SIGN_IN = 0;
 	// Logcat tag
 	private static final String TAG = "GooglePlus Login";
-	String id, name,email;
+	String id, name, email;
 	Boolean fromGooglePlus = true;
 	List<Integer> confirmedMenuList;
-	
+
 	// Google client to interact with Google API
 	private GoogleApiClient mGoogleApiClient;
 
@@ -50,6 +51,7 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	private boolean mSignInClicked;
 
 	private ConnectionResult mConnectionResult;
+	ProgressDialog pd = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +82,13 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	 * Sign-in into google
 	 * */
 	private void signInWithGplus() {
+		if (pd == null) {
+			pd = new ProgressDialog(this);
+			pd.setCancelable(true);
+			pd.setTitle("Please wait");
+			pd.setMessage("Signing In with Google Plus...");
+			pd.show();
+		}
 		if (!mGoogleApiClient.isConnecting()) {
 			mSignInClicked = true;
 			resolveSignInError();
@@ -160,6 +169,10 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
+		if (pd.isShowing()) {
+			pd.dismiss();
+			pd = null;
+		}
 		mSignInClicked = false;
 		Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();
 		Log.d("Googleplus login", "onconnected methos called");
@@ -188,10 +201,9 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 						.getCurrentPerson(mGoogleApiClient);
 				id = currentPerson.getId();
 				name = currentPerson.getDisplayName();
-				email=Plus.AccountApi.getAccountName(mGoogleApiClient);
-				
+				email = Plus.AccountApi.getAccountName(mGoogleApiClient);
+
 				Log.d("UserProfileGoogleplus", "enetereted" + name);
-				
 
 				/*
 				 * String personPhotoUrl = currentPerson.getImage().getUrl();
@@ -255,7 +267,8 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
 		case R.id.buttonFacebookSignin:
-			Intent facebookLoginIntent = new Intent(this, LoginWithFacebook.class);
+			Intent facebookLoginIntent = new Intent(this,
+					LoginWithFacebook.class);
 			facebookLoginIntent.putIntegerArrayListExtra("confirmedMenuItems",
 					(ArrayList<Integer>) confirmedMenuList);
 			startActivity(facebookLoginIntent);

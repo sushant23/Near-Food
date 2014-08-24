@@ -23,6 +23,7 @@ import com.tr.nearfood.adapter.ExpandableMenuListAdapter;
 import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.utills.ActivityLayoutAdjuster;
+import com.tr.nearfood.utills.AppConstants;
 
 import android.R.integer;
 import android.os.AsyncTask;
@@ -47,11 +48,12 @@ public class Register extends Activity {
 	EditText firstName, lastName, personalEmail, contactNumber;
 	Button submit;
 	LinearLayout emailAddress;
-	String id = "", name = "",email="";
+	String id = "", name = "", email = "";
 	Boolean fromgoogel = false;
 	List<Integer> confirmedMenuList;
 	AutoCompleteTextView autoCompView;
 	int[] confirmedMenuArray;
+	String json;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,8 +77,8 @@ public class Register extends Activity {
 			fromgoogel = googlePlusData.getBoolean("googlePlus");
 			id = googlePlusData.getString("id");
 			name = googlePlusData.getString("name");
-			email=googlePlusData.getString("email");
-			
+			email = googlePlusData.getString("email");
+
 		}
 		intitializrUIElements();
 
@@ -112,11 +114,10 @@ public class Register extends Activity {
 
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
-					String json = gson.toJson(objectOrderDetails);
-				//	new SendOrderHttpPost().execute(json);
+					json = gson.toJson(objectOrderDetails);
+					new SendOrderHttpPost().execute(json);
 					Log.d("orderDetails json data", json);
-					Toast.makeText(getApplicationContext(), json,
-							Toast.LENGTH_LONG).show();
+					
 
 				}
 			}
@@ -161,7 +162,7 @@ public class Register extends Activity {
 				pd = new ProgressDialog(getApplicationContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Menu Item list is loading...");
+				pd.setMessage("Sending Your Order...");
 				pd.show();
 			}
 		}
@@ -169,9 +170,11 @@ public class Register extends Activity {
 		@Override
 		protected String doInBackground(String... params) {
 			// TODO Auto-generated method stub
-			String response = sendOrderDetails("PostUrl", params[0]);
+			String response = sendOrderDetails(AppConstants.CUSTOMER_ORDER,
+					params[0]);
 			return response;
 		}
+
 		@Override
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
@@ -179,7 +182,22 @@ public class Register extends Activity {
 			if (pd.isShowing()) {
 				pd.dismiss();
 				pd = null;
-			
+				try {
+					JSONObject login_status = new JSONObject(result);
+					String sucess = login_status.getString("status");
+					String message = login_status.getString("message");
+					if (sucess.equals("success")) {
+						Toast.makeText(getApplicationContext(), message,
+								Toast.LENGTH_SHORT).show();
+					
+					} else if (sucess.equals("error")) {
+						Toast.makeText(getApplicationContext(), message,
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 
 		}
@@ -191,7 +209,7 @@ public class Register extends Activity {
 		HttpPost httppost = new HttpPost(url);
 
 		try {
-			httppost.setEntity(new StringEntity("your string"));
+			httppost.setEntity(new StringEntity(json));
 			HttpResponse resp;
 			resp = httpclient.execute(httppost);
 			HttpEntity ent = resp.getEntity();
