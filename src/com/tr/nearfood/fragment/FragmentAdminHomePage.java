@@ -17,8 +17,10 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 	public static String AUTH;
 	View view;
 	FragmentResturantAdminHomePageCommunicator fragmentRestaurantAdminHomePageCommunicator;
+//orders
 	Button manageOrders, manageAccepted,manageRejected, manageRestaurantsDetails;
-
+//reservation table
+	Button pendingReservationTable,confirmedReservationTable,rejectedReservationTable;
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -44,6 +46,10 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 		manageAccepted.setOnClickListener(this);
 		manageRejected.setOnClickListener(this);
 		manageRestaurantsDetails.setOnClickListener(this);
+		
+		pendingReservationTable.setOnClickListener(this);
+		confirmedReservationTable.setOnClickListener(this);
+		rejectedReservationTable.setOnClickListener(this);
 		return view;
 	}
 
@@ -54,6 +60,9 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 		manageRejected = (Button) view.findViewById(R.id.buttonManageRejected);
 		manageRestaurantsDetails = (Button) view
 				.findViewById(R.id.buttonManageRestaurantDetails);
+		pendingReservationTable=(Button) view.findViewById(R.id.buttonManagePendingReservation);
+		confirmedReservationTable=(Button) view.findViewById(R.id.buttonManageCompletedReservation);
+		rejectedReservationTable=(Button) view.findViewById(R.id.buttonManageRejectedReservation);
 	}
 
 	public static interface FragmentResturantAdminHomePageCommunicator {
@@ -61,8 +70,11 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 
 		public void setButtonMangeAccepted(String auth);
 		public void setButtonMangeRejected(String auth);
-		public void setButtonManageDetail();
-
+		public void setButtonManageDetail(String auth);
+		
+		public void setButtonReserveTablePending(String auth);
+		public void setButtonReserveTableConfirmed(String auth);
+		public void setButtonReserveTableRejected(String auth);
 	}
 
 	@Override
@@ -71,16 +83,32 @@ public class FragmentAdminHomePage extends Fragment implements OnClickListener {
 		switch (v.getId()) {
 		case R.id.buttonManageOrders:
 			fragmentRestaurantAdminHomePageCommunicator.setButtonManageOrder(AUTH);
-
 			break;
+
 		case R.id.buttonManageCompleted:
 			fragmentRestaurantAdminHomePageCommunicator.setButtonMangeAccepted(AUTH);
 			break;
+		
 		case R.id.buttonManageRejected:
 			fragmentRestaurantAdminHomePageCommunicator.setButtonMangeRejected(AUTH);
 			break;
+		
 		case R.id.buttonManageRestaurantDetails:
-			fragmentRestaurantAdminHomePageCommunicator.setButtonManageDetail();
+			fragmentRestaurantAdminHomePageCommunicator.setButtonManageDetail(AUTH);
+			break;
+		
+		case R.id.buttonManagePendingReservation:
+				fragmentRestaurantAdminHomePageCommunicator.setButtonReserveTablePending(AUTH);
+			break;
+		
+		case R.id.buttonManageCompletedReservation:
+				fragmentRestaurantAdminHomePageCommunicator.setButtonReserveTableConfirmed(AUTH);
+			break;
+		
+		case R.id.buttonManageRejectedReservation:
+				fragmentRestaurantAdminHomePageCommunicator.setButtonReserveTableRejected(AUTH);
+			break;
+			
 		default:
 			break;
 		}

@@ -259,6 +259,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		HttpClient client = new DefaultHttpClient();
 
 		HttpGet httpGet = new HttpGet(url);
+		httpGet.setHeader("api", AppConstants.API);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();

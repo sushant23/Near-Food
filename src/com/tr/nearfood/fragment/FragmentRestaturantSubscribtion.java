@@ -25,6 +25,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,13 +38,14 @@ import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.Toast;
 
-import com.google.android.gms.location.LocationListener;
+import com.google.gson.Gson;
 import com.tr.nearfood.R;
 import com.tr.nearfood.activity.RestaurantCatagory;
 import com.tr.nearfood.utills.ActivityLayoutAdjuster;
@@ -59,14 +62,17 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			restaurantEmail, password;
 	RadioGroup restaurantLocationRadioGroup;
 	RadioButton currentLocation, locationByCoordinate, locationFromGoogleMap;
-	public static double longitude, latitude;
+	CheckBox table, takeaway, delivary;
+	public static double LONGITUDE, LATITUDE;
 	public static boolean STATUS;
 	String fName = "", lName = "", resName = "", resContact = "",
 			resEmail = "", resPass = "";
 	SharedPreferences regPrefs;
 	Editor editor;
-
 	GPSTracker gps;
+	List<Integer> restaurant_catagory = null;
+	int[] catagory;
+	String json_string = null, city, address;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -97,7 +103,6 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		}
 	}
 
-	
 	@Override
 	public void onDestroy() {
 		// TODO Auto-generated method stub
@@ -140,18 +145,24 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			setTheUIElements();
 		}
 
-		if(STATUS)
-		prefdata();
-		
-		if (longitude != 0 && latitude != 0)
+		if (STATUS)
+			prefdata();
+
+		if (LATITUDE != 0 && LONGITUDE != 0)
 			Toast.makeText(
 					getActivity(),
-					"Your Location is - \nLat: " + latitude + "\nLong: "
-							+ longitude, Toast.LENGTH_SHORT).show();
+					"Your Location is - \nLat: " + LATITUDE + "\nLong: "
+							+ LONGITUDE, Toast.LENGTH_SHORT).show();
+
 		restaurantLocationRadioGroup.setOnCheckedChangeListener(this);
 
 		adminLogin.setOnClickListener(this);
 		signUpButton.setOnClickListener(this);
+
+		restaurant_catagory = new ArrayList<Integer>();
+		delivary.setOnClickListener(this);
+		takeaway.setOnClickListener(this);
+		table.setOnClickListener(this);
 
 		view.setFocusableInTouchMode(true);
 		view.requestFocus();
@@ -216,6 +227,9 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 				.findViewById(R.id.editTextRestaurantOwnerPassword);
 		restaurantContactNo = (EditText) view
 				.findViewById(R.id.editTextRestaurantContactInfo);
+		table = (CheckBox) view.findViewById(R.id.checkbsoxTable);
+		delivary = (CheckBox) view.findViewById(R.id.checkbsoxDelivary);
+		takeaway = (CheckBox) view.findViewById(R.id.checkbsoxTakeAway);
 
 	}
 
@@ -228,9 +242,18 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			Log.d("Subscribtion", "BUTTOn IS CLICKED");
 			break;
 		case R.id.buttonRestaurantSubscriptionSubmit:
+			// converting list of integer to array list
+			catagory = new int[restaurant_catagory.size()];
+			for (int i = 0; i < restaurant_catagory.size(); i++)
+				catagory[i] = restaurant_catagory.get(i);
+
+			Gson gson = new Gson();
+			RegistrationDetails registrationDetails = new RegistrationDetails();
+			json_string = gson.toJson(registrationDetails);
+			Log.d("Registration details", json_string);
 			if (fName == null || lName == null || resEmail == null
 					|| resPass == null || resName == null || resContact == null
-					|| latitude == 0 || longitude == 0) {
+					|| LATITUDE == 0 || LONGITUDE == 0) {
 				Toast.makeText(getActivity(),
 						"Please Enter All the Field Properly",
 						Toast.LENGTH_SHORT).show();
@@ -238,6 +261,19 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 				new AdminRegistraationHttpPost().execute();
 				regPrefs.edit().clear().commit();
 			}
+			break;
+		case R.id.checkbsoxTable:
+			if (table.isChecked()) {
+				restaurant_catagory.add(2);
+			}
+			break;
+		case R.id.checkbsoxDelivary:
+			if (delivary.isChecked())
+				restaurant_catagory.add(1);
+			break;
+		case R.id.checkbsoxTakeAway:
+			if (takeaway.isChecked())
+				restaurant_catagory.add(3);
 			break;
 		default:
 			break;
@@ -267,14 +303,14 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			// Check if GPS enabled
 			if (gps.canGetLocation()) {
 
-				latitude = gps.getLatitude();
-				longitude = gps.getLongitude();
-
+				LATITUDE = gps.getLatitude();
+				LONGITUDE = gps.getLongitude();
+				getAddress();
 				// \n is for new line
 				Toast.makeText(
 						getActivity(),
-						"Your Location is - \nLat: " + latitude + "\nLong: "
-								+ longitude, Toast.LENGTH_LONG).show();
+						"Your Location is - \nLat: " + LATITUDE + "\nLong: "
+								+ LONGITUDE, Toast.LENGTH_LONG).show();
 			} else {
 				// Can't get location.
 				// GPS or network is not enabled.
@@ -305,7 +341,29 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		editor.commit();
 
 	}
+	public void getAddress() {
+		try {
+			Geocoder geocoder;
+			List<Address> addresses;
+			geocoder = new Geocoder(getActivity());
+			if (LATITUDE != 0 || LONGITUDE != 0) {
+				addresses = geocoder.getFromLocation(LATITUDE, LONGITUDE, 1);
+				address = addresses.get(0).getAddressLine(0);
+				city = addresses.get(0).getAddressLine(1);
+				String country = addresses.get(0).getAddressLine(2);
+				// Log.d("TAG",
+				// "address = "+address+", city ="+city+", country = "+country
+				// );
 
+			} else {
+				Toast.makeText(getActivity(),
+						"latitude and longitude are null", Toast.LENGTH_LONG)
+						.show();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public class AdminRegistraationHttpPost extends
 			AsyncTask<String, Void, String> {
 		ProgressDialog pd = null;
@@ -358,24 +416,33 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		}
 	}
 
+	class RegistrationDetails {
+		private String firstname = fName;
+		private String lastname = lName;
+		private String email = resEmail;
+		private String password = resPass;
+		private Double latitude = LATITUDE;
+		private Double longitude = LONGITUDE;
+		private String contact = resContact;
+		private String restaurant = resName;
+		private String role = "restaurant";
+		private int[] restaurant_type = catagory;
+		private String street_address = address;
+		private String city_address = city;
+
+	}
+
+	
+
 	public String HttpPostConnection() {
 		getRequiredFields();
 		HttpClient client = new DefaultHttpClient();
 		HttpPost post = new HttpPost(AppConstants.RESTAURANTS_REGISTRATION);
-		List<NameValuePair> registrationData = new ArrayList<NameValuePair>();
-		registrationData.add(new BasicNameValuePair("firstname", fName));
-		registrationData.add(new BasicNameValuePair("lastname", lName));
-		registrationData.add(new BasicNameValuePair("email", resEmail));
-		registrationData.add(new BasicNameValuePair("password", resPass));
-		registrationData.add(new BasicNameValuePair("latitude", String
-				.valueOf(latitude)));
-		registrationData.add(new BasicNameValuePair("longitude", String
-				.valueOf(longitude)));
-		registrationData.add(new BasicNameValuePair("contact", resContact));
-		registrationData.add(new BasicNameValuePair("restaurant", resName));
-		registrationData.add(new BasicNameValuePair("role", "restaurant"));
+		post.addHeader("api", AppConstants.API);
 		try {
-			post.setEntity(new UrlEncodedFormEntity(registrationData));
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("json_string", json_string));
+			post.setEntity(new UrlEncodedFormEntity(params));
 			HttpResponse response = client.execute(post);
 			HttpEntity entity = response.getEntity();
 			InputStream is = entity.getContent();

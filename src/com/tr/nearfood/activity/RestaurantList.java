@@ -1,13 +1,29 @@
 package com.tr.nearfood.activity;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.TimeZone;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
@@ -15,17 +31,23 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.CustomAdapterResturantLists;
 import com.tr.nearfood.fragment.FragmentNotification;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu.FragmentResturantMenuListCommunicator;
@@ -35,10 +57,15 @@ import com.tr.nearfood.fragment.FragmentResturantProfile;
 import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
 import com.tr.nearfood.fragment.FragmentShowCustomerOrder.FragmentShowCustomerOrderCommunicator;
 import com.tr.nearfood.fragment.FragmentShowCustomerOrder;
+import com.tr.nearfood.model.CalendarEvent;
 import com.tr.nearfood.model.MigratingDatas;
 import com.tr.nearfood.model.ResturantDTO;
+import com.tr.nearfood.pushnotification.MainActivity;
+import com.tr.nearfood.utills.AlertDialogManager;
 import com.tr.nearfood.utills.BadgeView;
+import com.tr.nearfood.utills.ConnectionDetector;
 import com.tr.nearfood.utills.NearFoodTextView;
+
 
 public class RestaurantList extends ActionBarActivity implements
 		FragmentResturantListCommunicator,
@@ -52,14 +79,36 @@ public class RestaurantList extends ActionBarActivity implements
 	int SELECTED_CATEGORY = 0;
 	BadgeView badge, badge1;
 	Button subscribe;
+	double latitude, longitude;
+	Context ctx = this;
+	String baseUri;
+	EditText restaurantFilter;
+	LinearLayout searchContainer;
+	ConnectionDetector cd;
+	AlertDialogManager alert = new AlertDialogManager();
+	public static int badgeValue = 0;
+	SharedPreferences prefs;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
+		prefs = getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+		cd = new ConnectionDetector(getApplicationContext());
+
+		// Check if Internet present
+		if (!cd.isConnectingToInternet()) {
+			// Internet Connection is not present
+			alert.showAlertDialog(RestaurantList.this,
+					"Internet Connection Error",
+					"Please connect to working Internet connection", false);
+			// stop executing code by return
+			return;
+		}
 		Bundle dataFromRestaurantCategory = getIntent().getExtras();
 		SELECTED_CATEGORY = dataFromRestaurantCategory.getInt("catagory_id");
-
+		latitude = dataFromRestaurantCategory.getDouble("latitude");
+		longitude = dataFromRestaurantCategory.getDouble("longitude");
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
@@ -76,7 +125,7 @@ public class RestaurantList extends ActionBarActivity implements
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		adView.loadAd(adRequest);
-		addResturantListFragment(SELECTED_CATEGORY);
+		addResturantListFragment(SELECTED_CATEGORY, latitude, longitude);
 		Log.d("value of category", Integer.toString(SELECTED_CATEGORY));
 		homeButton.setOnTouchListener(new OnTouchListener() {
 
@@ -104,9 +153,18 @@ public class RestaurantList extends ActionBarActivity implements
 			@Override
 			public boolean onTouch(View arg0, MotionEvent me) {
 				// TODO Auto-generated method stub
-				badge.hide();
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					notification.setColorFilter(Color.argb(150, 155, 155, 155));
+
+					try {
+						badge.hide();
+						badgeValue = 0;
+						SharedPreferences.Editor editor = prefs.edit();
+						editor.putBoolean("badge", false);
+						editor.commit();
+					} catch (NullPointerException e) {
+						Log.e("NOtification", e.toString());
+					}
 					Fragment restaurantNotification = new FragmentNotification();
 					fragmentTransaction = getSupportFragmentManager()
 							.beginTransaction();
@@ -133,9 +191,15 @@ public class RestaurantList extends ActionBarActivity implements
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					calender.setColorFilter(Color.argb(150, 155, 155, 155));
 
-					Intent openCalenderActivity = new Intent(
-							getApplicationContext(), CustumCalenderEvents.class);
-					startActivity(openCalenderActivity);
+					long startMillis = System.currentTimeMillis();
+					Uri.Builder builder = CalendarContract.CONTENT_URI
+							.buildUpon();
+					builder.appendPath("time");
+					ContentUris.appendId(builder, startMillis);
+					Intent intent = new Intent(Intent.ACTION_VIEW)
+							.setData(builder.build());
+					startActivity(intent);
+
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
 					calender.setColorFilter(Color.argb(0, 155, 155, 155)); // or
@@ -152,23 +216,36 @@ public class RestaurantList extends ActionBarActivity implements
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
 				Intent subscribeActivity = new Intent(getApplicationContext(),
-						RestaurantSubscribtion.class);
+						com.tr.nearfood.pushnotification.MainActivity.class);
 				startActivity(subscribeActivity);
 			}
 		});
 
+		
 	}
 
 	void showNotification() {
-		badge = new BadgeView(this, notification);
-		badge.setText("5");
-		badge.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
-		badge.show();
+		try {
+			if (prefs.getBoolean("badge", false)) {
 
+				
+				int value = prefs.getInt("badgeValue", 0)+1;
+				badge = new BadgeView(this, notification);
+				badge.setText(Integer.toString(value));
+				badge.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
+				if (value == 0)
+					badge.hide();
+				else
+					badge.show();
+			}
+		} catch (NullPointerException e) {
+			Log.e("NOTIFICATION ETTER", "NULL pont exception");
+		}
 	}
 
 	@Override
 	public void setClickedData(ResturantDTO resturantDTO) {
+		// searchContainer.setVisibility(View.GONE);
 		FragmentResturantProfile resturantProfileFragment = new FragmentResturantProfile();
 		FragmentResturantProfile.SELECTED_RESTURANT_DTO = resturantDTO;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -183,11 +260,15 @@ public class RestaurantList extends ActionBarActivity implements
 						.getResturantName());
 	}
 
-	public void addResturantListFragment(int SELECTED_CATAGORY) {
+	public void addResturantListFragment(int SELECTED_CATAGORY,
+			double latitude, double longitude) {
+		searchContainer.setVisibility(View.GONE);
 		fragmentManager = getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		FragmentResturantList fragmentResturantList = new FragmentResturantList();
 		FragmentResturantList.selected_catagory = SELECTED_CATAGORY;
+		FragmentResturantList.latitude = latitude;
+		FragmentResturantList.longitude = longitude;
 		fragmentTransaction.add(R.id.linLayoutFragmentContainer,
 				fragmentResturantList, "Resturant List");
 		fragmentTransaction.commit();
@@ -196,6 +277,7 @@ public class RestaurantList extends ActionBarActivity implements
 	@Override
 	public void setButtonClicked(int restaurantID, String setDateTime) {
 		// TODO Auto-generated method stub
+		searchContainer.setVisibility(View.GONE);
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
 		FragmentRestaurantMenu.SELECTED_RESTAURANTID = restaurantID;
 		FragmentRestaurantMenu.SETDATETIME = setDateTime;
@@ -212,12 +294,16 @@ public class RestaurantList extends ActionBarActivity implements
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
 		calender = (ImageButton) findViewById(R.id.imageButtonCalendar);
+		// setContext(RestaurantList.this);
+
+		restaurantFilter = (EditText) findViewById(R.id.editTextSearchResturantLists);
+		searchContainer = (LinearLayout) findViewById(R.id.linsearchcontainer);
 	}
 
 	@Override
 	public void setMenuButtonClicked(List<Integer> selected_Menu_Item_List) {
 		// TODO Auto-generated method stub
-
+		searchContainer.setVisibility(View.GONE);
 		Fragment fragmentShowCustomerOrder = new FragmentShowCustomerOrder();
 		FragmentShowCustomerOrder.SELECTED_MENU_ITEM_LIST = selected_Menu_Item_List;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -230,6 +316,7 @@ public class RestaurantList extends ActionBarActivity implements
 	@Override
 	public void setConfirmButtonClicked(MigratingDatas migratingDtos) {
 		// TODO Auto-generated method stub
+		searchContainer.setVisibility(View.GONE);
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
 		FragmentRestaurantMenu.migratingdata = migratingDtos;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -239,4 +326,24 @@ public class RestaurantList extends ActionBarActivity implements
 		fragmentTransaction.commit();
 	}
 
+	/**
+	 * Receiving push messages
+	 * */
+	private final BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String newMessage = intent.getExtras().getString("message");
+
+			/**
+			 * Take appropriate action on this message depending upon your app
+			 * requirement For now i am just displaying it on the screen
+			 * */
+			showNotification();
+			// Showing received message
+
+			Toast.makeText(getApplicationContext(),
+					"New Message: " + newMessage, Toast.LENGTH_LONG).show();
+
+		}
+	};
 }

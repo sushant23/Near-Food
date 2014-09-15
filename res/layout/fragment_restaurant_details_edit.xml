@@ -28,7 +28,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:weightSum="2" >
+                android:weightSum="2" 
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/linLayoutRestaurantStreetAddressShowPanel"
@@ -89,7 +90,8 @@
                 android:layout_below="@+id/linLayoutRestaurantEditStreetAddress"
                 android:layout_marginTop="10dp"
                 android:orientation="vertical"
-                android:weightSum="2" >
+                android:weightSum="2"
+                 android:visibility="gone" >
 
                 <LinearLayout
                     android:id="@+id/linLayoutRestaurantCityAddressShowPanel"
@@ -294,7 +296,8 @@
                     android:text="CANCEL"
                     android:textColor="@color/white" />
             </LinearLayout>
-        </RelativeLayout>
+   
+            </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>

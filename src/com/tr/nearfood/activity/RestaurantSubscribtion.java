@@ -15,11 +15,15 @@ import com.tr.nearfood.fragment.FragmentAdminLogin.FragmentResturantAdminLoginCo
 import com.tr.nearfood.fragment.FragmentAdminManageMenu;
 import com.tr.nearfood.fragment.FragmentAdminManageRestaurantDetails;
 import com.tr.nearfood.fragment.FragmentGoogleMap;
+import com.tr.nearfood.fragment.FragmentRestaurantOrderRejected;
+import com.tr.nearfood.fragment.FragmentRestaurantReservationConfirmed;
+import com.tr.nearfood.fragment.FragmentRestaurantReservationRejected;
 import com.tr.nearfood.fragment.FragmentGoogleMap.FragmentGoogleMapListener;
 import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion.FragmentResturantSubscribtionCommunicator;
 import com.tr.nearfood.fragment.FragmentRestaurantOrderConfirmed;
+import com.tr.nearfood.fragment.FragmentRestaurantReservationTablePending;
 import com.tr.nearfood.fragment.FragmentResturantList;
 import com.tr.nearfood.fragment.FragmentResturantProfile.FragmentResturantProfileCommunicator;
 import com.tr.nearfood.fragment.FragmentsRestaurantAdminManageOrder;
@@ -124,7 +128,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		signIn = (Button) findViewById(R.id.buttonRestaurantAdminLogin);
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
-		searchplace = (AutoCompleteTextView) findViewById(R.id.editTextSearchResturantLists);
+	//	searchplace = (AutoCompleteTextView) findViewById(R.id.editTextSearchResturantLists);
 		searchContainer = (LinearLayout) findViewById(R.id.linsearchcontainer);
 	}
 
@@ -178,9 +182,10 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 
 	
 	@Override
-	public void setButtonManageDetail() {
+	public void setButtonManageDetail(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminmanageRestaurantDetails = new FragmentAdminManageRestaurantDetails();
+		FragmentAdminManageRestaurantDetails.AUTH=auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminmanageRestaurantDetails);
@@ -205,8 +210,8 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		// TODO Auto-generated method stub
 
 		Fragment restaurantSubscribtion = new FragmentRestaturantSubscribtion();
-		FragmentRestaturantSubscribtion.longitude = longitude;
-		FragmentRestaturantSubscribtion.latitude = latitude;
+		FragmentRestaturantSubscribtion.LONGITUDE = longitude;
+		FragmentRestaturantSubscribtion.LATITUDE = latitude;
 		FragmentRestaturantSubscribtion.STATUS=status;
 		searchContainer.setVisibility(View.VISIBLE);
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -231,7 +236,49 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	@Override
 	public void setButtonMangeRejected(String auth) {
 		// TODO Auto-generated method stub
-		
+		Fragment restaurantAdminRejectededOrder = new FragmentRestaurantOrderRejected();
+		FragmentRestaurantOrderRejected.AUTH=auth;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantAdminRejectededOrder);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setButtonReserveTablePending(String auth) {
+		// TODO Auto-generated method stub
+		Fragment restaurantAdminPendingResercation = new FragmentRestaurantReservationTablePending();
+		FragmentRestaurantReservationTablePending.AUTH=auth;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantAdminPendingResercation);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setButtonReserveTableConfirmed(String auth) {
+		// TODO Auto-generated method stub
+		Fragment restaurantAdminconfiemedOrder = new FragmentRestaurantReservationConfirmed();
+		FragmentRestaurantReservationConfirmed.AUTH=auth;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantAdminconfiemedOrder);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void setButtonReserveTableRejected(String auth) {
+		// TODO Auto-generated method stub
+		Fragment restaurantAdminRejectededOrder = new FragmentRestaurantReservationRejected();
+		FragmentRestaurantReservationRejected.AUTH=auth;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantAdminRejectededOrder);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 	}
 
 

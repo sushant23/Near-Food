@@ -3,10 +3,13 @@ package com.tr.nearfood.dbhelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.android.gms.drive.internal.AddEventListenerRequest;
 import com.tr.nearfood.model.Catagory;
 import com.tr.nearfood.model.CustomerInfoDTO;
+import com.tr.nearfood.model.CustomerOrdersDTO;
 import com.tr.nearfood.model.ItemMenuDTO;
 import com.tr.nearfood.model.OrderedItemDTO;
+import com.tr.nearfood.model.ReservationDTO;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -22,7 +25,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String LOG = "DatabaseHelper";
 
 	// Database Version
-	private static final int DATABASE_VERSION = 3;
+	private static final int DATABASE_VERSION = 6;
 
 	// Database Name
 	private static final String DATABASE_NAME = "Menu_Items";
@@ -32,13 +35,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String TABLE_CATAGORY = "catagorys";
 	private static final String TABLE_ORDER = "adminorder";
 	private static final String TABLE_CUSTOMER_DETAILS = "customer";
+	private static final String TABLE_CUSTOMER_ORDERS = "customersorders";
+	private static final String TABLE_RESTAURANT_LIST = "restautantlist";
+	private static final String TABLE_RESERVE_TABLE = "reservetable";
+	private static final String TABLE_NOTIFICATION_MESSAGE = "message";
 	// Common column names
 	private static final String KEY_ID = "id";
 	private static final String KEY_CREATED_AT = "created_at";
 	private static final String KEY_CATAGORY_ID = "catagory_id";
 	private static final String KEY_IS_ACTIVE = "is_active";
 	private static final String KEY_UPDATED_AT = "updated_at";
-
+	private static final String KEY_NOTI_MESSAGE = "noti_message";
 	// ITEMS Table - column nmaes
 	private static final String KEY_ITEM_ID = "item_id";
 	private static final String KEY_ORDERED_ID = "order_id";
@@ -46,11 +53,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_ITEM_NAME = "item_name";
 	private static final String KEY_ITEM_PRICE = "item_price";
 
+	// ORDERS Table-column names
+	private static final String KEY_ITEMS_LIST = "item_list";
+	private static final String KEY_STATUS = "status";
+	private static final String KEY_RESTAURANT_NAME = "rest_name";
+	private static final String KEY_RESTAURANT_Address = "rest_address";
 	// CUSTOMER_DETAILS - column names
 	private static final String KEY_CUSTOMER_ID = "customer_id";
 	private static final String KEY_CUSTOMER_NAME = "name";
 	private static final String KEY_CUSTOMER_DETAILS_JSON = "json";
 
+	private static final String KEY_RESERVE_TABLE_MESSAGE = "message";
+	private static final String KEY_CONTACT_NUMBER = "phone";
+	private static final String KEY_EMAIL = "email";
 	// Catagory Table - column names
 
 	private static final String KEY_CATAGORY_NAME = "catagory_name";
@@ -73,6 +88,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ TABLE_CUSTOMER_DETAILS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
 			+ KEY_CUSTOMER_ID + " INTEGER," + KEY_CUSTOMER_NAME + " TEXT,"
 			+ KEY_CUSTOMER_DETAILS_JSON + " TEXT" + ")";
+	private static final String CREATE_TABLE_RESERVATION = "CREATE TABLE "
+			+ TABLE_RESERVE_TABLE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+			+ KEY_CUSTOMER_ID + " INTEGER," + KEY_CUSTOMER_NAME + " TEXT,"
+			+ KEY_CONTACT_NUMBER + " TEXT," + KEY_EMAIL + " TEXT,"
+			+ KEY_RESERVE_TABLE_MESSAGE + " TEXT," + KEY_CUSTOMER_DETAILS_JSON
+			+ " TEXT" + ")";
 
 	private static final String CREATE_TABLE_ORDERED_ITEM = "CREATE TABLE "
 			+ TABLE_ORDER + "(" + KEY_ID + " INTEGER," + KEY_ITEM_ID
@@ -81,6 +102,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ " INTEGER," + KEY_CREATED_AT + " TEXT," + KEY_UPDATED_AT
 			+ " TEXT" + ")";
 
+	private static final String CREATE_TABLE_ORDER = "CREATE TABLE "
+			+ TABLE_CUSTOMER_ORDERS + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+			+ KEY_RESTAURANT_ID + " INTEGER," + KEY_ITEMS_LIST + " TEXT,"
+			+ KEY_STATUS + " TEXT" + ")";
+
+	private static final String CREATE_TABLE_NOTIFICATION = "CREATE TABLE "
+			+ TABLE_NOTIFICATION_MESSAGE + "(" + KEY_ID
+			+ " INTEGER PRIMARY KEY," + KEY_NOTI_MESSAGE + " TEXT" + ")";
+
+	private static final String CREATE_TABLE_RESTAURANTS_LIST = "CREATE TABLE "
+			+ TABLE_RESTAURANT_LIST + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
+			+ KEY_RESTAURANT_ID + " INTEGER," + KEY_RESTAURANT_NAME + " TEXT,"
+			+ KEY_RESTAURANT_Address + " TEXT" + ")";
 	// CATAGORY table create statement
 	private static final String CREATE_TABLE_CATAGORY = "CREATE TABLE "
 			+ TABLE_CATAGORY + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
@@ -101,6 +135,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(CREATE_TABLE_CATAGORY);
 		db.execSQL(CREATE_TABLE_ORDERED_ITEM);
 		db.execSQL(CREATE_TABLE_CUSTOMER);
+		db.execSQL(CREATE_TABLE_ORDER);
+		db.execSQL(CREATE_TABLE_RESTAURANTS_LIST);
+		db.execSQL(CREATE_TABLE_RESERVATION);
+		db.execSQL(CREATE_TABLE_NOTIFICATION);
+
 		Log.d(LOG, "database created");
 	}
 
@@ -111,6 +150,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CATAGORY);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_ORDER);
 		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUSTOMER_DETAILS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_CUSTOMER_ORDERS);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESTAURANT_LIST);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_RESERVE_TABLE);
+		db.execSQL("DROP TABLE IF EXISTS " + TABLE_NOTIFICATION_MESSAGE);
+
 		// create new tables
 		onCreate(db);
 	}
@@ -139,6 +183,44 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 	}
 
+	public void createOrders(CustomerOrdersDTO order) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_RESTAURANT_ID, order.getRestaurant_id());
+		values.put(KEY_ITEMS_LIST, order.getItems_list());
+		values.put(KEY_STATUS, order.getStatus());
+
+		db.insert(TABLE_CUSTOMER_ORDERS, null, values);
+		Log.d(LOG, "Order table created");
+
+	}
+
+	public void createNotifiaction(String message) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_NOTI_MESSAGE, message);
+		db.insert(TABLE_NOTIFICATION_MESSAGE, null, values);
+		Log.d(LOG, "NOtifiation table created");
+
+	}
+
+	public void createReservationDetail(ReservationDTO reservationDTO) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_CUSTOMER_ID, reservationDTO.getId());
+		values.put(KEY_CUSTOMER_NAME, reservationDTO.getName());
+		values.put(KEY_RESERVE_TABLE_MESSAGE, reservationDTO.getMessage());
+		values.put(KEY_EMAIL, reservationDTO.getEmail());
+		values.put(KEY_CONTACT_NUMBER, reservationDTO.getPhone());
+		values.put(KEY_CUSTOMER_DETAILS_JSON, reservationDTO.getJson());
+		// insert row
+		db.insert(TABLE_RESERVE_TABLE, null, values);
+		Log.d(LOG, "Reservation table created");
+	}
+
 	public void createCustomer(CustomerInfoDTO customerInfoDTO) {
 		SQLiteDatabase db = this.getWritableDatabase();
 
@@ -150,6 +232,53 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		db.insert(TABLE_CUSTOMER_DETAILS, null, values);
 		Log.d(LOG, "Customer table created");
 
+	}
+
+	public void createRestaurantList(int id, String name, String address) {
+		SQLiteDatabase db = this.getWritableDatabase();
+
+		ContentValues values = new ContentValues();
+		values.put(KEY_RESTAURANT_ID, id);
+		values.put(KEY_RESTAURANT_NAME, name);
+		values.put(KEY_RESTAURANT_Address, address);
+		db.insert(TABLE_RESTAURANT_LIST, null, values);
+
+	}
+
+	public String getRestaurantName(int id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT  * FROM " + TABLE_RESTAURANT_LIST
+				+ " WHERE " + KEY_RESTAURANT_ID + " = " + id;
+
+		Log.e(LOG, selectQuery);
+
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.moveToFirst()) {
+			String restaurant_name = c.getString(c
+					.getColumnIndex(KEY_RESTAURANT_NAME));
+			return restaurant_name;
+		}
+		return null;
+	}
+
+	public String getRestaurantAddresss(int id) {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT  * FROM " + TABLE_RESTAURANT_LIST
+				+ " WHERE " + KEY_RESTAURANT_ID + " = " + id;
+
+		Log.e(LOG, selectQuery);
+
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.moveToFirst()) {
+			String restaurant_name = c.getString(c
+					.getColumnIndex(KEY_RESTAURANT_Address));
+			return restaurant_name;
+		}
+		return null;
 	}
 
 	/*
@@ -185,18 +314,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		Log.d(LOG, "order tablecreated");
 	}
 
-	public String getCustomerJsonDetails(String customer_name) {
+	public String getCustomerJsonDetails(String customer_name, String table_name) {
 		SQLiteDatabase db = this.getReadableDatabase();
 
-		String selectQuery = "SELECT * FROM " + TABLE_CUSTOMER_DETAILS
-				+ " WHERE " + KEY_CUSTOMER_NAME + " =  \"" + customer_name
-				+ "\"";
+		String selectQuery = "SELECT * FROM " + table_name + " WHERE "
+				+ KEY_CUSTOMER_NAME + " =  \"" + customer_name + "\"";
 
 		Log.e(LOG, selectQuery);
+		String json = "";
 		Cursor c = db.rawQuery(selectQuery, null);
-		if (c != null)
-			c.moveToFirst();
-		String json = c.getString(c.getColumnIndex(KEY_CUSTOMER_DETAILS_JSON));
+		if (c != null && c.moveToFirst())
+			json = c.getString(c.getColumnIndex(KEY_CUSTOMER_DETAILS_JSON));
 		c.close();
 		return json;
 	}
@@ -227,6 +355,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		td.setUpdated_at(c.getString(c.getColumnIndex(KEY_UPDATED_AT)));
 		c.close();
 		return td;
+	}
+
+	public List<CustomerOrdersDTO> getallorders() {
+		List<CustomerOrdersDTO> orderList = new ArrayList<CustomerOrdersDTO>();
+		SQLiteDatabase db = this.getReadableDatabase();
+		String selectQuery = "SELECT * FROM " + TABLE_CUSTOMER_ORDERS
+				+ " WHERE " + KEY_STATUS + " =  \"" + "PENDING" + "\"";
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.moveToFirst()) {
+			do {
+				CustomerOrdersDTO order = new CustomerOrdersDTO();
+				order.setRestaurant_id(c.getInt(c
+						.getColumnIndex(KEY_RESTAURANT_ID)));
+				order.setItems_list(c.getString(c
+						.getColumnIndex(KEY_ITEMS_LIST)));
+				order.setStatus(c.getString(c.getColumnIndex(KEY_STATUS)));
+
+				orderList.add(order);
+			} while (c.moveToNext());
+		}
+
+		c.close();
+		return orderList;
+	}
+	public List<String> getallNotifications() {
+		List<String> orderList = new ArrayList<String>();
+		SQLiteDatabase db = this.getReadableDatabase();
+		String selectQuery = "SELECT * FROM " + TABLE_NOTIFICATION_MESSAGE;
+		Cursor c = db.rawQuery(selectQuery, null);
+		String message;
+		if (c != null && c.moveToFirst()) {
+			do {
+				
+				message=(c.getString(c.getColumnIndex(KEY_NOTI_MESSAGE)));
+
+				orderList.add(message);
+			} while (c.moveToNext());
+		}
+
+		c.close();
+		return orderList;
 	}
 
 	// get all items of respectice catagory
@@ -397,7 +567,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getWritableDatabase();
 		String sql = "DROP TABLE IF EXISTS " + TABLE_ITEMS;
 		String sql1 = "DROP TABLE IF EXISTS " + TABLE_CATAGORY;
-		String sql2 = "DROP TABLE IF EXITS " + TABLE_ORDER;
+		String sql2 = "DROP TABLE IF EXISTS " + TABLE_ORDER;
 
 		try {
 			db.execSQL(sql);
@@ -421,16 +591,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 				+ KEY_RESTAURANT_ID + "=" + restaurant_id;
 		Cursor c = db.rawQuery(selectQuery, null);
 
-		if (c != null)
-			c.moveToFirst();
-		do {
+		if (c != null && c.moveToFirst()) {
+			do {
 
-			cat = (c.getInt(c.getColumnIndex(KEY_CATAGORY_ID)));
+				cat = (c.getInt(c.getColumnIndex(KEY_CATAGORY_ID)));
 
-			catagoryList.add(cat);
-		} while (c.moveToNext());
-		c.close();
-
+				catagoryList.add(cat);
+			} while (c.moveToNext());
+			c.close();
+		}
 		return catagoryList;
 	}
 

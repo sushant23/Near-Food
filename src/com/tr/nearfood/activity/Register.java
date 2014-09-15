@@ -1,47 +1,45 @@
 package com.tr.nearfood.activity;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.StringTokenizer;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.google.gson.Gson;
-import com.tr.nearfood.R;
-import com.tr.nearfood.adapter.ExpandableMenuListAdapter;
-import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
-import com.tr.nearfood.fragment.FragmentRestaurantMenu;
-import com.tr.nearfood.utills.ActivityLayoutAdjuster;
-import com.tr.nearfood.utills.AppConstants;
-
-import android.R.integer;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
+
+import com.google.gson.Gson;
+import com.tr.nearfood.R;
+import com.tr.nearfood.adapter.PlaceAutoCompleteAdapter;
+import com.tr.nearfood.fragment.FragmentRestaurantMenu;
+import com.tr.nearfood.utills.ActivityLayoutAdjuster;
+import com.tr.nearfood.utills.AppConstants;
+import com.tr.nearfood.utills.SetEventToCalandar;
 
 public class Register extends Activity {
 
@@ -54,7 +52,6 @@ public class Register extends Activity {
 	AutoCompleteTextView autoCompView;
 	int[] confirmedMenuArray;
 	String json;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -83,15 +80,19 @@ public class Register extends Activity {
 		intitializrUIElements();
 
 		emailAddress.setVisibility(View.VISIBLE);
-
-		if (fromgoogel) {
-			StringTokenizer tokens = new StringTokenizer(name, " ");
-			String first = tokens.nextToken();
-			String second = tokens.nextToken();
-			String third = tokens.nextToken();
-			firstName.setText(first);
-			lastName.setText(second + " " + third);
-			personalEmail.setText(email);
+		try {
+			if (fromgoogel) {
+				StringTokenizer tokens = new StringTokenizer(name, " ");
+				String first = tokens.nextToken();
+				String second = tokens.nextToken();
+				firstName.setText(first);
+				lastName.setText(second );
+				personalEmail.setText(email);
+			}
+		} catch (NullPointerException e) {
+			Toast.makeText(getApplicationContext(),
+					"GOOGLE PLUS Login not completer sucessfully",
+					Toast.LENGTH_LONG).show();
 		}
 
 		autoCompView.setAdapter(new PlaceAutoCompleteAdapter(this,
@@ -115,9 +116,21 @@ public class Register extends Activity {
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
 					json = gson.toJson(objectOrderDetails);
-					new SendOrderHttpPost().execute(json);
-					Log.d("orderDetails json data", json);
 					
+					Intent gcm_test = new Intent(getApplicationContext(),
+							com.tr.nearfood.pushnotification.MainActivity.class);
+					StringBuilder builder = new StringBuilder();
+					for (int i : confirmedMenuArray) {
+					  builder.append(i);
+					  builder.append(",");
+					}
+					String items_list = builder.toString();
+					//	items_list=items_list.substring(1, items_list.length()-1);
+					gcm_test.putExtra("json_string", json);
+					gcm_test.putExtra("items", items_list);
+					startActivity(gcm_test);
+					// new SendOrderHttpPost().execute(json);
+					Log.d("orderDetails json data", items_list);
 
 				}
 			}
@@ -159,7 +172,7 @@ public class Register extends Activity {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			if (pd == null) {
-				pd = new ProgressDialog(getApplicationContext());
+				pd = new ProgressDialog(Register.this);
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
 				pd.setMessage("Sending Your Order...");
@@ -189,7 +202,7 @@ public class Register extends Activity {
 					if (sucess.equals("success")) {
 						Toast.makeText(getApplicationContext(), message,
 								Toast.LENGTH_SHORT).show();
-					
+
 					} else if (sucess.equals("error")) {
 						Toast.makeText(getApplicationContext(), message,
 								Toast.LENGTH_SHORT).show();
@@ -207,9 +220,12 @@ public class Register extends Activity {
 	public String sendOrderDetails(String url, String order) {
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(url);
+		httppost.setHeader("api", AppConstants.API);
 
 		try {
-			httppost.setEntity(new StringEntity(json));
+			List<NameValuePair> namevaluepair = new ArrayList<NameValuePair>();
+			namevaluepair.add(new BasicNameValuePair("json_string", json));
+			httppost.setEntity(new UrlEncodedFormEntity(namevaluepair));
 			HttpResponse resp;
 			resp = httpclient.execute(httppost);
 			HttpEntity ent = resp.getEntity();

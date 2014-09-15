@@ -47,6 +47,7 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 	EditText adminEmail, adminPass;
 	String email, pass;
 	String auth = null;
+	String static_auth="cmFrdXNoYWgxMjNAZ21haWwuY29tOjEyMzQ1Ng==";
 	@Override
 	public void onAttach(Activity activity) {
 		// TODO Auto-generated method stub
@@ -114,12 +115,15 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		Log.d("hashkey", auth);
+		Log.d("hashkey", static_auth+"/n"+AppConstants.API);
 
 		try {
+			 
+
 			HttpClient client = new DefaultHttpClient();
 			HttpGet get = new HttpGet(AppConstants.RESTAURANTS_LOGIN);
-			get.addHeader("Authorization", "Basic " + auth);
+			get.setHeader("Authorization", "Basic " + static_auth);
+			get.setHeader("api", AppConstants.API);
 			HttpResponse response = client.execute(get);
 			HttpEntity entity = response.getEntity();
 			InputStream is = entity.getContent();
@@ -194,13 +198,14 @@ public class FragmentAdminLogin extends Fragment implements OnClickListener {
 
 				try {
 					JSONObject login_status = new JSONObject(result);
+					Log.d("fsdfs",result);
 					String sucess = login_status.getString("status");
 					String message = login_status.getString("message");
 					if (sucess.equals("success")) {
 						Toast.makeText(getActivity(), message,
 								Toast.LENGTH_SHORT).show();
 						fragmentResturantAdminLoginCommunicator
-								.setButtonSignin(auth);
+								.setButtonSignin(static_auth);
 					} else if (sucess.equals("error")) {
 						Toast.makeText(getActivity(), message,
 								Toast.LENGTH_SHORT).show();

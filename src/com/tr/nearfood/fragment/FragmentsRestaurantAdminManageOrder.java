@@ -113,7 +113,7 @@ public class FragmentsRestaurantAdminManageOrder extends Fragment {
 			ParseJsonOrders(result);
 
 			listAdapter = new ExpandableListAdapter(getActivity(),
-					listDataHeader, listDataChild);
+					listDataHeader, listDataChild,"PENDING",AUTH,"ORDER");
 
 			// setting list adapter
 			expListView.setAdapter(listAdapter);
@@ -131,6 +131,7 @@ public class FragmentsRestaurantAdminManageOrder extends Fragment {
 
 		HttpGet httpGet = new HttpGet(url);
 		httpGet.setHeader("Authorization", "Basic " + AUTH);
+		httpGet.setHeader("api",AppConstants.API);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();

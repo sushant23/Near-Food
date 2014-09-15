@@ -25,21 +25,22 @@ import com.tr.nearfood.adapter.ExpandableListAdapter;
 import com.tr.nearfood.dbhelper.DatabaseHelper;
 import com.tr.nearfood.model.CustomerInfoDTO;
 import com.tr.nearfood.model.OrderedItemDTO;
+import com.tr.nearfood.model.ReservationDTO;
 import com.tr.nearfood.utills.AppConstants;
 
-import android.support.v4.app.Fragment;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 
-public class FragmentRestaurantOrderConfirmed extends Fragment {
-
+public class FragmentRestaurantReservationTablePending extends Fragment {
 	public static String AUTH;
+
 	DatabaseHelper db;
 	View view;
 	ExpandableListAdapter listAdapter;
@@ -82,7 +83,7 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 				pd = new ProgressDialog(view.getContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Confirmed Menu Item list is loading...");
+				pd.setMessage("Menu Item list is loading...");
 				pd.show();
 			}
 		}
@@ -92,8 +93,9 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 			// TODO Auto-generated method stub
 			String json = "";
 			try {
-
-				json = httpGETConnection(AppConstants.RESTAURANTS_ORDER_CONFIRMED);
+				String url = AppConstants.RESTAURANT_VIEW_RESERVATION
+						+ "PENDING";
+				json = httpGETConnection(url);
 
 			} catch (ConnectTimeoutException e) {
 				// TODO Auto-generated catch block
@@ -113,7 +115,7 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 			ParseJsonOrders(result);
 
 			listAdapter = new ExpandableListAdapter(getActivity(),
-					listDataHeader, listDataChild,"CONFIRMED",AUTH,"ORDER");
+					listDataHeader, listDataChild, "PENDING", AUTH,"RESERVE");
 
 			// setting list adapter
 			expListView.setAdapter(listAdapter);
@@ -130,9 +132,8 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 		HttpClient client = new DefaultHttpClient();
 
 		HttpGet httpGet = new HttpGet(url);
-		httpGet.addHeader("Authorization", "Basic " + AUTH);
-		httpGet.addHeader("api",AppConstants.API);
-
+		httpGet.setHeader("Authorization", "Basic " + AUTH);
+		httpGet.setHeader("api", AppConstants.API);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
@@ -176,39 +177,25 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 					JSONObject customer_details = jArray.getJSONObject(i);
 					int customer_id = customer_details.getInt("id");
 					String customer_name = customer_details.getString("name");
-					/*CustomerInfoDTO customerInfoDTO = new CustomerInfoDTO();
-					customerInfoDTO.setId(customer_id);
-					customerInfoDTO.setName(customer_name);
-					customerInfoDTO.setJson(customer_details.toString());
-					db.createCustomer(customerInfoDTO);*/
+					String message = customer_details.getString("message");
+					String phone = customer_details.getString("phone");
+					String email = customer_details.getString("email");
+					ReservationDTO reservationDTO = new ReservationDTO();
+					reservationDTO.setId(customer_id);
+					reservationDTO.setName(customer_name);
+					reservationDTO.setEmail(email);
+					reservationDTO.setMessage(message);
+					reservationDTO.setPhone(phone);
+					reservationDTO.setJson(customer_details.toString());
+					db.createReservationDetail(reservationDTO);
 
 					listDataHeader.add(customer_name);
-					JSONArray orderDetailsArray = customer_details
-							.getJSONArray("order_detail");
+
 					List<String> orderList = new ArrayList<String>();
-					for (int j = 0; j < orderDetailsArray.length(); j++) {
+					for (int j = 0; j < 1; j++) {
 
-						JSONObject item_details = orderDetailsArray
-								.getJSONObject(j);
-						int item_id = item_details.getInt("item_id");
-						String item_name = item_details.getString("item");
-						int item_price = item_details.getInt("price");
-						int restaurant_id = item_details
-								.getInt("restaurant_id");
+						orderList.add(message);
 
-						orderList.add(item_name);
-
-						OrderedItemDTO orderedItem = new OrderedItemDTO();
-						orderedItem.setItem_id(item_id);
-						orderedItem.setItem(item_name);
-						orderedItem.setPrice(item_price);
-						orderedItem.setRestaurant_id(restaurant_id);
-
-						if (db.checkItemPresence(restaurant_id, item_id,
-								"adminorder")) {
-							db.createOrderItem(orderedItem);
-
-						}
 					}
 					listDataChild.put(customer_name, orderList);
 

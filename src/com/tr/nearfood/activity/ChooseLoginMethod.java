@@ -169,9 +169,13 @@ public class ChooseLoginMethod extends Activity implements OnClickListener,
 	@Override
 	public void onConnected(Bundle arg0) {
 		// TODO Auto-generated method stub
-		if (pd.isShowing()) {
-			pd.dismiss();
-			pd = null;
+		try {
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+			}
+		} catch (NullPointerException e) {
+			Log.d("erroe", "null point exceotion");
 		}
 		mSignInClicked = false;
 		Toast.makeText(this, "User is connected!", Toast.LENGTH_LONG).show();

@@ -5,13 +5,15 @@ public class ResturantAddress {
 	private String returantCityName;
 	private long resturantLatitude;
 	private long resturantLongitude;
-	private long resturantDistance;
+	private String resturantDistance;
 
-	public long getResturantDistance() {
+	
+
+	public String getResturantDistance() {
 		return resturantDistance;
 	}
 
-	public void setResturantDistance(long resturantDistance) {
+	public void setResturantDistance(String resturantDistance) {
 		this.resturantDistance = resturantDistance;
 	}
 

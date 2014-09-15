@@ -14,7 +14,7 @@
         android:id="@+id/linearlayoutHeaderContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
+       
         android:orientation="horizontal"
         android:weightSum="100" >
 
@@ -32,7 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
+            android:layout_gravity="center_vertical|center"
+            android:layout_weight="90"
             android:orientation="vertical" >
 
             <RelativeLayout
@@ -69,7 +70,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/imageButtonCalendar"
                     android:background="@drawable/button_gradiant"
-                    android:text="SUBSCRIBE"
+                    android:text="ORDERS"
                     android:padding="3dp"
                     android:textColor="@color/white"
                     android:textSize="10sp" />
@@ -80,7 +81,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:id="@+id/linsearchcontainer"
-                android:weightSum="100" >
+                android:weightSum="100" 
+                android:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/imageButtonGPS"
@@ -101,7 +103,7 @@
                     android:layout_below="@+id/imageButtonNotification"
                     android:layout_weight="90" >
 
-                    <AutoCompleteTextView
+                    <EditText
                         android:id="@+id/editTextSearchResturantLists"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"

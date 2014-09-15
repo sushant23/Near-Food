@@ -1,23 +1,28 @@
 package com.tr.nearfood.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.tr.nearfood.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tr.nearfood.model.ResturantDTO;
 
-public class CustomAdapterResturantLists extends BaseAdapter {
+public class CustomAdapterResturantLists extends BaseAdapter implements Filterable{
 	private Context context;
 	List<ResturantDTO> resturantLists;
 	public static LayoutInflater layoutInflater;
-
+	private RestauantFilter restaurantFilter;
+	 
 	public CustomAdapterResturantLists(Context context,
 			List<ResturantDTO> resturantLists) {
 		this.context = context;
@@ -101,11 +106,61 @@ public class CustomAdapterResturantLists extends BaseAdapter {
 			viewHolder.textViewRowResturantListResturantCity
 					.setText(tempResturant.getResturantAddress()
 							.getReturantCityName());
+			double value = Double.parseDouble(tempResturant.getResturantAddress()
+					.getResturantDistance());
+			double rounded = (double) Math.round(value * 100) / 100;
 			viewHolder.textViewRowResturantListDistance.setText(String
-					.valueOf(tempResturant.getResturantAddress()
-							.getResturantDistance()));
+					.valueOf(Double.toString(rounded)+"km"));
 		}
 		return convertedView;
 	}
+	private class RestauantFilter extends Filter {
+	    @Override
+	    protected FilterResults performFiltering(CharSequence constraint) {
+			
+	    	FilterResults results = new FilterResults();
+	        // We implement here the filter logic
+	        if (constraint == null || constraint.length() == 0) {
+	            // No filter implemented we return all the list
+	            results.values = resturantLists;
+	            results.count = resturantLists.size();
+	        }
+	        else {
+	            // We perform filtering operation
+	            List<ResturantDTO> nRestaurantList = new ArrayList<ResturantDTO>();
+	             
+	            for (ResturantDTO p : resturantLists) {
+	                if (p.getResturantName().toUpperCase().startsWith(constraint.toString().toUpperCase()))
+	                	nRestaurantList.add(p);
+	            }
+	             
+	            results.values = nRestaurantList;
+	            results.count = nRestaurantList.size();
+	     
+	        }
+	        return results;
+	    
+	    }
+	 
+	    @Override
+	    protected void publishResults(CharSequence constraint,FilterResults results) {
+	    	// Now we have to inform the adapter about the new list filtered
+	        if (results.count == 0)
+	            notifyDataSetInvalidated();
+	        else {
+	        	resturantLists = (List<ResturantDTO>) results.values;
+	            notifyDataSetChanged();
+	        }
+	    }
+	     
+	}
 
+	@Override
+	public Filter getFilter() {
+		// TODO Auto-generated method stub
+		 if (restaurantFilter == null)
+		        restaurantFilter = new RestauantFilter();
+		     
+		    return restaurantFilter;
+	}
 }

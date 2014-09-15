@@ -6,11 +6,14 @@ import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -126,11 +129,24 @@ public class LoginWithFacebook extends Activity {
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
 					json = gson.toJson(objectOrderDetails);
-					new SendOrderHttpPost().execute(json);
+					/*new SendOrderHttpPost().execute(json);
 					Log.d("orderDetails json data", json);
 					Toast.makeText(getApplicationContext(), json,
 							Toast.LENGTH_LONG).show();
-
+*/					
+					Intent gcm_test = new Intent(getApplicationContext(),
+							com.tr.nearfood.pushnotification.MainActivity.class);
+					StringBuilder builder = new StringBuilder();
+					for (int i : confirmedMenuArray) {
+					  builder.append(i);
+					  builder.append(",");
+					}
+					String items_list = builder.toString();
+					//	items_list=items_list.substring(1, items_list.length()-1);
+					
+					gcm_test.putExtra("json_string", json);
+					gcm_test.putExtra("items", items_list);
+					startActivity(gcm_test);
 				}
 			}
 		});
@@ -166,7 +182,7 @@ public class LoginWithFacebook extends Activity {
 			// TODO Auto-generated method stub
 			super.onPreExecute();
 			if (pd == null) {
-				pd = new ProgressDialog(getApplicationContext());
+				pd = new ProgressDialog(LoginWithFacebook.this);
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
 				pd.setMessage("Sending Your Order...");
@@ -214,9 +230,11 @@ public class LoginWithFacebook extends Activity {
 	public String sendOrderDetails(String url, String order) {
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost httppost = new HttpPost(url);
-
+		httppost.setHeader("api", AppConstants.API);
 		try {
-			httppost.setEntity(new StringEntity(json));
+			List<NameValuePair> namevaluepair = new ArrayList<NameValuePair>();
+			namevaluepair.add(new BasicNameValuePair("json_string", json));
+			httppost.setEntity(new UrlEncodedFormEntity(namevaluepair));
 			HttpResponse resp;
 			resp = httpclient.execute(httppost);
 			HttpEntity ent = resp.getEntity();

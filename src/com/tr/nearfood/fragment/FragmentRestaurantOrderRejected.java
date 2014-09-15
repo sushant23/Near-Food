@@ -20,6 +20,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ExpandableListView;
+
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapter;
 import com.tr.nearfood.dbhelper.DatabaseHelper;
@@ -27,18 +37,7 @@ import com.tr.nearfood.model.CustomerInfoDTO;
 import com.tr.nearfood.model.OrderedItemDTO;
 import com.tr.nearfood.utills.AppConstants;
 
-import android.support.v4.app.Fragment;
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ExpandableListView;
-
-public class FragmentRestaurantOrderConfirmed extends Fragment {
-
+public class FragmentRestaurantOrderRejected extends Fragment {
 	public static String AUTH;
 	DatabaseHelper db;
 	View view;
@@ -82,7 +81,7 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 				pd = new ProgressDialog(view.getContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Confirmed Menu Item list is loading...");
+				pd.setMessage("Rejected Order list is loading...");
 				pd.show();
 			}
 		}
@@ -93,7 +92,7 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 			String json = "";
 			try {
 
-				json = httpGETConnection(AppConstants.RESTAURANTS_ORDER_CONFIRMED);
+				json = httpGETConnection(AppConstants.RESTAURANTS_ORDER_REJECTED);
 
 			} catch (ConnectTimeoutException e) {
 				// TODO Auto-generated catch block
@@ -113,7 +112,7 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 			ParseJsonOrders(result);
 
 			listAdapter = new ExpandableListAdapter(getActivity(),
-					listDataHeader, listDataChild,"CONFIRMED",AUTH,"ORDER");
+					listDataHeader, listDataChild,"REJECTED",AUTH,"ORDER");
 
 			// setting list adapter
 			expListView.setAdapter(listAdapter);
@@ -176,11 +175,11 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 					JSONObject customer_details = jArray.getJSONObject(i);
 					int customer_id = customer_details.getInt("id");
 					String customer_name = customer_details.getString("name");
-					/*CustomerInfoDTO customerInfoDTO = new CustomerInfoDTO();
+					CustomerInfoDTO customerInfoDTO = new CustomerInfoDTO();
 					customerInfoDTO.setId(customer_id);
 					customerInfoDTO.setName(customer_name);
 					customerInfoDTO.setJson(customer_details.toString());
-					db.createCustomer(customerInfoDTO);*/
+					db.createCustomer(customerInfoDTO);
 
 					listDataHeader.add(customer_name);
 					JSONArray orderDetailsArray = customer_details
@@ -220,3 +219,4 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 		}
 	}
 }
+

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -24,25 +26,35 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnTouchListener;
+import android.webkit.WebView.FindListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.CustomAdapterResturantLists;
+import com.tr.nearfood.dbhelper.DatabaseHelper;
 import com.tr.nearfood.model.ResturantAddress;
 import com.tr.nearfood.model.ResturantContactInfo;
 import com.tr.nearfood.model.ResturantDTO;
 import com.tr.nearfood.utills.ActivityLayoutAdjuster;
 import com.tr.nearfood.utills.AppConstants;
+import com.tr.nearfood.utills.GPSTracker;
 
 public class FragmentResturantList extends Fragment implements
 		OnItemClickListener {
@@ -51,7 +63,14 @@ public class FragmentResturantList extends Fragment implements
 	FragmentResturantListCommunicator fragmentResturantListCommunicator;
 	List<ResturantDTO> dummyList = null;
 	List<ResturantDTO> resturantList = null;
+	List<ResturantDTO> rangeList=null;
 	public static int selected_catagory;
+	public static double latitude;
+	public static double longitude;
+	DatabaseHelper db;
+	CustomAdapterResturantLists adapter;
+	EditText restaurantFilter;
+	ImageButton showInRange;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -70,26 +89,82 @@ public class FragmentResturantList extends Fragment implements
 			Bundle savedInstanceState) {
 		view = inflater.inflate(R.layout.fragment_resturant_list_layout,
 				container, false);
-
+		db = new DatabaseHelper(getActivity());
 		initializeUIElements();
 		ActivityLayoutAdjuster.assistActivity(getActivity());
 
 		new makeHttpGetConnection().execute();
 
 		listViewResturantList.setOnItemClickListener(this);
+		restaurantFilter.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before,
+					int count) {
+				System.out.println("Text [" + s + "]");
+				adapter.getFilter().filter(s.toString());
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count,
+					int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
+		
+		showInRange.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					showInRange.setColorFilter(Color.argb(150, 155, 155, 155));
+					rangeList = new ArrayList<ResturantDTO>();
+					for(int i=0;i<dummyList.size();i++)
+					{
+						ResturantDTO ekItem= new ResturantDTO();
+						ekItem=dummyList.get(i);
+						String dist=ekItem.getResturantAddress().getResturantDistance();
+						if(Double.parseDouble(dist)<1000)
+						{
+							rangeList.add(ekItem);
+						}
+						
+					}
+					adapter = new CustomAdapterResturantLists(getActivity(),
+							rangeList);
+
+					listViewResturantList.setAdapter(adapter);
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					showInRange.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																				// null
+					return true;
+				}
+				return false;
+			}
+
+		});
 		return view;
 	}
 
 	private void initializeUIElements() {
 		listViewResturantList = (ListView) view
 				.findViewById(R.id.listViewResturantList);
+		restaurantFilter=(EditText) view.findViewById(R.id.editTextSearchResturantLists);
+		showInRange = (ImageButton) view.findViewById(R.id.imageButtonGPS);
+
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		fragmentResturantListCommunicator.setClickedData(resturantList
-				.get(position));
+		 ResturantDTO restaurant = (ResturantDTO) parent.getItemAtPosition(position);
+		fragmentResturantListCommunicator.setClickedData(restaurant);
 	}
 
 	public static interface FragmentResturantListCommunicator {
@@ -118,7 +193,9 @@ public class FragmentResturantList extends Fragment implements
 		protected String doInBackground(String... arg0) {
 			// TODO Auto-generated method stub
 			String jsonData = "";
-			String url = AppConstants.RESTAURANTS_LIST + selected_catagory;
+
+			String url = AppConstants.RESTAURANTS_LIST + selected_catagory
+					+ "&" + "lat=" + latitude + "&" + "lon=" + longitude;
 			Log.d("URl", url);
 			try {
 				jsonData = httpGETConnection(url);
@@ -138,9 +215,20 @@ public class FragmentResturantList extends Fragment implements
 				pd = null;
 			}
 			resturantList = ParseJsonData(result);
+			Collections.sort(resturantList, new Comparator<ResturantDTO>() {
+				@Override
+				public int compare(ResturantDTO o1, ResturantDTO o2) {
+					float first = Float.parseFloat(o1.getResturantAddress()
+							.getResturantDistance());
+					float second = Float.parseFloat(o2.getResturantAddress()
+							.getResturantDistance());
+					return (int) (first - second);
+				}
+			});
+			adapter = new CustomAdapterResturantLists(getActivity(),
+					resturantList);
 
-			listViewResturantList.setAdapter(new CustomAdapterResturantLists(
-					getActivity(), resturantList));
+			listViewResturantList.setAdapter(adapter);
 
 		}
 	}
@@ -153,6 +241,7 @@ public class FragmentResturantList extends Fragment implements
 		HttpClient client = new DefaultHttpClient();
 
 		HttpGet httpGet = new HttpGet(url);
+		httpGet.setHeader("api", AppConstants.API);
 		try {
 			HttpResponse response = client.execute(httpGet);
 			StatusLine statusLine = response.getStatusLine();
@@ -180,6 +269,7 @@ public class FragmentResturantList extends Fragment implements
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Log.d("restaurant list", builder.toString());
 		return builder.toString();
 
 	}
@@ -193,20 +283,23 @@ public class FragmentResturantList extends Fragment implements
 				for (int i = 0; i < restaurantlist.length(); i++) {
 					JSONObject c = restaurantlist.getJSONObject(i);
 
-					String id = c.getString("id");
-					String name = c.getString("name");
-					String address = c.getString("location");
-					
+					String id = c.getString("restaurant_id");
+					String name = c.getString("restaurant_name");
+					String street_address = c.getString("street_address");
+					db.createRestaurantList(Integer.parseInt(id), name,street_address);
+					String city_address = c.getString("city_address");
+					String contact = c.getString("contact");
+					String distance = c.getString("dist");
 					ResturantDTO tempResturantDTO = new ResturantDTO();
 					ResturantAddress tempResturantAddress = new ResturantAddress();
 					tempResturantDTO.setResturantID(Integer.parseInt(id));
 					tempResturantDTO.setResturantName(name);
-					tempResturantAddress.setResturantStreetAddress(address);
-					tempResturantAddress.setReturantCityName(address);
-					tempResturantAddress.setResturantDistance(1000);
+					tempResturantAddress
+							.setResturantStreetAddress(street_address);
+					tempResturantAddress.setReturantCityName(city_address);
+					tempResturantAddress.setResturantDistance(distance);
 					ResturantContactInfo tempResturantContactInfo = new ResturantContactInfo();
-					tempResturantContactInfo
-							.setResturantphoneNoA("+97798949389" + i);
+					tempResturantContactInfo.setResturantphoneNoA(contact);
 					tempResturantDTO
 							.setResturantContactInfo(tempResturantContactInfo);
 					tempResturantDTO.setResturantAddress(tempResturantAddress);

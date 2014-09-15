@@ -1,12 +1,37 @@
 package com.tr.nearfood.fragment;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -20,10 +45,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 import com.tr.nearfood.R;
+import com.tr.nearfood.activity.RestaurantCatagory;
 import com.tr.nearfood.dbhelper.DatabaseHelper;
+import com.tr.nearfood.fragment.FragmentAdminManageRestaurantDetails.RegistrationDetails;
 import com.tr.nearfood.model.ResturantDTO;
+import com.tr.nearfood.pushnotification.MainActivity;
+import com.tr.nearfood.utills.AppConstants;
 import com.tr.nearfood.utills.CustomDateTimePicker;
+import com.tr.nearfood.utills.SetEventToCalandar;
 
 public class FragmentResturantProfile extends Fragment implements
 		OnClickListener {
@@ -34,9 +66,11 @@ public class FragmentResturantProfile extends Fragment implements
 	Button sendMessage, chooseMenu, setDateAndTime, reserveTable;
 	EditText senderName, senderEmail, senderPhone, senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
+	GoogleCloudMessaging gcm;
 	// WebView tripadvisor;
 	public static ResturantDTO SELECTED_RESTURANT_DTO;
-	String datetime=null;
+	public static String datetime = null;
+	SetEventToCalandar writeEvent = new SetEventToCalandar();
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -109,14 +143,13 @@ public class FragmentResturantProfile extends Fragment implements
 		// TODO Auto-generated method stub
 		switch (click.getId()) {
 		case R.id.buttonChooseMenu:
-			if (datetime==null)
+			if (datetime == null)
 				Toast.makeText(getActivity(), "Please Set The Data and Time",
 						Toast.LENGTH_SHORT).show();
 			else {
-				
-				fragmentResturantProfileCommunicator
-						.setButtonClicked(SELECTED_RESTURANT_DTO
-								.getResturantID(),datetime);
+
+				fragmentResturantProfileCommunicator.setButtonClicked(
+						SELECTED_RESTURANT_DTO.getResturantID(), datetime);
 			}
 			// Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
@@ -136,13 +169,12 @@ public class FragmentResturantProfile extends Fragment implements
 				senderEmail.requestFocus();
 				return;
 			} else {
-				Toast.makeText(getActivity(), "Messege sent ",
-						Toast.LENGTH_SHORT).show();
+				new AdminReserveTableHttpPost().execute();
+
 			}
 			break;
 		case R.id.buttonReserveTable:
-			Toast.makeText(getActivity(), "Reserve Table Button clicked",
-					Toast.LENGTH_SHORT).show();
+			new AdminReserveTableHttpPost().execute();
 			break;
 		case R.id.buttonSetTimeandDate:
 
@@ -159,14 +191,13 @@ public class FragmentResturantProfile extends Fragment implements
 								String weekDayShortName, int hour24,
 								int hour12, int min, int sec, String AM_PM) {
 							// TODO Auto-generated method stub
-							datetime = (calendarSelected
-									.get(Calendar.DAY_OF_MONTH)
-									+ "/"
+							datetime = (year
+									+ "-"
 									+ (monthNumber + 1)
-									+ "/"
-									+ year
-									+ ","
-									+ hour12 + ":" + min + " " + AM_PM);
+									+ "-"
+									+ calendarSelected
+											.get(Calendar.DAY_OF_MONTH) + " "
+									+ hour24 + ":" + min);
 							Toast.makeText(getActivity(), datetime,
 									Toast.LENGTH_SHORT).show();
 						}
@@ -198,14 +229,169 @@ public class FragmentResturantProfile extends Fragment implements
 				.getResturantAddress().getResturantStreetAddress());
 		restaurantCityName.setText(SELECTED_RESTURANT_DTO.getResturantAddress()
 				.getReturantCityName());
-		restaurantDistance.setText(String.valueOf(SELECTED_RESTURANT_DTO
-				.getResturantAddress().getResturantDistance()));
+		double value = Double.parseDouble(SELECTED_RESTURANT_DTO
+				.getResturantAddress().getResturantDistance());
+		double rounded = (double) Math.round(value * 100) / 100;
+		restaurantDistance.setText(Double.toString(rounded) + "km");
 		restaurantPhoneNumber.setText(SELECTED_RESTURANT_DTO
 				.getResturantContactInfo().getResturantphoneNoA());
 	}
 
 	public static interface FragmentResturantProfileCommunicator {
-		public void setButtonClicked(int restaurantID,String dateTime);
+		public void setButtonClicked(int restaurantID, String dateTime);
 	}
 
+	public class AdminReserveTableHttpPost extends
+			AsyncTask<String, Void, String> {
+		ProgressDialog pd = null;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+			if (pd == null) {
+				pd = new ProgressDialog(getActivity());
+				pd.setCancelable(true);
+				pd.setTitle("Please wait");
+				pd.setMessage("Reserving Table ...");
+				pd.show();
+			}
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			String response = LoginHttpPostConnection();
+			return response;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if (pd.isShowing()) {
+				pd.dismiss();
+				pd = null;
+
+				try {
+					JSONObject login_status = new JSONObject(result);
+					Log.d("fsdfs", result);
+					String sucess = login_status.getString("status");
+					String message = login_status.getString("message");
+					if (sucess.equals("success")) {
+						Toast.makeText(getActivity(), message,
+								Toast.LENGTH_SHORT).show();
+
+					} else if (sucess.equals("error")) {
+						Toast.makeText(getActivity(), message,
+								Toast.LENGTH_SHORT).show();
+					}
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		}
+
+	}
+
+	long addEventToCalanadar() {
+
+		Calendar cal = Calendar.getInstance();
+		cal.setTimeZone(TimeZone.getTimeZone("GMT-1"));
+		Date dt = null;
+		try {
+			dt = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(datetime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		final Calendar beginTime = Calendar.getInstance();
+		cal.setTime(dt);
+
+		// beginTime.set(2013, 7, 25, 7, 30);
+		beginTime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+				cal.get(Calendar.DATE), cal.get(Calendar.HOUR_OF_DAY),
+				cal.get(Calendar.MINUTE));
+
+		long eventID = writeEvent.pushAppointmentsToCalender(getActivity(),
+				SELECTED_RESTURANT_DTO.getResturantName(), senderMessage
+						.getText().toString(), SELECTED_RESTURANT_DTO
+						.getResturantAddress().getResturantStreetAddress(), 0,
+				beginTime.getTimeInMillis(), true, false);
+		return eventID;
+	}
+
+	class ReservationDetails {
+		private String name = senderName.getText().toString();
+		private String email = senderEmail.getText().toString();
+		private String phone = senderPhone.getText().toString();
+		private int restaurant_id = SELECTED_RESTURANT_DTO.getResturantID();
+		private String message = senderMessage.getText().toString();
+		private String booking_time = datetime;
+		private String status = "PENDING";
+	}
+
+	public String LoginHttpPostConnection() {
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(AppConstants.RESTAURANTS_RESERVE_TABLE);
+		post.addHeader("api", AppConstants.API);
+		long event_id = addEventToCalanadar();
+
+		Gson gson = new Gson();
+		ReservationDetails registrationDetails = new ReservationDetails();
+		String json_string = gson.toJson(registrationDetails);
+		try {
+			List<NameValuePair> params = new ArrayList<NameValuePair>();
+			params.add(new BasicNameValuePair("json_string", json_string));
+			params.add(new BasicNameValuePair("reg_Id",
+					RestaurantCatagory.regid));
+			params.add(new BasicNameValuePair("event_id", Long
+					.toString(event_id)));
+			Log.d("RESERCATION PARAMS", params.toString());
+			post.setEntity(new UrlEncodedFormEntity(params));
+			HttpResponse response = client.execute(post);
+			HttpEntity entity = response.getEntity();
+			InputStream is = entity.getContent();
+			String result = convertStreamToString(is);
+			// Toast.makeText(getActivity(), result, Toast.LENGTH_SHORT).show();
+			Log.d("HttpPOst Rest", result);
+			return result;
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	private static String convertStreamToString(InputStream is) {
+
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				sb.append((line + "\n"));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return sb.toString();
+	}
 }

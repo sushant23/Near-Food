@@ -1,11 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/listViewResturantList"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_below="@+id/editTextSearchResturantLists"
-    android:background="@color/dark_white"
-    android:divider="#000"
-    android:dividerHeight="2px"
-    android:padding="20dp" />
+    android:layout_height="match_parent" >
 
+    <LinearLayout
+        android:id="@+id/linsearchcontainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100" 
+        android:visibility="visible">
+
+        <ImageButton
+            android:id="@+id/imageButtonGPS"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="0dp"
+            android:layout_marginRight="5dp"
+            android:layout_weight="9"
+            android:background="@android:color/transparent"
+            android:paddingBottom="5dp"
+            android:paddingTop="9dp"
+            android:src="@drawable/icon_gps" />
+
+        <RelativeLayout
+            android:id="@+id/relLayoutSearchContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imageButtonNotification"
+            android:layout_weight="90" >
+
+            <AutoCompleteTextView
+                android:id="@+id/editTextSearchResturantLists"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+               
+                android:paddingRight="45dp"
+                android:textColor="@android:color/black" />
+
+            <ImageButton
+                android:id="@+id/imageButtonSearch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/editTextSearchResturantLists"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/editTextSearchResturantLists"
+                android:background="@android:color/transparent"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/search"
+                android:tint="#FFFFFFFF" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listViewResturantList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linsearchcontainer"
+        android:background="@color/dark_white"
+        android:divider="#000"
+        android:dividerHeight="2px"
+        android:padding="20dp" />
+
+</RelativeLayout>
