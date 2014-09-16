@@ -121,11 +121,7 @@ public class MainActivity extends Activity {
 			} else {
 				prepareOrderList();
 				sendRegistrationIdToBackend();
-				listAdapter = new ExpandableListAdapterForCustomerOrder(this,
-						listDataHeader, listDataChild);
 
-				// setting list adapter
-				expListView.setAdapter(listAdapter);
 			}
 		} else {
 			Log.i(TAG, "No valid Google Play Services APK found.");
@@ -315,36 +311,41 @@ public class MainActivity extends Activity {
 		String restaurant_address = db.getRestaurantAddresss(restaurant_id);
 		Calendar cal = Calendar.getInstance();
 		cal.setTimeZone(TimeZone.getTimeZone("GMT-1"));
+		final Calendar beginTime;
 		Date dt = null;
+		long eventID = 0;
 		try {
 			dt = new SimpleDateFormat("yyyy-MM-dd HH:mm")
 					.parse(FragmentResturantProfile.datetime);
+			beginTime = Calendar.getInstance();
+			cal.setTime(dt);
+
+			// beginTime.set(2013, 7, 25, 7, 30);
+			beginTime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+					cal.get(Calendar.DATE), cal.get(Calendar.HOUR_OF_DAY),
+					cal.get(Calendar.MINUTE));
+
+			String eventItems = "";
+			String[] items = items_list.split(",");
+			List<String> orderList = new ArrayList<String>();
+			for (String item : items) {
+				String item_name = db.getItemName(Integer.parseInt(item));
+				eventItems = eventItems.concat(item_name + ",");
+				orderList.add(item_name);
+			}
+
+			Log.d("calalnder event list", eventItems);
+			eventID = writeEvent.pushAppointmentsToCalender(MainActivity.this,
+					restaurant_name, eventItems, restaurant_address, 0,
+					beginTime.getTimeInMillis(), true, false);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 
-		final Calendar beginTime = Calendar.getInstance();
-		cal.setTime(dt);
-
-		// beginTime.set(2013, 7, 25, 7, 30);
-		beginTime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-				cal.get(Calendar.DATE), cal.get(Calendar.HOUR_OF_DAY),
-				cal.get(Calendar.MINUTE));
-		
-		String eventItems="";
-		String[] items = items_list.split(",");
-		List<String> orderList = new ArrayList<String>();
-		for (String item : items) {
-			String item_name = db.getItemName(Integer.parseInt(item));
-			eventItems=eventItems.concat(item_name+",");
-			orderList.add(item_name);
-		}
-		
-		Log.d("calalnder event list",eventItems);
-		long eventID=writeEvent.pushAppointmentsToCalender(MainActivity.this,
-				restaurant_name,eventItems , restaurant_address, 0,
-				beginTime.getTimeInMillis(), true, false);
 		return eventID;
 	}
 
@@ -357,11 +358,17 @@ public class MainActivity extends Activity {
 	private void sendRegistrationIdToBackend() {
 		// Your implementation here.
 		class SendRegistrationID extends AsyncTask<Void, Void, String> {
+			Context mContext;
+
+			public SendRegistrationID(Context cont) {
+				// TODO Auto-generated constructor stub
+				mContext = cont;
+			}
 
 			@Override
 			protected String doInBackground(Void... params) {
 				// TODO Auto-generated method stub
-				long event_id=addEventToCalanadar();
+				long event_id = addEventToCalanadar();
 
 				HttpClient client = new DefaultHttpClient();
 				HttpPost post = new HttpPost(AppConstants.CUSTOMER_ORDER);
@@ -370,7 +377,8 @@ public class MainActivity extends Activity {
 					List<NameValuePair> param = new ArrayList<NameValuePair>();
 					param.add(new BasicNameValuePair("json_string", json_string));
 					param.add(new BasicNameValuePair("reg_Id", regid));
-					param.add(new BasicNameValuePair("event_id", Long.toString(event_id)));
+					param.add(new BasicNameValuePair("event_id", Long
+							.toString(event_id)));
 					post.setEntity(new UrlEncodedFormEntity(param));
 					HttpResponse response = client.execute(post);
 					HttpEntity entity = response.getEntity();
@@ -390,8 +398,19 @@ public class MainActivity extends Activity {
 				}
 				return null;
 			}
+
+			@Override
+			protected void onPostExecute(String result) {
+				// TODO Auto-generated method stub
+				super.onPostExecute(result);
+				listAdapter = new ExpandableListAdapterForCustomerOrder(
+						mContext, listDataHeader, listDataChild);
+
+				// setting list adapter
+				expListView.setAdapter(listAdapter);
+			}
 		}
-		new SendRegistrationID().execute();
+		new SendRegistrationID(this).execute();
 	}
 
 	/**
