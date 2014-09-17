@@ -93,6 +93,8 @@
         </activity>
         <activity android:name="com.tr.nearfood.fragment.FragmentGoogleMap" >
         </activity>
+        <activity android:name="com.tr.nearfood.activity.NearByRestaurants" >
+        </activity>
         <activity android:name="com.android.calendar.LaunchActivity" >
         </activity>
         <activity android:name="com.google.android.calendar" >

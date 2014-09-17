@@ -84,7 +84,7 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast.makeText(_context, "ADDED" + childText,
+				Toast.makeText(_context, childText+"  ADDED " ,
 						Toast.LENGTH_SHORT).show();
 				int itmID = db.getItemId(childText,"item");
 				if (itmID != 0)
@@ -98,7 +98,7 @@ public class ExpandableMenuListAdapter extends BaseExpandableListAdapter {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				Toast.makeText(_context, "REMOVED" + childText,
+				Toast.makeText(_context, childText+"  REMOVED",
 						Toast.LENGTH_SHORT).show();
 				int itmID = db.getItemId(childText,"item");
 				boolean one_item_removed = false;

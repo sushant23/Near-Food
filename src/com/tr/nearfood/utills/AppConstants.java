@@ -28,5 +28,6 @@ public class AppConstants {
 	final static public String RESTAURANT_VIEW_RESERVATION="http://www.quofood.com/quofood/public/api/adminreservations/";
 	final static public String RESTAURANT_CHANGE_RESERVATION_STAUTS="http://www.quofood.com/quofood/public/api/change-reservation-status/";
 	
+	final static public String RESTAURANT_LIST_FROM_GOOGLE="http://www.quofood.com/quofood/public/api/googlelist/";
 	final static public String API="c2VjcmV0";
 }

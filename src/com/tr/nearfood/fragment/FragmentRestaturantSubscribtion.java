@@ -137,7 +137,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		editor = regPrefs.edit();
 		view = inflater.inflate(R.layout.fragment_restaurant_subscribtion,
 				container, false);
-
+		
 		initializeUIElsments();
 
 		if (fName != null || lName != null || resEmail != null
@@ -187,6 +187,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		return view;
 	}
 
+	
 	void setTheUIElements() {
 		firstName.setText(fName);
 		lastName.setText(lName);

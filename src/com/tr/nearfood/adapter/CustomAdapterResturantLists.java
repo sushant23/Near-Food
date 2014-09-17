@@ -98,14 +98,18 @@ public class CustomAdapterResturantLists extends BaseAdapter implements Filterab
 		} else {
 			ResturantDTO tempResturant = (ResturantDTO) resturantLists
 					.get(position);
+			if(tempResturant.getRegisrered())
+			{
+				viewHolder.textViewRowResturantListResturantCity
+				.setText(tempResturant.getResturantAddress()
+						.getReturantCityName());
+			}
 			viewHolder.textViewRowResturantListResturantName
 					.setText(tempResturant.getResturantName());
 			viewHolder.textViewRowResturantListResturantStreet
 					.setText(tempResturant.getResturantAddress()
 							.getResturantStreetAddress());
-			viewHolder.textViewRowResturantListResturantCity
-					.setText(tempResturant.getResturantAddress()
-							.getReturantCityName());
+			
 			double value = Double.parseDouble(tempResturant.getResturantAddress()
 					.getResturantDistance());
 			double rounded = (double) Math.round(value * 100) / 100;

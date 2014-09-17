@@ -30,6 +30,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,11 +38,15 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +54,7 @@ import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.tr.nearfood.R;
 import com.tr.nearfood.activity.RestaurantCatagory;
+import com.tr.nearfood.activity.RestaurantSubscribtion;
 import com.tr.nearfood.dbhelper.DatabaseHelper;
 import com.tr.nearfood.fragment.FragmentAdminManageRestaurantDetails.RegistrationDetails;
 import com.tr.nearfood.model.ResturantDTO;
@@ -62,7 +68,7 @@ public class FragmentResturantProfile extends Fragment implements
 	View view;
 
 	TextView restaurantName, restaurantStreetAdd, restaurantCityName,
-			restaurantDistance, restaurantPhoneNumber;
+			restaurantDistance, restaurantPhoneNumber,contact;
 	Button sendMessage, chooseMenu, setDateAndTime, reserveTable;
 	EditText senderName, senderEmail, senderPhone, senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
@@ -71,6 +77,8 @@ public class FragmentResturantProfile extends Fragment implements
 	public static ResturantDTO SELECTED_RESTURANT_DTO;
 	public static String datetime = null;
 	SetEventToCalandar writeEvent = new SetEventToCalandar();
+	LinearLayout restaurantOperation,reserveTableUserDetail;
+	ImageButton subscribe;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -99,7 +107,48 @@ public class FragmentResturantProfile extends Fragment implements
 		setDateAndTime.setOnClickListener(this);
 		reserveTable.setOnClickListener(this);
 
+		if (SELECTED_RESTURANT_DTO.getRegisrered()) {
+			restaurantOperation.setVisibility(View.VISIBLE);
+			subscribe.setVisibility(View.GONE);
+			reserveTableUserDetail.setVisibility(View.VISIBLE);
+			senderMessage.setVisibility(View.VISIBLE);
+			sendMessage.setVisibility(View.VISIBLE);
+			contact.setVisibility(View.VISIBLE);
+
+
+		} else {
+			restaurantOperation.setVisibility(View.GONE);
+			subscribe.setVisibility(View.VISIBLE);
+			reserveTableUserDetail.setVisibility(View.GONE);
+			senderMessage.setVisibility(View.GONE);
+			sendMessage.setVisibility(View.GONE);
+			contact.setVisibility(View.GONE);
+		}
 		restaurantPhoneNumber.setOnClickListener(this);
+		subscribe.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					subscribe.setColorFilter(Color.argb(150, 155, 155, 155));
+
+					Intent start = new Intent(getActivity(),
+							RestaurantSubscribtion.class);
+					start.putExtra("registerNearBy", true);
+					startActivity(start);
+
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					subscribe.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																				// null
+					return true;
+				}
+				return false;
+			}
+
+		});
+		
 		// tripadvisor.getSettings().setJavaScriptEnabled(true);
 		// tripadvisor.loadUrl("http://192.168.0.101/hello/tripadvisor.html");
 		return view;
@@ -129,12 +178,16 @@ public class FragmentResturantProfile extends Fragment implements
 				.findViewById(R.id.textViewResturantDistance);
 		restaurantPhoneNumber = (TextView) view
 				.findViewById(R.id.textViewContactPhoneNumber);
-
+		contact=(TextView) view.findViewById(R.id.textViewContact);
 		senderName = (EditText) view.findViewById(R.id.edittextSenderName);
 		senderEmail = (EditText) view.findViewById(R.id.edittextSenderEmail);
 		senderPhone = (EditText) view.findViewById(R.id.edittextSenderPhone);
 		senderMessage = (EditText) view.findViewById(R.id.edittextSendmessege);
 
+		restaurantOperation = (LinearLayout) view
+				.findViewById(R.id.linearlayoutButtonsCombo);
+		reserveTableUserDetail=(LinearLayout) view.findViewById(R.id.linearlayoutuserDetails);
+		subscribe=(ImageButton) view.findViewById(R.id.buttonSuscribe);
 		// tripadvisor=(WebView) view.findViewById(R.id.webViewtripAdvisor);
 	}
 

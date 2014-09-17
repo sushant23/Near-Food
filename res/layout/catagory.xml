@@ -36,6 +36,19 @@
         android:background="@drawable/rectangle"
         android:src="@drawable/icon_subscribe" />
 
+    <Button
+        android:id="@+id/buttonRestaurantList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/buttonSuscribe"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/button_gradiant"
+        android:padding="3dp"
+        android:text="Near By Restaurants"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
     <ImageButton
         android:id="@+id/ibDelivery"
         android:layout_width="130dp"

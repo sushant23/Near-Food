@@ -290,10 +290,12 @@ public class FragmentResturantList extends Fragment implements
 					String city_address = c.getString("city_address");
 					String contact = c.getString("contact");
 					String distance = c.getString("dist");
+					Boolean registered=true;
 					ResturantDTO tempResturantDTO = new ResturantDTO();
 					ResturantAddress tempResturantAddress = new ResturantAddress();
 					tempResturantDTO.setResturantID(Integer.parseInt(id));
 					tempResturantDTO.setResturantName(name);
+					tempResturantDTO.setRegisrered(registered);
 					tempResturantAddress
 							.setResturantStreetAddress(street_address);
 					tempResturantAddress.setReturantCityName(city_address);

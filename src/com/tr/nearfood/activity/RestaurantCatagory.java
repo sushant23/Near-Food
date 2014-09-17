@@ -52,10 +52,10 @@ public class RestaurantCatagory extends Activity {
 
 	public static String regid = null;
 	ImageButton takeAway, table, delivery, suscribeIB;
-	Button suscribe;
-	int SELECT_TAKE_AWAY = 3, SELECT_DELIVERY = 1, SELECT_TABLE = 2;
+	Button suscribe, restaurantListButton;
+	int SELECT_TAKE_AWAY = 3, SELECT_DELIVERY = 1, SELECT_TABLE = 2,NEAR_BY_RESTAURANT=4;
 	double latitude = 0, longitude = 0;
-	Context ctx = this,context;
+	Context ctx = this, context;
 	GoogleCloudMessaging gcm;
 	public static final String PROPERTY_REG_ID = "registration_id";
 	private static final String PROPERTY_APP_VERSION = "appVersion";
@@ -75,24 +75,38 @@ public class RestaurantCatagory extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.catagory);
-		context=getApplicationContext();
+		context = getApplicationContext();
 		cd = new ConnectionDetector(getApplicationContext());
-		
+
 		// Check if Internet present
-				if (!cd.isConnectingToInternet()) {
-					// Internet Connection is not present
-					alert.showAlertDialog(RestaurantCatagory.this,
-							"Internet Connection Error",
-							"Please connect to working Internet connection", false);
-					// stop executing code by return
-					//return;
-				}
+		if (!cd.isConnectingToInternet()) {
+			// Internet Connection is not present
+			alert.showAlertDialog(RestaurantCatagory.this,
+					"Internet Connection Error",
+					"Please connect to working Internet connection", false);
+			// stop executing code by return
+			// return;
+		}
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
 		get_latlong();
 		takeAway = (ImageButton) findViewById(R.id.ibTakeAway);
 		table = (ImageButton) findViewById(R.id.ibTable);
 		delivery = (ImageButton) findViewById(R.id.ibDelivery);
 		suscribeIB = (ImageButton) findViewById(R.id.buttonSuscribe);
+		restaurantListButton = (Button) findViewById(R.id.buttonRestaurantList);
+		restaurantListButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				// TODO Auto-generated method stub
+				Intent start = new Intent(getApplicationContext(),
+						RestaurantList.class);
+				start.putExtra("latitude", latitude);
+				start.putExtra("longitude", longitude);
+				start.putExtra("catagory_id", NEAR_BY_RESTAURANT);
+				startActivity(start);
+			}
+		});
 		if (checkPlayServices()) {
 			gcm = GoogleCloudMessaging.getInstance(this);
 			regid = getRegistrationId(context);
@@ -100,12 +114,12 @@ public class RestaurantCatagory extends Activity {
 			if (regid.isEmpty()) {
 				registerInBackground();
 			} else {
-				
+
 			}
 		} else {
 			Log.i("TAG", "No valid Google Play Services APK found.");
 		}
-		
+
 		suscribeIB.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -117,7 +131,7 @@ public class RestaurantCatagory extends Activity {
 					Intent start = new Intent(getApplicationContext(),
 							RestaurantSubscribtion.class);
 					startActivity(start);
-					
+
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
 					suscribeIB.setColorFilter(Color.argb(0, 155, 155, 155)); // or
@@ -136,29 +150,32 @@ public class RestaurantCatagory extends Activity {
 				if (me.getAction() == MotionEvent.ACTION_DOWN) {
 					takeAway.setColorFilter(Color.argb(150, 155, 155, 155));
 
-					
 					Calendar cal = Calendar.getInstance();
 					cal.setTimeZone(TimeZone.getTimeZone("GMT-1"));
 					Date dt = null;
 					Date dt1 = null;
 					try {
-						dt = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse("2014-09-02 9:30");
+						dt = new SimpleDateFormat("yyyy-MM-dd HH:mm")
+								.parse("2014-09-02 9:30");
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-//					dt1 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dtend);
+					// dt1 = new
+					// SimpleDateFormat("yyyy-MM-dd HH:mm").parse(dtend);
 
 					final Calendar beginTime = Calendar.getInstance();
 					cal.setTime(dt);
 
 					// beginTime.set(2013, 7, 25, 7, 30);
-					beginTime.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-							cal.get(Calendar.DATE), cal.get(Calendar.HOUR_OF_DAY),
+					beginTime.set(cal.get(Calendar.YEAR),
+							cal.get(Calendar.MONTH), cal.get(Calendar.DATE),
+							cal.get(Calendar.HOUR_OF_DAY),
 							cal.get(Calendar.MINUTE));
 
-			//		pushAppointmentsToCalender(RestaurantCatagory.this, "test","this is test", "oatan", 0, beginTime.getTimeInMillis(), true, false);
-					
+					// pushAppointmentsToCalender(RestaurantCatagory.this,
+					// "test","this is test", "oatan", 0,
+					// beginTime.getTimeInMillis(), true, false);
 
 					Intent start = new Intent(getApplicationContext(),
 							RestaurantList.class);
@@ -224,10 +241,11 @@ public class RestaurantCatagory extends Activity {
 
 		});
 	}
+
 	private void registerInBackground() {
 
 		class Register extends AsyncTask<Void, Void, String> {
-		
+
 			@Override
 			protected String doInBackground(Void... params) {
 				// TODO Auto-generated method stub
@@ -248,7 +266,7 @@ public class RestaurantCatagory extends Activity {
 					// The request to your server should be authenticated if
 					// your app
 					// is using accounts.
-					
+
 					// For this demo: we don't need to send it because the
 					// device
 					// will send upstream messages to a server that echo back
@@ -270,6 +288,7 @@ public class RestaurantCatagory extends Activity {
 		}
 		new Register().execute();
 	}
+
 	private void storeRegistrationId(Context context, String regId) {
 		final SharedPreferences prefs = getGCMPreferences(context);
 		int appVersion = getAppVersion(context);
@@ -279,6 +298,7 @@ public class RestaurantCatagory extends Activity {
 		editor.putInt(PROPERTY_APP_VERSION, appVersion);
 		editor.commit();
 	}
+
 	private boolean checkPlayServices() {
 		int resultCode = GooglePlayServicesUtil
 				.isGooglePlayServicesAvailable(this);
@@ -294,6 +314,7 @@ public class RestaurantCatagory extends Activity {
 		}
 		return true;
 	}
+
 	private String getRegistrationId(Context context) {
 		final SharedPreferences prefs = getGCMPreferences(context);
 		String registrationId = prefs.getString(PROPERTY_REG_ID, "");
@@ -313,6 +334,7 @@ public class RestaurantCatagory extends Activity {
 		}
 		return registrationId;
 	}
+
 	/**
 	 * @return Application's {@code SharedPreferences}.
 	 */
@@ -363,7 +385,6 @@ public class RestaurantCatagory extends Activity {
 
 	}
 
-	
 	static String getEmail(Context context) {
 		AccountManager accountManager = AccountManager.get(context);
 		Account account = getAccount(accountManager);
@@ -395,8 +416,5 @@ public class RestaurantCatagory extends Activity {
 
 		return super.onKeyDown(keyCode, event);
 	}
-	
-	
-	
-	
+
 }

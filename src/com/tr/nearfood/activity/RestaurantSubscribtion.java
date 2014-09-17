@@ -62,6 +62,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
 	ImageButton notification, homeButton, calender;
+	
 	Button subscribe;
 	BadgeView badge, badge1;
 	Button signIn;
@@ -75,7 +76,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		InitilizeUIElements();
-
+		Boolean register=getIntent().getBooleanExtra("registerNearBy", false);
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
@@ -88,8 +89,12 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		adView.loadAd(adRequest);
-		addResturantSubscribtionFragment();
-
+		addResturantSubscribtionFragment(register);
+		
+		calender.setVisibility(View.GONE);
+		subscribe.setVisibility(View.GONE);
+		notification.setVisibility(View.GONE);
+		
 		homeButton.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -130,14 +135,15 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
 	//	searchplace = (AutoCompleteTextView) findViewById(R.id.editTextSearchResturantLists);
 		searchContainer = (LinearLayout) findViewById(R.id.linsearchcontainer);
+		notification=(ImageButton) findViewById(R.id.imageButtonNotification);
+		calender=(ImageButton) findViewById(R.id.imageButtonCalendar);
 	}
 
-	private void addResturantSubscribtionFragment() {
+	private void addResturantSubscribtionFragment(Boolean register) {
 		// TODO Auto-generated method stub
 		fragmentManager = getSupportFragmentManager();
 		fragmentTransaction = fragmentManager.beginTransaction();
 		FragmentRestaturantSubscribtion fragmentResturantSubscribtion = new FragmentRestaturantSubscribtion();
-
 		fragmentTransaction.add(R.id.linLayoutFragmentContainer,
 				fragmentResturantSubscribtion, "Resturant ");
 		fragmentTransaction.commit();

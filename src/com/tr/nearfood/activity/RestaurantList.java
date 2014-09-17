@@ -48,6 +48,8 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.CustomAdapterResturantLists;
+import com.tr.nearfood.fragment.FragmentNearByRestaurantList;
+import com.tr.nearfood.fragment.FragmentNearByRestaurantList.FragmentNearByResturantListCommunicator;
 import com.tr.nearfood.fragment.FragmentNotification;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu.FragmentResturantMenuListCommunicator;
@@ -66,12 +68,11 @@ import com.tr.nearfood.utills.BadgeView;
 import com.tr.nearfood.utills.ConnectionDetector;
 import com.tr.nearfood.utills.NearFoodTextView;
 
-
 public class RestaurantList extends ActionBarActivity implements
 		FragmentResturantListCommunicator,
 		FragmentResturantProfileCommunicator,
 		FragmentResturantMenuListCommunicator,
-		FragmentShowCustomerOrderCommunicator {
+		FragmentShowCustomerOrderCommunicator,FragmentNearByResturantListCommunicator {
 	private FragmentManager fragmentManager;
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
@@ -109,9 +110,11 @@ public class RestaurantList extends ActionBarActivity implements
 		SELECTED_CATEGORY = dataFromRestaurantCategory.getInt("catagory_id");
 		latitude = dataFromRestaurantCategory.getDouble("latitude");
 		longitude = dataFromRestaurantCategory.getDouble("longitude");
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
+
 		try {
 			ActionBar myActionBar = getSupportActionBar();
 			myActionBar.hide();
@@ -123,10 +126,11 @@ public class RestaurantList extends ActionBarActivity implements
 		showNotification();
 
 		AdRequest adRequest = new AdRequest.Builder().build();
-
 		adView.loadAd(adRequest);
+
 		addResturantListFragment(SELECTED_CATEGORY, latitude, longitude);
 		Log.d("value of category", Integer.toString(SELECTED_CATEGORY));
+
 		homeButton.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -221,15 +225,13 @@ public class RestaurantList extends ActionBarActivity implements
 			}
 		});
 
-		
 	}
 
 	void showNotification() {
 		try {
 			if (prefs.getBoolean("badge", false)) {
 
-				
-				int value = prefs.getInt("badgeValue", 0)+1;
+				int value = prefs.getInt("badgeValue", 0) + 1;
 				badge = new BadgeView(this, notification);
 				badge.setText(Integer.toString(value));
 				badge.setBadgePosition(BadgeView.POSITION_BOTTOM_LEFT);
@@ -260,18 +262,32 @@ public class RestaurantList extends ActionBarActivity implements
 						.getResturantName());
 	}
 
+	
+
 	public void addResturantListFragment(int SELECTED_CATAGORY,
 			double latitude, double longitude) {
-		searchContainer.setVisibility(View.GONE);
-		fragmentManager = getSupportFragmentManager();
-		fragmentTransaction = fragmentManager.beginTransaction();
-		FragmentResturantList fragmentResturantList = new FragmentResturantList();
-		FragmentResturantList.selected_catagory = SELECTED_CATAGORY;
-		FragmentResturantList.latitude = latitude;
-		FragmentResturantList.longitude = longitude;
-		fragmentTransaction.add(R.id.linLayoutFragmentContainer,
-				fragmentResturantList, "Resturant List");
-		fragmentTransaction.commit();
+		if (SELECTED_CATAGORY == 4) {
+			updateUIElements();
+			fragmentManager = getSupportFragmentManager();
+			fragmentTransaction = fragmentManager.beginTransaction();
+			FragmentNearByRestaurantList fragmentResturantList = new FragmentNearByRestaurantList();
+			FragmentNearByRestaurantList.latitude = latitude;
+			FragmentNearByRestaurantList.longitude = longitude;
+			fragmentTransaction.add(R.id.linLayoutFragmentContainer,
+					fragmentResturantList, "Resturant List");
+			fragmentTransaction.commit();
+		} else {
+			searchContainer.setVisibility(View.GONE);
+			fragmentManager = getSupportFragmentManager();
+			fragmentTransaction = fragmentManager.beginTransaction();
+			FragmentResturantList fragmentResturantList = new FragmentResturantList();
+			FragmentResturantList.selected_catagory = SELECTED_CATAGORY;
+			FragmentResturantList.latitude = latitude;
+			FragmentResturantList.longitude = longitude;
+			fragmentTransaction.add(R.id.linLayoutFragmentContainer,
+					fragmentResturantList, "Resturant List");
+			fragmentTransaction.commit();
+		}
 	}
 
 	@Override
@@ -346,4 +362,39 @@ public class RestaurantList extends ActionBarActivity implements
 
 		}
 	};
+
+	@Override
+	public void setClickedNearByList(ResturantDTO resturantDTO) {
+		// TODO Auto-generated method stub
+		showUiElements(resturantDTO);
+		FragmentResturantProfile resturantProfileFragment = new FragmentResturantProfile();
+		FragmentResturantProfile.SELECTED_RESTURANT_DTO = resturantDTO;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				resturantProfileFragment);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
+	}
+
+	private void showUiElements(ResturantDTO resturantDTO) {
+		// TODO Auto-generated method stub
+		if(resturantDTO.getRegisrered())
+		{
+		notification.setVisibility(View.VISIBLE);
+		subscribe.setVisibility(View.VISIBLE);
+		calender.setVisibility(View.VISIBLE);
+		homeButton.setVisibility(View.VISIBLE);
+		}else{
+			updateUIElements();
+		}
+		
+	}
+	private void updateUIElements() {
+		// TODO Auto-generated method stub
+		notification.setVisibility(View.GONE);
+		subscribe.setVisibility(View.GONE);
+		calender.setVisibility(View.GONE);
+		homeButton.setVisibility(View.GONE);
+	}
+
 }
