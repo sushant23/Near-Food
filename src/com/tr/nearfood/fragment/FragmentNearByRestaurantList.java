@@ -21,14 +21,12 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import com.tr.nearfood.R;
-import com.tr.nearfood.activity.RestaurantList;
+
 import com.tr.nearfood.adapter.CustomAdapterResturantLists;
-import com.tr.nearfood.fragment.FragmentResturantList.FragmentResturantListCommunicator;
-import com.tr.nearfood.fragment.FragmentResturantList.makeHttpGetConnection;
+
+
 import com.tr.nearfood.model.ResturantAddress;
 import com.tr.nearfood.model.ResturantContactInfo;
 import com.tr.nearfood.model.ResturantDTO;

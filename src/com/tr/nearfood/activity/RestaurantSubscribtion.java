@@ -30,6 +30,7 @@ import com.tr.nearfood.fragment.FragmentsRestaurantAdminManageOrder;
 import com.tr.nearfood.utills.BadgeView;
 import com.tr.nearfood.utills.NearFoodTextView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -43,6 +44,7 @@ import android.support.v4.app.FragmentTabHost;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -62,7 +64,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	private FragmentTransaction fragmentTransaction;
 	AdView adView;
 	ImageButton notification, homeButton, calender;
-	
+
 	Button subscribe;
 	BadgeView badge, badge1;
 	Button signIn;
@@ -70,13 +72,16 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	LinearLayout searchContainer;
 	Fragment fragmentGoogleMap;
 	private final static String TAG_FRAGMENT = "TAG_FRAGMENT";
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.list);
 		InitilizeUIElements();
-		Boolean register=getIntent().getBooleanExtra("registerNearBy", false);
+		Boolean register = getIntent().getBooleanExtra("registerNearBy", false);
+		Boolean alreadyLogin = getIntent().getBooleanExtra("alreadyLogin",false);
+
 		getWindow().setSoftInputMode(
 				WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 		NearFoodTextView.setDefaultFont(this, "DEFAULT", "Roboto-Regular.ttf");
@@ -89,12 +94,19 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		AdRequest adRequest = new AdRequest.Builder().build();
 
 		adView.loadAd(adRequest);
-		addResturantSubscribtionFragment(register);
-		
+		if (alreadyLogin) {
+			SharedPreferences prfs = getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+			String auth = prfs.getString("AUTH", "");
+			Log.d("auth", auth);
+			ToRestaurantManagementPage(auth);
+		} else {
+			addResturantSubscribtionFragment(register);
+		}
+
 		calender.setVisibility(View.GONE);
 		subscribe.setVisibility(View.GONE);
 		notification.setVisibility(View.GONE);
-		
+
 		homeButton.setOnTouchListener(new OnTouchListener() {
 
 			@Override
@@ -133,10 +145,11 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		signIn = (Button) findViewById(R.id.buttonRestaurantAdminLogin);
 		subscribe = (Button) findViewById(R.id.buttonSuscribe);
 		homeButton = (ImageButton) findViewById(R.id.imageButtonHomePage);
-	//	searchplace = (AutoCompleteTextView) findViewById(R.id.editTextSearchResturantLists);
+		// searchplace = (AutoCompleteTextView)
+		// findViewById(R.id.editTextSearchResturantLists);
 		searchContainer = (LinearLayout) findViewById(R.id.linsearchcontainer);
-		notification=(ImageButton) findViewById(R.id.imageButtonNotification);
-		calender=(ImageButton) findViewById(R.id.imageButtonCalendar);
+		notification = (ImageButton) findViewById(R.id.imageButtonNotification);
+		calender = (ImageButton) findViewById(R.id.imageButtonCalendar);
 	}
 
 	private void addResturantSubscribtionFragment(Boolean register) {
@@ -165,7 +178,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonSignin(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminhomepage = new FragmentAdminHomePage();
-		FragmentAdminHomePage.AUTH=auth;
+		FragmentAdminHomePage.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminhomepage);
@@ -178,7 +191,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonManageOrder(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminmanageOrder = new FragmentsRestaurantAdminManageOrder();
-		FragmentsRestaurantAdminManageOrder.AUTH=auth;
+		FragmentsRestaurantAdminManageOrder.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminmanageOrder);
@@ -186,12 +199,11 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		fragmentTransaction.commit();
 	}
 
-	
 	@Override
 	public void setButtonManageDetail(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminmanageRestaurantDetails = new FragmentAdminManageRestaurantDetails();
-		FragmentAdminManageRestaurantDetails.AUTH=auth;
+		FragmentAdminManageRestaurantDetails.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminmanageRestaurantDetails);
@@ -212,13 +224,14 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	}
 
 	@Override
-	public void onLocationSetClicked(double longitude, double latitude,boolean status) {
+	public void onLocationSetClicked(double longitude, double latitude,
+			boolean status) {
 		// TODO Auto-generated method stub
 
 		Fragment restaurantSubscribtion = new FragmentRestaturantSubscribtion();
 		FragmentRestaturantSubscribtion.LONGITUDE = longitude;
 		FragmentRestaturantSubscribtion.LATITUDE = latitude;
-		FragmentRestaturantSubscribtion.STATUS=status;
+		FragmentRestaturantSubscribtion.STATUS = status;
 		searchContainer.setVisibility(View.VISIBLE);
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
@@ -231,7 +244,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonMangeAccepted(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminconfiemedOrder = new FragmentRestaurantOrderConfirmed();
-		FragmentRestaurantOrderConfirmed.AUTH=auth;
+		FragmentRestaurantOrderConfirmed.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminconfiemedOrder);
@@ -243,7 +256,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonMangeRejected(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminRejectededOrder = new FragmentRestaurantOrderRejected();
-		FragmentRestaurantOrderRejected.AUTH=auth;
+		FragmentRestaurantOrderRejected.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminRejectededOrder);
@@ -255,7 +268,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonReserveTablePending(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminPendingResercation = new FragmentRestaurantReservationTablePending();
-		FragmentRestaurantReservationTablePending.AUTH=auth;
+		FragmentRestaurantReservationTablePending.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminPendingResercation);
@@ -267,7 +280,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonReserveTableConfirmed(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminconfiemedOrder = new FragmentRestaurantReservationConfirmed();
-		FragmentRestaurantReservationConfirmed.AUTH=auth;
+		FragmentRestaurantReservationConfirmed.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminconfiemedOrder);
@@ -279,7 +292,7 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 	public void setButtonReserveTableRejected(String auth) {
 		// TODO Auto-generated method stub
 		Fragment restaurantAdminRejectededOrder = new FragmentRestaurantReservationRejected();
-		FragmentRestaurantReservationRejected.AUTH=auth;
+		FragmentRestaurantReservationRejected.AUTH = auth;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantAdminRejectededOrder);
@@ -287,5 +300,24 @@ public class RestaurantSubscribtion extends ActionBarActivity implements
 		fragmentTransaction.commit();
 	}
 
+	@Override
+	public void ToRestaurantManagementPage(String auth) {
+		// TODO Auto-generated method stub
+
+		fragmentManager = getSupportFragmentManager();
+		fragmentTransaction = fragmentManager.beginTransaction();
+		Fragment restaurantAdminhomepage = new FragmentAdminHomePage();
+		FragmentAdminHomePage.AUTH = auth;
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				restaurantAdminhomepage);
+		fragmentTransaction.commit();
+	}
+
+	@Override
+	public void logout() {
+		// TODO Auto-generated method stub
+		Intent homePage= new Intent(RestaurantSubscribtion.this,RestaurantCatagory.class);
+		startActivity(homePage);
+	}
 
 }

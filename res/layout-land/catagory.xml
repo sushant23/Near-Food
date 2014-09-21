@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="match_parent" >
 
     <ImageView
         android:layout_width="match_parent"
@@ -14,40 +13,68 @@
         android:id="@+id/ibTakeAway"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
         android:background="@drawable/shape"
         android:scaleType="fitXY"
         android:src="@drawable/icon_takeawaylarge" />
 
-    <ImageButton
-        android:id="@+id/ibTable"
-        android:layout_width="130dp"
-        android:layout_height="130dp"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/buttonSuscribe"
-        android:background="@drawable/shape"
-        android:scaleType="fitXY"
-        android:src="@drawable/icon_tablelarge" />
-
-    <ImageButton
-        android:id="@+id/buttonSuscribe"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/ibTable"
+        android:layout_below="@+id/ibDelivery"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true" >
+
+        <Button
+            android:id="@+id/buttonSuscribe"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_gradiant"
+            android:padding="8dp"
+            android:text="Subscribe"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:layout_marginRight="10dp" />
+
+        <Button
+            android:id="@+id/buttonRestaurantList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_gradiant"
+            android:padding="8dp"
+            android:text="Near By Restaurants"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/seperator"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/rectangle"
-        android:src="@drawable/icon_subscribe" />
+        android:layout_centerVertical="true" />
 
     <ImageButton
         android:id="@+id/ibDelivery"
         android:layout_width="130dp"
         android:layout_height="130dp"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/buttonSuscribe"
+        android:layout_alignLeft="@+id/seperator"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/ibTakeAway"
         android:background="@drawable/shape"
-        android:scaleType="fitXY"
+        android:scaleType="centerInside"
         android:src="@drawable/icon_delvierlarge" />
+
+    <ImageButton
+        android:id="@+id/ibTable"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/ibTakeAway"
+        android:layout_toLeftOf="@+id/seperator"
+        android:background="@drawable/shape"
+        android:scaleType="centerInside"
+        android:src="@drawable/icon_tablelarge" />
 
 </RelativeLayout>

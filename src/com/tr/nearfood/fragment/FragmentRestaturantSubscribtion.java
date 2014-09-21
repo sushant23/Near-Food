@@ -21,7 +21,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -30,6 +33,7 @@ import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -59,14 +63,14 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 	FragmentResturantSubscribtionCommunicator fragmentRestaurantSubscribtionCommunicator;
 	Button adminLogin, signUpButton;
 	EditText firstName, lastName, restaurantName, restaurantContactNo,
-			restaurantEmail, password;
+			restaurantEmail, password, confirmPassword;
 	RadioGroup restaurantLocationRadioGroup;
 	RadioButton currentLocation, locationByCoordinate, locationFromGoogleMap;
 	CheckBox table, takeaway, delivary;
 	public static double LONGITUDE, LATITUDE;
 	public static boolean STATUS;
 	String fName = "", lName = "", resName = "", resContact = "",
-			resEmail = "", resPass = "";
+			resEmail = "", resPass = "", resConfirmPass = "";
 	SharedPreferences regPrefs;
 	Editor editor;
 	GPSTracker gps;
@@ -97,6 +101,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			lName = savedInstanceState.getString("lastname", null);
 			resEmail = savedInstanceState.getString("email", null);
 			resPass = savedInstanceState.getString("password", null);
+			resConfirmPass = savedInstanceState.getString("confirm_pass", null);
 			resContact = savedInstanceState.getString("contact", null);
 			resName = savedInstanceState.getString("name", null);
 
@@ -122,6 +127,8 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			outState.putString("email", resEmail);
 		if (resPass != null)
 			outState.putString("password", resPass);
+		if (resConfirmPass != null)
+			outState.putString("confirm_pass", resConfirmPass);
 		if (resContact != null)
 			outState.putString("contact", resContact);
 		if (resName != null)
@@ -135,24 +142,26 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		ActivityLayoutAdjuster.assistActivity(getActivity());
 		regPrefs = getActivity().getSharedPreferences("MyPrefs", 0);
 		editor = regPrefs.edit();
+
 		view = inflater.inflate(R.layout.fragment_restaurant_subscribtion,
 				container, false);
-		
+
 		initializeUIElsments();
 
 		if (fName != null || lName != null || resEmail != null
-				|| resPass != null || resName != null || resContact != null) {
+				|| resPass != null || resName != null || resContact != null
+				|| resConfirmPass != null) {
 			setTheUIElements();
 		}
 
 		if (STATUS)
 			prefdata();
 
-		if (LATITUDE != 0 && LONGITUDE != 0)
-			Toast.makeText(
-					getActivity(),
-					"Your Location is - \nLat: " + LATITUDE + "\nLong: "
-							+ LONGITUDE, Toast.LENGTH_SHORT).show();
+		/*
+		 * if (LATITUDE != 0 && LONGITUDE != 0) Toast.makeText( getActivity(),
+		 * "Your Location is - \nLat: " + LATITUDE + "\nLong: " + LONGITUDE,
+		 * Toast.LENGTH_SHORT).show();
+		 */
 
 		restaurantLocationRadioGroup.setOnCheckedChangeListener(this);
 
@@ -187,7 +196,6 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		return view;
 	}
 
-	
 	void setTheUIElements() {
 		firstName.setText(fName);
 		lastName.setText(lName);
@@ -195,6 +203,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		restaurantEmail.setText(resEmail);
 		restaurantContactNo.setText(resContact);
 		password.setText(resPass);
+		confirmPassword.setText(resConfirmPass);
 	}
 
 	void prefdata() {
@@ -204,6 +213,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		resEmail = regPrefs.getString("email", null);
 		resContact = regPrefs.getString("contact", null);
 		resPass = regPrefs.getString("password", null);
+		resConfirmPass = regPrefs.getString("confirm_pass", null);
 		setTheUIElements();
 	}
 
@@ -226,8 +236,11 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 				.findViewById(R.id.editTextRestaurantEmailAddress);
 		password = (EditText) view
 				.findViewById(R.id.editTextRestaurantOwnerPassword);
+		confirmPassword = (EditText) view
+				.findViewById(R.id.editTextRestaurantOwnerConfirmPassword);
 		restaurantContactNo = (EditText) view
 				.findViewById(R.id.editTextRestaurantContactInfo);
+
 		table = (CheckBox) view.findViewById(R.id.checkbsoxTable);
 		delivary = (CheckBox) view.findViewById(R.id.checkbsoxDelivary);
 		takeaway = (CheckBox) view.findViewById(R.id.checkbsoxTakeAway);
@@ -244,6 +257,7 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			break;
 		case R.id.buttonRestaurantSubscriptionSubmit:
 			// converting list of integer to array list
+
 			catagory = new int[restaurant_catagory.size()];
 			for (int i = 0; i < restaurant_catagory.size(); i++)
 				catagory[i] = restaurant_catagory.get(i);
@@ -252,15 +266,30 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 			RegistrationDetails registrationDetails = new RegistrationDetails();
 			json_string = gson.toJson(registrationDetails);
 			Log.d("Registration details", json_string);
-			if (fName == null || lName == null || resEmail == null
-					|| resPass == null || resName == null || resContact == null
-					|| LATITUDE == 0 || LONGITUDE == 0) {
+			if (fName.equals("") || lName.equals("") || resEmail.equals("")
+					|| resPass.equals("") || resName.equals("")
+					|| resContact.equals("") || LATITUDE == 0 || LONGITUDE == 0
+					|| resConfirmPass.equals("")) {
 				Toast.makeText(getActivity(),
 						"Please Enter All the Field Properly",
 						Toast.LENGTH_SHORT).show();
+			} else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(resEmail)
+					.matches() && !TextUtils.isEmpty(resEmail)) {
+				restaurantEmail.setError("Invalid Email");
+				restaurantEmail.requestFocus();
+				return;
 			} else {
-				new AdminRegistraationHttpPost().execute();
-				regPrefs.edit().clear().commit();
+				if (resConfirmPass.equals(password)) {
+					new AdminRegistraationHttpPost().execute();
+					regPrefs.edit().clear().commit();
+				} else {
+					password.setError("Password dont Match");
+					password.requestFocus();
+					confirmPassword.requestFocus();
+					Toast.makeText(getActivity(), "Password Dont Match",
+							Toast.LENGTH_SHORT).show();
+				}
+
 			}
 			break;
 		case R.id.checkbsoxTable:
@@ -283,6 +312,8 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 
 	public static interface FragmentResturantSubscribtionCommunicator {
 		public void setButtonAdminLogin();
+
+		public void ToRestaurantManagementPage(String auth);
 
 		public void setGetCoordinateFromMap();
 	}
@@ -308,16 +339,58 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 				LONGITUDE = gps.getLongitude();
 				getAddress();
 				// \n is for new line
-				Toast.makeText(
-						getActivity(),
-						"Your Location is - \nLat: " + LATITUDE + "\nLong: "
-								+ LONGITUDE, Toast.LENGTH_LONG).show();
+				/*
+				 * Toast.makeText( getActivity(), "Your Location is - \nLat: " +
+				 * LATITUDE + "\nLong: " + LONGITUDE, Toast.LENGTH_LONG).show();
+				 */
 			} else {
 				// Can't get location.
 				// GPS or network is not enabled.
 				// Ask user to enable GPS/network in settings.
 				gps.showSettingsAlert();
 			}
+			break;
+		case R.id.radioButtonTypeLatLong:
+			LayoutInflater factory = LayoutInflater.from(getActivity());
+			final View textEntryView = factory.inflate(
+					R.layout.edittext_lat_lon, null);
+			// text_entry is an Layout XML file containing two text field to
+			// display in alert dialog
+			final EditText input1 = (EditText) textEntryView
+					.findViewById(R.id.edittextLatitude);
+			final EditText input2 = (EditText) textEntryView
+					.findViewById(R.id.edittextLongitude);
+			final AlertDialog.Builder alert = new AlertDialog.Builder(
+					getActivity());
+
+			alert.setIcon(R.drawable.icon_near_food)
+					.setTitle("Enter the Latitude and Longitude:")
+					.setView(textEntryView)
+					.setPositiveButton("Save",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+									Log.i("AlertDialog", "TextEntry 1 Entered "
+											+ input1.getText().toString());
+									Log.i("AlertDialog", "TextEntry 2 Entered "
+											+ input2.getText().toString());
+									/* User clicked OK so do some stuff */
+									LATITUDE = Double.parseDouble(input1
+											.getText().toString());
+									LONGITUDE = Double.parseDouble(input2
+											.getText().toString());
+
+								}
+
+							})
+					.setNegativeButton("Cancel",
+							new DialogInterface.OnClickListener() {
+								public void onClick(DialogInterface dialog,
+										int whichButton) {
+								}
+							});
+			alert.show();
+
 			break;
 		default:
 			break;
@@ -332,16 +405,18 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		resContact = restaurantContactNo.getText().toString();
 		resEmail = restaurantEmail.getText().toString();
 		resPass = password.getText().toString();
-
+		resConfirmPass = confirmPassword.getText().toString();
 		editor.putString("firstname", fName);
 		editor.putString("lastname", lName);
 		editor.putString("email", resEmail);
 		editor.putString("name", resName);
 		editor.putString("contact", resContact);
 		editor.putString("password", resPass);
+		editor.putString("confirm_pass", resConfirmPass);
 		editor.commit();
 
 	}
+
 	public void getAddress() {
 		try {
 			Geocoder geocoder;
@@ -358,13 +433,14 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 
 			} else {
 				Toast.makeText(getActivity(),
-						"latitude and longitude are null", Toast.LENGTH_LONG)
+						"Please Turn on GPS and Try Again.", Toast.LENGTH_LONG)
 						.show();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	public class AdminRegistraationHttpPost extends
 			AsyncTask<String, Void, String> {
 		ProgressDialog pd = null;
@@ -432,8 +508,6 @@ public class FragmentRestaturantSubscribtion extends Fragment implements
 		private String city_address = city;
 
 	}
-
-	
 
 	public String HttpPostConnection() {
 		getRequiredFields();

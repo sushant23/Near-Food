@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -82,7 +83,7 @@ public class CustomAdapterResturantLists extends BaseAdapter implements Filterab
 					.findViewById(R.id.textViewRowResturantListDistance);
 
 			viewHolder.imageViewRowResturantListDirectionIcon = (ImageView) convertedView
-					.findViewById(R.id.imageViewRowResturantListDirectionIcon);
+					.findViewById(R.id.ourListRestaurantsImageButton);
 
 			convertedView.setTag(viewHolder);
 
@@ -103,6 +104,8 @@ public class CustomAdapterResturantLists extends BaseAdapter implements Filterab
 				viewHolder.textViewRowResturantListResturantCity
 				.setText(tempResturant.getResturantAddress()
 						.getReturantCityName());
+				viewHolder.imageViewRowResturantListDirectionIcon
+						.setVisibility(View.VISIBLE);
 			}
 			viewHolder.textViewRowResturantListResturantName
 					.setText(tempResturant.getResturantName());

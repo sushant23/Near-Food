@@ -12,74 +12,49 @@
             android:id="@+id/textViewRestaurantManagerLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp"
             android:background="@color/button_color"
-            android:text="RESTAURANT MANAGER LOGIN"
-            android:textColor="@color/white" />
+            android:text="RESTAURANT ADMIN LOGIN"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/dark_white" >
 
-            <LinearLayout
-                android:id="@+id/linlayoutRestaurantManagerLogin"
+            <EditText
+                android:id="@+id/editTextRestaurantManagerUserName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/textViewRestaurantManagerLogin"
-                android:layout_marginTop="30dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:weightSum="100" >
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/dark_white"
+                android:hint="Email Address"
+                android:inputType="textEmailAddress" />
 
-                <TextView
-                    android:id="@+id/textViewRestautantManagerUserName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="30"
-                    android:text="EMAIL"
-                    android:textColor="@color/button_color" />
-
-                <EditText
-                    android:id="@+id/editTextRestaurantManagerUserName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="60"
-                    android:inputType="textEmailAddress" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linlayoutRestaurantManagerLoginPassword"
+            <EditText
+                android:id="@+id/editTextRestaurantManagerPassword"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/linlayoutRestaurantManagerLogin"
-                android:layout_marginTop="5dp"
-                android:gravity="center_vertical|center_horizontal"
-                android:weightSum="100" >
-
-                <TextView
-                    android:id="@+id/textViewRestautantManagerPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="30"
-                    android:text="PASSWORD"
-                    android:textColor="@color/button_color" />
-
-                <EditText
-                    android:id="@+id/editTextRestaurantManagerPassword"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="60"
-                    android:inputType="textPassword" />
-            </LinearLayout>
+                android:layout_height="30dp"
+                android:layout_below="@+id/editTextRestaurantManagerUserName"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/dark_white"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
             <Button
                 android:id="@+id/buttonRestaurantManagerLogin"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
-                android:layout_below="@+id/linlayoutRestaurantManagerLoginPassword"
+                android:layout_below="@+id/editTextRestaurantManagerPassword"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_gradiant"
                 android:padding="5dp"
+                android:textAlignment="center"
                 android:text="LOGIN"
                 android:textColor="@color/white" />
         </RelativeLayout>

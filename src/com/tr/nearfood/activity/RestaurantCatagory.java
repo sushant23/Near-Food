@@ -29,6 +29,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.provider.CalendarContract.Calendars;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -36,14 +37,17 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.tr.nearfood.utills.ConnectionDetector;
 import com.tr.nearfood.utills.AlertDialogManager;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.ExpandableListAdapterForCustomerOrder;
+import com.tr.nearfood.fragment.FragmentRestaturantSubscribtion.AdminRegistraationHttpPost;
 import com.tr.nearfood.pushnotification.MainActivity;
 import com.tr.nearfood.utills.GPSTracker;
 import com.tr.nearfood.utills.NearFoodTextView;
@@ -53,7 +57,8 @@ public class RestaurantCatagory extends Activity {
 	public static String regid = null;
 	ImageButton takeAway, table, delivery, suscribeIB;
 	Button suscribe, restaurantListButton;
-	int SELECT_TAKE_AWAY = 3, SELECT_DELIVERY = 1, SELECT_TABLE = 2,NEAR_BY_RESTAURANT=4;
+	int SELECT_TAKE_AWAY = 3, SELECT_DELIVERY = 1, SELECT_TABLE = 2,
+			NEAR_BY_RESTAURANT = 4;
 	double latitude = 0, longitude = 0;
 	Context ctx = this, context;
 	GoogleCloudMessaging gcm;
@@ -69,6 +74,8 @@ public class RestaurantCatagory extends Activity {
 	 * from the API Console, as described in "Getting Started."
 	 */
 	public static String SENDER_ID = "1049372403771";
+	SharedPreferences prfs;
+	String auth;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +84,9 @@ public class RestaurantCatagory extends Activity {
 		setContentView(R.layout.catagory);
 		context = getApplicationContext();
 		cd = new ConnectionDetector(getApplicationContext());
+
+		prfs = getSharedPreferences("LoginDetails", Context.MODE_PRIVATE);
+		auth = prfs.getString("AUTH", "");
 
 		// Check if Internet present
 		if (!cd.isConnectingToInternet()) {
@@ -92,8 +102,13 @@ public class RestaurantCatagory extends Activity {
 		takeAway = (ImageButton) findViewById(R.id.ibTakeAway);
 		table = (ImageButton) findViewById(R.id.ibTable);
 		delivery = (ImageButton) findViewById(R.id.ibDelivery);
-		suscribeIB = (ImageButton) findViewById(R.id.buttonSuscribe);
+		suscribe = (Button) findViewById(R.id.buttonSuscribe);
 		restaurantListButton = (Button) findViewById(R.id.buttonRestaurantList);
+
+		if (auth.length() > 2) {
+			suscribe.setText("MY ACCOUNT");
+		}
+
 		restaurantListButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -120,25 +135,44 @@ public class RestaurantCatagory extends Activity {
 			Log.i("TAG", "No valid Google Play Services APK found.");
 		}
 
-		suscribeIB.setOnTouchListener(new OnTouchListener() {
+		/*
+		 * suscribeIB.setOnTouchListener(new OnTouchListener() {
+		 * 
+		 * @Override public boolean onTouch(View arg0, MotionEvent me) { // TODO
+		 * Auto-generated method stub if (me.getAction() ==
+		 * MotionEvent.ACTION_DOWN) { suscribeIB.setColorFilter(Color.argb(150,
+		 * 155, 155, 155));
+		 * 
+		 * Intent start = new Intent(getApplicationContext(),
+		 * RestaurantSubscribtion.class); startActivity(start);
+		 * 
+		 * return true; } else if (me.getAction() == MotionEvent.ACTION_UP) {
+		 * suscribeIB.setColorFilter(Color.argb(0, 155, 155, 155)); // or //
+		 * null return true; } return false; }
+		 * 
+		 * });
+		 */
+		suscribe.setOnClickListener(new View.OnClickListener() {
 
 			@Override
-			public boolean onTouch(View arg0, MotionEvent me) {
+			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (me.getAction() == MotionEvent.ACTION_DOWN) {
-					suscribeIB.setColorFilter(Color.argb(150, 155, 155, 155));
+
+				Log.d("pref auth ", auth);
+				if (auth.length() == 0) {
+					Intent start = new Intent(getApplicationContext(),
+							RestaurantSubscribtion.class);
+					start.putExtra("alreadyLogin", false);
+					startActivity(start);
+
+				} else {
 
 					Intent start = new Intent(getApplicationContext(),
 							RestaurantSubscribtion.class);
+					start.putExtra("alreadyLogin", true);
 					startActivity(start);
 
-					return true;
-				} else if (me.getAction() == MotionEvent.ACTION_UP) {
-					suscribeIB.setColorFilter(Color.argb(0, 155, 155, 155)); // or
-																				// null
-					return true;
 				}
-				return false;
 			}
 
 		});

@@ -26,15 +26,17 @@
         android:scaleType="fitXY"
         android:src="@drawable/icon_takeawaylarge" />
 
-    <ImageButton
+    <Button
         android:id="@+id/buttonSuscribe"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ibTable"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:background="@drawable/rectangle"
-        android:src="@drawable/icon_subscribe" />
+        android:background="@drawable/button_gradiant"
+        android:padding="8dp"
+        android:text="Subscribe"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
 
     <Button
         android:id="@+id/buttonRestaurantList"
@@ -44,7 +46,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:background="@drawable/button_gradiant"
-        android:padding="3dp"
+        android:padding="8dp"
         android:text="Near By Restaurants"
         android:textColor="@color/white"
         android:textSize="15sp" />

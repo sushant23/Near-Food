@@ -23,14 +23,13 @@
         android:text="text" />
 
     <ImageView
-        android:id="@+id/imageViewRowResturantListDirectionIcon"
+        android:id="@+id/ourListRestaurantsImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/textViewRowResturantListDistance"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/ic_launcher" >
-    </ImageView>
+        android:src="@drawable/icon_tick"
+        android:focusable="false" />
 
     <TextView
         android:id="@+id/textViewRowResturantListDistance"
