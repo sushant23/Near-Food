@@ -10,6 +10,7 @@ public class ResturantDTO {
 	private String resturantReview;
 	private String dataTime;
 	private Boolean regisrered;
+	private Boolean loadOurList;
 	public String getDataTime() {
 		return dataTime;
 	}
@@ -82,5 +83,13 @@ public class ResturantDTO {
 
 	public void setRegisrered(Boolean regisrered) {
 		this.regisrered = regisrered;
+	}
+
+	public Boolean getLoadOurList() {
+		return loadOurList;
+	}
+
+	public void setLoadOurList(Boolean loadOurList) {
+		this.loadOurList = loadOurList;
 	}
 }

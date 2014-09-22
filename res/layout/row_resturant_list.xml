@@ -3,33 +3,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <ImageView
+        android:id="@+id/ourListRestaurantsImageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:focusable="false"
+        android:src="@drawable/icon_tick"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/textViewRowResturantListResturantName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Restaurant Name"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textViewRowResturantListResturantStreet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/textViewRowResturantListResturantName" />
+        android:layout_below="@+id/textViewRowResturantListResturantName"
+        android:text="Restaurant Street Name" />
 
     <TextView
         android:id="@+id/textViewRowResturantListResturantCity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textViewRowResturantListResturantStreet"
-        android:text="text" />
-
-    <ImageView
-        android:id="@+id/ourListRestaurantsImageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textViewRowResturantListDistance"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/icon_tick"
-        android:focusable="false" />
+        android:text="Restaurant City Address" />
 
     <TextView
         android:id="@+id/textViewRowResturantListDistance"
@@ -37,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp" />
+        android:layout_marginRight="10dp"
+        android:text="Restaurant Distance" />
 
 </RelativeLayout>

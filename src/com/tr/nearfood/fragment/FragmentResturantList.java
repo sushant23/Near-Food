@@ -192,8 +192,7 @@ public class FragmentResturantList extends Fragment implements
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Toast.makeText(getActivity(), "item clicked", Toast.LENGTH_SHORT)
-				.show();
+		
 		ResturantDTO restaurant = (ResturantDTO) parent
 				.getItemAtPosition(position);
 		fragmentResturantListCommunicator.setClickedData(restaurant);
@@ -222,11 +221,13 @@ public class FragmentResturantList extends Fragment implements
 					String contact = c.getString("contact");
 					String distance = c.getString("dist");
 					Boolean registered = true;
+					Boolean loadOurList=true;
 					ResturantDTO tempResturantDTO = new ResturantDTO();
 					ResturantAddress tempResturantAddress = new ResturantAddress();
 					tempResturantDTO.setResturantID(Integer.parseInt(id));
 					tempResturantDTO.setResturantName(name);
 					tempResturantDTO.setRegisrered(registered);
+					tempResturantDTO.setLoadOurList(loadOurList);
 					tempResturantAddress
 							.setResturantStreetAddress(street_address);
 					tempResturantAddress.setReturantCityName(city_address);

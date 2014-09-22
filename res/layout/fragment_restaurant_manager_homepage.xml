@@ -14,6 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="5dp"
+            android:layout_gravity="center_horizontal"
             android:background="@color/button_color"
             android:text="RESTAURANT MANAGEMENT"
             android:textColor="@color/white"
@@ -102,13 +103,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_below="@+id/buttonManageRejectedReservation"
-                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_gradiant"
                 android:text="MANAGE RESTAURANT DETAILS"
                 android:textColor="@color/white" />
+
             <Button
                 android:id="@+id/buttonManageRestaurantLogout"
                 android:layout_width="match_parent"

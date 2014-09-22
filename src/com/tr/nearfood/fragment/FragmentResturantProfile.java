@@ -68,7 +68,7 @@ public class FragmentResturantProfile extends Fragment implements
 	View view;
 
 	TextView restaurantName, restaurantStreetAdd, restaurantCityName,
-			restaurantDistance, restaurantPhoneNumber,contact;
+			restaurantDistance, restaurantPhoneNumber, contact;
 	Button sendMessage, chooseMenu, setDateAndTime, reserveTable;
 	EditText senderName, senderEmail, senderPhone, senderMessage;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
@@ -77,7 +77,7 @@ public class FragmentResturantProfile extends Fragment implements
 	public static ResturantDTO SELECTED_RESTURANT_DTO;
 	public static String datetime = null;
 	SetEventToCalandar writeEvent = new SetEventToCalandar();
-	LinearLayout restaurantOperation,reserveTableUserDetail;
+	LinearLayout restaurantOperation, reserveTableUserDetail;
 	ImageButton subscribe;
 
 	@Override
@@ -115,7 +115,6 @@ public class FragmentResturantProfile extends Fragment implements
 			sendMessage.setVisibility(View.VISIBLE);
 			contact.setVisibility(View.VISIBLE);
 
-
 		} else {
 			restaurantOperation.setVisibility(View.GONE);
 			subscribe.setVisibility(View.VISIBLE);
@@ -141,14 +140,14 @@ public class FragmentResturantProfile extends Fragment implements
 					return true;
 				} else if (me.getAction() == MotionEvent.ACTION_UP) {
 					subscribe.setColorFilter(Color.argb(0, 155, 155, 155)); // or
-																				// null
+																			// null
 					return true;
 				}
 				return false;
 			}
 
 		});
-		
+
 		// tripadvisor.getSettings().setJavaScriptEnabled(true);
 		// tripadvisor.loadUrl("http://192.168.0.101/hello/tripadvisor.html");
 		return view;
@@ -178,7 +177,7 @@ public class FragmentResturantProfile extends Fragment implements
 				.findViewById(R.id.textViewResturantDistance);
 		restaurantPhoneNumber = (TextView) view
 				.findViewById(R.id.textViewContactPhoneNumber);
-		contact=(TextView) view.findViewById(R.id.textViewContact);
+		contact = (TextView) view.findViewById(R.id.textViewContact);
 		senderName = (EditText) view.findViewById(R.id.edittextSenderName);
 		senderEmail = (EditText) view.findViewById(R.id.edittextSenderEmail);
 		senderPhone = (EditText) view.findViewById(R.id.edittextSenderPhone);
@@ -186,8 +185,9 @@ public class FragmentResturantProfile extends Fragment implements
 
 		restaurantOperation = (LinearLayout) view
 				.findViewById(R.id.linearlayoutButtonsCombo);
-		reserveTableUserDetail=(LinearLayout) view.findViewById(R.id.linearlayoutuserDetails);
-		subscribe=(ImageButton) view.findViewById(R.id.buttonSuscribe);
+		reserveTableUserDetail = (LinearLayout) view
+				.findViewById(R.id.linearlayoutuserDetails);
+		subscribe = (ImageButton) view.findViewById(R.id.buttonSuscribe);
 		// tripadvisor=(WebView) view.findViewById(R.id.webViewtripAdvisor);
 	}
 
@@ -221,13 +221,37 @@ public class FragmentResturantProfile extends Fragment implements
 				senderEmail.setError("Invalid Email");
 				senderEmail.requestFocus();
 				return;
+			} else if (datetime==null) {
+				Toast.makeText(getActivity(), "Please Set Date and Time",
+						Toast.LENGTH_SHORT).show();
 			} else {
 				new AdminReserveTableHttpPost().execute();
 
 			}
 			break;
 		case R.id.buttonReserveTable:
-			new AdminReserveTableHttpPost().execute();
+			if (senderName.getText().toString().matches("")
+					|| senderEmail.getText().toString().matches("")
+					|| senderPhone.getText().toString().matches("")
+					|| senderMessage.getText().toString().matches("")) {
+				Toast.makeText(getActivity(),
+						"Please Enter All Field Correctly", Toast.LENGTH_SHORT)
+						.show();
+
+			} else if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
+					senderEmail.getText().toString()).matches()
+					&& !TextUtils.isEmpty(senderEmail.getText().toString())) {
+				senderEmail.setError("Invalid Email");
+				senderEmail.requestFocus();
+				return;
+			} else if (datetime == null) {
+				Toast.makeText(getActivity(), "Please Set Date and Time",
+						Toast.LENGTH_SHORT).show();
+
+			} else {
+				new AdminReserveTableHttpPost().execute();
+
+			}
 			break;
 		case R.id.buttonSetTimeandDate:
 

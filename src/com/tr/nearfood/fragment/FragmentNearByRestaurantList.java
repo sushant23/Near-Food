@@ -327,11 +327,13 @@ public class FragmentNearByRestaurantList extends Fragment implements
 					String contact = c.getString("contact");
 					String distance = c.getString("dist");
 					Boolean registered = true;
+					Boolean loadOurList=false;
 					ResturantDTO tempResturantDTO = new ResturantDTO();
 					ResturantAddress tempResturantAddress = new ResturantAddress();
 					tempResturantDTO.setResturantID(Integer.parseInt(id));
 					tempResturantDTO.setResturantName(name);
 					tempResturantDTO.setRegisrered(registered);
+					tempResturantDTO.setLoadOurList(loadOurList);
 					tempResturantAddress
 							.setResturantStreetAddress(street_address);
 					tempResturantAddress.setReturantCityName(city_address);
@@ -373,13 +375,13 @@ public class FragmentNearByRestaurantList extends Fragment implements
 					long latitude = c.getLong("lat");
 					long longitude = c.getLong("lon");
 					Boolean registered = false;
-
+					Boolean loadOurList=false;
 					ResturantDTO tempResturantDTO = new ResturantDTO();
 					ResturantAddress tempResturantAddress = new ResturantAddress();
 
 					tempResturantDTO.setResturantName(name);
 					tempResturantDTO.setRegisrered(registered);
-
+					tempResturantDTO.setLoadOurList(loadOurList);
 					tempResturantAddress
 							.setResturantStreetAddress(street_address);
 					tempResturantAddress.setReturantCityName(city_address);
@@ -444,13 +446,13 @@ public class FragmentNearByRestaurantList extends Fragment implements
 							long latitude = c.getLong("lat");
 							long longitude = c.getLong("lon");
 							Boolean registered = false;
-
+							Boolean loadOurList=false;
 							ResturantDTO tempResturantDTO = new ResturantDTO();
 							ResturantAddress tempResturantAddress = new ResturantAddress();
 
 							tempResturantDTO.setResturantName(name);
 							tempResturantDTO.setRegisrered(registered);
-
+							tempResturantDTO.setLoadOurList(loadOurList);
 							tempResturantAddress
 									.setResturantStreetAddress(street_address);
 							tempResturantAddress.setReturantCityName(city_address);
