@@ -11,11 +11,14 @@
     <color name="white">#ffffff</color>
     <color name="light_white">#AAFFFFFF</color>
     <color name="dark_white">#AAFFFFFF</color>
+    <color name="green">#437C17</color>
+    <color name="black">#000000</color>
+
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="app_id">1384264938499969</string>
-   
+
     <!-- Push notifiation ko maal -->
     <string name="error_config">Please set the %1$s constant and recompile the app.</string>
     <string name="already_registered">Device is already registered on server.</string>

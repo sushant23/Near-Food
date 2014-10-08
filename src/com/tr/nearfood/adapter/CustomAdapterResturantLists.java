@@ -6,6 +6,7 @@ import java.util.List;
 import com.tr.nearfood.R;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.tr.nearfood.model.ResturantDTO;
@@ -39,7 +41,7 @@ public class CustomAdapterResturantLists extends BaseAdapter implements
 		public TextView textViewRowResturantListResturantStreet;
 		public TextView textViewRowResturantListResturantCity;
 		public TextView textViewRowResturantListDistance;
-
+		public RelativeLayout rowRelativeLayout;
 		public ImageView imageViewRowResturantListDirectionIcon;
 
 	}
@@ -69,7 +71,6 @@ public class CustomAdapterResturantLists extends BaseAdapter implements
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View convertedView = convertView;
 		ViewHolder viewHolder;
-
 		if (convertedView == null) {
 			convertedView = layoutInflater.inflate(R.layout.row_resturant_list,
 					null);
@@ -84,7 +85,8 @@ public class CustomAdapterResturantLists extends BaseAdapter implements
 					.findViewById(R.id.textViewRowResturantListResturantCity);
 			viewHolder.textViewRowResturantListDistance = (TextView) convertedView
 					.findViewById(R.id.textViewRowResturantListDistance);
-
+			viewHolder.rowRelativeLayout = (RelativeLayout) convertedView
+					.findViewById(R.id.ralativelayoutListViewRow);
 			convertedView.setTag(viewHolder);
 
 		}
@@ -106,14 +108,16 @@ public class CustomAdapterResturantLists extends BaseAdapter implements
 				viewHolder.imageViewRowResturantListDirectionIcon
 						.setVisibility(View.VISIBLE);
 			} else {
+
 				viewHolder.imageViewRowResturantListDirectionIcon
 						.setVisibility(View.GONE);
 			}
 			if (tempResturant.getLoadOurList()) {
 				viewHolder.imageViewRowResturantListDirectionIcon
 						.setVisibility(View.GONE);
+				
 
-			} 
+			}
 			viewHolder.textViewRowResturantListResturantName
 					.setText(tempResturant.getResturantName());
 			viewHolder.textViewRowResturantListResturantStreet

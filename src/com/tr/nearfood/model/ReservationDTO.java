@@ -7,7 +7,15 @@ public class ReservationDTO {
 	String message;
 	String phone;
 	String json;
-	
+	int no_of_people;
+	public int getNo_of_people() {
+		return no_of_people;
+	}
+
+	public void setNo_of_people(int no_of_people) {
+		this.no_of_people = no_of_people;
+	}
+
 	public String getJson() {
 		return json;
 	}

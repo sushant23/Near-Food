@@ -52,6 +52,7 @@ public class Register extends Activity {
 	AutoCompleteTextView autoCompView;
 	int[] confirmedMenuArray;
 	String json;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -86,7 +87,7 @@ public class Register extends Activity {
 				String first = tokens.nextToken();
 				String second = tokens.nextToken();
 				firstName.setText(first);
-				lastName.setText(second );
+				lastName.setText(second);
 				personalEmail.setText(email);
 			}
 		} catch (NullPointerException e) {
@@ -104,28 +105,32 @@ public class Register extends Activity {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 
-				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
-						personalEmail.getText().toString()).matches()
-						&& !TextUtils.isEmpty(personalEmail.getText()
-								.toString())) {
-					personalEmail.setError("Invalid Email");
-					personalEmail.requestFocus();
-					return;
+				if (firstName.length() == 0 || lastName.length() == 0) {
+					if (firstName.length() == 0) {
+						firstName.setError("Please Enter Name");
+						firstName.requestFocus();
+						return;
+					} else {
+						lastName.setError("Please Enter Name");
+						lastName.requestFocus();
+						return;
+					}
 				} else {
 
 					Gson gson = new Gson();
 					OrderDetails objectOrderDetails = new OrderDetails();
 					json = gson.toJson(objectOrderDetails);
-					
+
 					Intent gcm_test = new Intent(getApplicationContext(),
 							com.tr.nearfood.pushnotification.MainActivity.class);
 					StringBuilder builder = new StringBuilder();
 					for (int i : confirmedMenuArray) {
-					  builder.append(i);
-					  builder.append(",");
+						builder.append(i);
+						builder.append(",");
 					}
 					String items_list = builder.toString();
-					//	items_list=items_list.substring(1, items_list.length()-1);
+					// items_list=items_list.substring(1,
+					// items_list.length()-1);
 					gcm_test.putExtra("json_string", json);
 					gcm_test.putExtra("items", items_list);
 					startActivity(gcm_test);
@@ -144,7 +149,7 @@ public class Register extends Activity {
 		private String email = personalEmail.getText().toString();
 		private String phone = contactNumber.getText().toString();
 		private String address = autoCompView.getText().toString();
-		private String datetime = FragmentRestaurantMenu.SETDATETIME;
+		private String datetime = FragmentRestaurantMenu.datetime;
 		private int restaurant_id = FragmentRestaurantMenu.SELECTED_RESTAURANTID;
 		private int[] items = confirmedMenuArray;
 

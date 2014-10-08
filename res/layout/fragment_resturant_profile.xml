@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/relativeLayout1"
             android:orientation="vertical"
-            android:weightSum="3" >
+            android:weightSum="4" >
 
             <EditText
                 android:id="@+id/edittextSenderName"
@@ -90,6 +90,16 @@
                 android:hint="@string/phone"
                 android:imeOptions="actionNext|flagNavigateNext"
                 android:inputType="phone" />
+            <EditText
+                android:id="@+id/edittextNoOfPeople"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/dark_white"
+                android:hint="No. Of People"
+                android:imeOptions="actionNext|flagNavigateNext"
+                android:inputType="number" />
         </LinearLayout>
 
         <EditText
@@ -139,7 +149,7 @@
                 android:src="@drawable/icon_tripadvisor" />
 
             <ImageButton
-                android:id="@+id/imageButtonGreen"
+                android:id="@+id/imageButtonGMap"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
@@ -152,7 +162,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
-                android:layout_toRightOf="@+id/imageButtonGreen"
+                android:layout_toRightOf="@+id/imageButtonGMap"
                 android:background="@android:color/transparent"
                 android:src="@drawable/icon_navavigation" />
         </RelativeLayout>

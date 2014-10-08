@@ -48,8 +48,10 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.tr.nearfood.R;
 import com.tr.nearfood.adapter.CustomAdapterResturantLists;
+import com.tr.nearfood.fragment.FragmentGoogleMapRestaurant;
 import com.tr.nearfood.fragment.FragmentNearByRestaurantList;
 import com.tr.nearfood.fragment.FragmentNearByRestaurantList.FragmentNearByResturantListCommunicator;
+import com.tr.nearfood.fragment.FragmentGoogleMap;
 import com.tr.nearfood.fragment.FragmentNotification;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu;
 import com.tr.nearfood.fragment.FragmentRestaurantMenu.FragmentResturantMenuListCommunicator;
@@ -89,7 +91,7 @@ public class RestaurantList extends ActionBarActivity implements
 	AlertDialogManager alert = new AlertDialogManager();
 	public static int badgeValue = 0;
 	SharedPreferences prefs;
-
+	Fragment fragmentGoogleMap;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -291,12 +293,11 @@ public class RestaurantList extends ActionBarActivity implements
 	}
 
 	@Override
-	public void setButtonClicked(int restaurantID, String setDateTime) {
+	public void setButtonClicked(int restaurantID) {
 		// TODO Auto-generated method stub
 		searchContainer.setVisibility(View.GONE);
 		Fragment restaurantMenuFragment = new FragmentRestaurantMenu();
 		FragmentRestaurantMenu.SELECTED_RESTAURANTID = restaurantID;
-		FragmentRestaurantMenu.SETDATETIME = setDateTime;
 		fragmentTransaction = getSupportFragmentManager().beginTransaction();
 		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
 				restaurantMenuFragment);
@@ -395,6 +396,19 @@ public class RestaurantList extends ActionBarActivity implements
 		subscribe.setVisibility(View.GONE);
 		calender.setVisibility(View.GONE);
 		homeButton.setVisibility(View.GONE);
+	}
+
+	@Override
+	public void setGmapImageButtonClicked(double longitude, double latitude) {
+		// TODO Auto-generated method stub
+		fragmentGoogleMap = new FragmentGoogleMapRestaurant();
+		FragmentGoogleMapRestaurant.LATITUDE=latitude;
+		FragmentGoogleMapRestaurant.LONGITUDE=longitude;
+		fragmentTransaction = getSupportFragmentManager().beginTransaction();
+		fragmentTransaction.replace(R.id.linLayoutFragmentContainer,
+				fragmentGoogleMap);
+		fragmentTransaction.addToBackStack(null);
+		fragmentTransaction.commit();
 	}
 
 }

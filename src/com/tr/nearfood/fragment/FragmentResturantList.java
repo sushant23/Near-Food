@@ -158,7 +158,8 @@ public class FragmentResturantList extends Fragment implements
 						ekItem = dummyList.get(i);
 						String dist = ekItem.getResturantAddress()
 								.getResturantDistance();
-						if (Double.parseDouble(dist) < 1000) {
+						//shorrt distance by kilommeter
+						if (Double.parseDouble(dist) < 5) {
 							rangeList.add(ekItem);
 						}
 
@@ -220,6 +221,8 @@ public class FragmentResturantList extends Fragment implements
 					String city_address = c.getString("city_address");
 					String contact = c.getString("contact");
 					String distance = c.getString("dist");
+					double longitude=Double.parseDouble(c.getString("longitude"));
+					double latitude=Double.parseDouble(c.getString("latitude"));
 					Boolean registered = true;
 					Boolean loadOurList=true;
 					ResturantDTO tempResturantDTO = new ResturantDTO();
@@ -232,6 +235,8 @@ public class FragmentResturantList extends Fragment implements
 							.setResturantStreetAddress(street_address);
 					tempResturantAddress.setReturantCityName(city_address);
 					tempResturantAddress.setResturantDistance(distance);
+					tempResturantAddress.setResturantLongitude(longitude);
+					tempResturantAddress.setResturantLatitude(latitude);
 					ResturantContactInfo tempResturantContactInfo = new ResturantContactInfo();
 					tempResturantContactInfo.setResturantphoneNoA(contact);
 					tempResturantDTO

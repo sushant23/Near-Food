@@ -63,6 +63,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String KEY_CUSTOMER_NAME = "name";
 	private static final String KEY_CUSTOMER_DETAILS_JSON = "json";
 
+	private static final String KEY_NO_OF_PEOPLE = "no_of_people";
 	private static final String KEY_RESERVE_TABLE_MESSAGE = "message";
 	private static final String KEY_CONTACT_NUMBER = "phone";
 	private static final String KEY_EMAIL = "email";
@@ -92,8 +93,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 			+ TABLE_RESERVE_TABLE + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
 			+ KEY_CUSTOMER_ID + " INTEGER," + KEY_CUSTOMER_NAME + " TEXT,"
 			+ KEY_CONTACT_NUMBER + " TEXT," + KEY_EMAIL + " TEXT,"
-			+ KEY_RESERVE_TABLE_MESSAGE + " TEXT," + KEY_CUSTOMER_DETAILS_JSON
-			+ " TEXT" + ")";
+			+ KEY_RESERVE_TABLE_MESSAGE + " TEXT," + KEY_NO_OF_PEOPLE
+			+ " INTEGER," + KEY_CUSTOMER_DETAILS_JSON + " TEXT" + ")";
 
 	private static final String CREATE_TABLE_ORDERED_ITEM = "CREATE TABLE "
 			+ TABLE_ORDER + "(" + KEY_ID + " INTEGER," + KEY_ITEM_ID
@@ -216,9 +217,29 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		values.put(KEY_EMAIL, reservationDTO.getEmail());
 		values.put(KEY_CONTACT_NUMBER, reservationDTO.getPhone());
 		values.put(KEY_CUSTOMER_DETAILS_JSON, reservationDTO.getJson());
+		values.put(KEY_NO_OF_PEOPLE, reservationDTO.getNo_of_people());
 		// insert row
 		db.insert(TABLE_RESERVE_TABLE, null, values);
 		Log.d(LOG, "Reservation table created");
+	}
+
+	public int getNoOfPeople(String headName, String message) {
+		SQLiteDatabase db = this.getReadableDatabase();
+
+		String selectQuery = "SELECT  * FROM " + TABLE_RESERVE_TABLE
+				+ " WHERE " + KEY_CUSTOMER_NAME + " =  \"" + headName + "\"";/*
+				+ " AND " + KEY_RESERVE_TABLE_MESSAGE + " =  \"" + message
+				+ "\"";*/
+
+		Log.e(LOG, selectQuery);
+
+		Cursor c = db.rawQuery(selectQuery, null);
+
+		if (c != null && c.moveToFirst()) {
+			int no_of_people = c.getInt(c.getColumnIndex(KEY_NO_OF_PEOPLE));
+			return no_of_people;
+		}
+		return 0;
 	}
 
 	public void createCustomer(CustomerInfoDTO customerInfoDTO) {
@@ -380,6 +401,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		c.close();
 		return orderList;
 	}
+
 	public List<String> getallNotifications() {
 		List<String> orderList = new ArrayList<String>();
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -388,8 +410,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 		String message;
 		if (c != null && c.moveToFirst()) {
 			do {
-				
-				message=(c.getString(c.getColumnIndex(KEY_NOTI_MESSAGE)));
+
+				message = (c.getString(c.getColumnIndex(KEY_NOTI_MESSAGE)));
 
 				orderList.add(message);
 			} while (c.moveToNext());

@@ -137,7 +137,7 @@ public class FragmentNearByRestaurantList extends Fragment implements
 						ekItem = completeList.get(i);
 						String dist = ekItem.getResturantAddress()
 								.getResturantDistance();
-						if (Double.parseDouble(dist) < 1000) {
+						if (Double.parseDouble(dist) < 5) {
 							rangeList.add(ekItem);
 						}
 

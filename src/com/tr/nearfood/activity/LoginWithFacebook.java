@@ -118,12 +118,16 @@ public class LoginWithFacebook extends Activity {
 			@Override
 			public void onClick(View arg0) {
 				// TODO Auto-generated method stub
-				if (!android.util.Patterns.EMAIL_ADDRESS.matcher(
-						userEmail.getText().toString()).matches()
-						&& !TextUtils.isEmpty(userEmail.getText().toString())) {
-					userEmail.setError("Invalid Email");
-					userEmail.requestFocus();
-					return;
+				if (firstName.length() == 0 || lastName.length() == 0) {
+					if (firstName.length() == 0) {
+						firstName.setError("Please Enter Name");
+						firstName.requestFocus();
+						return;
+					} else {
+						lastName.setError("Please Enter Name");
+						lastName.requestFocus();
+						return;
+					}
 				} else {
 
 					Gson gson = new Gson();
@@ -168,7 +172,7 @@ public class LoginWithFacebook extends Activity {
 		private String email = userEmail.getText().toString();
 		private String phone = userContactNumber.getText().toString();
 		private String address = userAddress.getText().toString();
-		private String datetime = FragmentRestaurantMenu.SETDATETIME;
+		private String datetime = FragmentRestaurantMenu.datetime;
 		private int restaurant_id = FragmentRestaurantMenu.SELECTED_RESTAURANTID;
 		private int[] items = confirmedMenuArray;
 

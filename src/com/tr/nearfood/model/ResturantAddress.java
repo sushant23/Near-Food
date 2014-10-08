@@ -3,8 +3,8 @@ package com.tr.nearfood.model;
 public class ResturantAddress {
 	private String resturantStreetAddress;
 	private String returantCityName;
-	private long resturantLatitude;
-	private long resturantLongitude;
+	private double resturantLatitude;
+	private double resturantLongitude;
 	private String resturantDistance;
 
 	
@@ -33,19 +33,21 @@ public class ResturantAddress {
 		this.returantCityName = returantCityName;
 	}
 
-	public long getResturantLatitude() {
+	public double getResturantLatitude() {
 		return resturantLatitude;
 	}
 
-	public void setResturantLatitude(long resturantLatitude) {
+	public void setResturantLatitude(double resturantLatitude) {
 		this.resturantLatitude = resturantLatitude;
 	}
 
-	public long getResturantLongitude() {
+	public double getResturantLongitude() {
 		return resturantLongitude;
 	}
 
-	public void setResturantLongitude(long resturantLongitude) {
+	public void setResturantLongitude(double resturantLongitude) {
 		this.resturantLongitude = resturantLongitude;
 	}
+
+	
 }

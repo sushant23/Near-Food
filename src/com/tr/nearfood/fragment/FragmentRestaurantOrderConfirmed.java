@@ -82,7 +82,7 @@ public class FragmentRestaurantOrderConfirmed extends Fragment {
 				pd = new ProgressDialog(view.getContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Confirmed Menu Item list is loading...");
+				pd.setMessage("Loading...");
 				pd.show();
 			}
 		}

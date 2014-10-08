@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -42,6 +45,7 @@ import com.tr.nearfood.model.Catagory;
 import com.tr.nearfood.model.ItemMenuDTO;
 import com.tr.nearfood.model.MigratingDatas;
 import com.tr.nearfood.utills.AppConstants;
+import com.tr.nearfood.utills.CustomDateTimePicker;
 import com.tr.nearfood.dbhelper.DatabaseHelper;
 
 public class FragmentRestaurantMenu extends Fragment implements OnClickListener {
@@ -51,7 +55,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	ExpandableListView expListView;
 	List<String> listDataHeader;
 	HashMap<String, List<String>> listDataChild;
-	Button sendOrder, showOrder;
+	Button sendOrder, showOrder, setDateTime;
 	FragmentResturantMenuListCommunicator fragmentResturantMenuListCommunicator;
 	public static int SELECTED_RESTAURANTID;
 	List<ItemMenuDTO> menuItemList = null;
@@ -59,7 +63,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 	Catagory fromsqliteCatagory;
 	List<ItemMenuDTO> fromsqliteMenuItem = null;
 	public static MigratingDatas migratingdata;
-	public static String SETDATETIME;
+	public static String datetime;
 
 	// menu changed
 	@Override
@@ -83,10 +87,12 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		initializeUIElements();
 		db = new DatabaseHelper(getActivity());
 
+		setDateTime.setVisibility(View.VISIBLE);
 		sendOrder.setVisibility(View.VISIBLE);
 		showOrder.setVisibility(View.VISIBLE);
 		sendOrder.setOnClickListener(this);
 		showOrder.setOnClickListener(this);
+		setDateTime.setOnClickListener(this);
 		new makeHttpGetConnection().execute();
 
 		return view;
@@ -96,7 +102,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 		// get the listview
 		expListView = (ExpandableListView) view
 				.findViewById(R.id.expandableListMenuCollasapable);
-
+		setDateTime = (Button) view.findViewById(R.id.buttonSetDateTime);
 		sendOrder = (Button) view.findViewById(R.id.buttonSendYourOrder);
 		showOrder = (Button) view.findViewById(R.id.buttonShowYourOrder);
 	}
@@ -155,20 +161,27 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 
 		switch (click.getId()) {
 		case R.id.buttonSendYourOrder:
-
-			try {
-				Intent startLogin = new Intent(getActivity(),
-						ChooseLoginMethod.class);
-				startLogin.putIntegerArrayListExtra("confirmedMenuItems",
-						(ArrayList<Integer>) migratingdata
-								.getConfirmedOrderList());
-				startActivity(startLogin);
-				Log.d("Size of confirmed orders is ", Integer
-						.toString(migratingdata.getConfirmedOrderList().size()));
-			} catch (NullPointerException e) {
-				Toast.makeText(getActivity(), "Order Not Confirmed",
+			if (datetime.length() == 0) {
+				Toast.makeText(getActivity(), "Please Set Date and Time",
 						Toast.LENGTH_SHORT).show();
+			} else {
+				try {
+					Intent startLogin = new Intent(getActivity(),
+							ChooseLoginMethod.class);
+					startLogin.putIntegerArrayListExtra("confirmedMenuItems",
+							(ArrayList<Integer>) migratingdata
+									.getConfirmedOrderList());
+					startActivity(startLogin);
+					Log.d("Size of confirmed orders is ", Integer
+							.toString(migratingdata.getConfirmedOrderList()
+									.size()));
+				} catch (NullPointerException e) {
+					Toast.makeText(getActivity(),
+							"Order Not Selected or Confirmed",
+							Toast.LENGTH_SHORT).show();
+				}
 			}
+
 			break;
 		case R.id.buttonShowYourOrder:
 
@@ -177,7 +190,40 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 			fragmentResturantMenuListCommunicator
 					.setMenuButtonClicked(SELECTED_MENU_ITEM_LIST);
 			break;
+		case R.id.buttonSetDateTime:
 
+			CustomDateTimePicker custom = new CustomDateTimePicker(
+					getActivity(),
+					new CustomDateTimePicker.ICustomDateTimeListener() {
+
+						@Override
+						public void onSet(Dialog dialog,
+								Calendar calendarSelected, Date dateSelected,
+								int year, String monthFullName,
+								String monthShortName, int monthNumber,
+								int date, String weekDayFullName,
+								String weekDayShortName, int hour24,
+								int hour12, int min, int sec, String AM_PM) {
+							// TODO Auto-generated method stub
+							datetime = (year
+									+ "-"
+									+ (monthNumber + 1)
+									+ "-"
+									+ calendarSelected
+											.get(Calendar.DAY_OF_MONTH) + " "
+									+ hour24 + ":" + min);
+							Toast.makeText(getActivity(), datetime,
+									Toast.LENGTH_SHORT).show();
+						}
+
+						@Override
+						public void onCancel() {
+							// TODO Auto-generated method stub
+
+						}
+					});
+			custom.showDialog();
+			break;
 		default:
 			break;
 		}
@@ -337,7 +383,7 @@ public class FragmentRestaurantMenu extends Fragment implements OnClickListener 
 				catagoryDTO.setCreated_at(catagory_created_at);
 				catagoryDTO.setUpdated_at(catagory_updated_at);
 
-				if (db.checkItemPresence(SELECTED_RESTAURANTID, item_id,"item")) {
+				if (db.checkItemPresence(SELECTED_RESTAURANTID, item_id, "item")) {
 					db.createItems(itemMenuDTO);
 					db.createCatagory(catagoryDTO);
 				}

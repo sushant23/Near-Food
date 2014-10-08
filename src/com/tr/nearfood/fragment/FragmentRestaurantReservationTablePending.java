@@ -83,7 +83,7 @@ public class FragmentRestaurantReservationTablePending extends Fragment {
 				pd = new ProgressDialog(view.getContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Menu Item list is loading...");
+				pd.setMessage("Loading...");
 				pd.show();
 			}
 		}
@@ -169,8 +169,9 @@ public class FragmentRestaurantReservationTablePending extends Fragment {
 		listDataHeader = new ArrayList<String>();
 		listDataChild = new HashMap<String, List<String>>();
 		try {
-			// Log.d("ORderJSONARRAY", jsonArray);
+			 Log.d("Pending Reservation", jsonArray);
 			JSONArray jArray = new JSONArray(jsonArray);
+			
 			if (jArray != null) {
 				for (int i = 0; i < jArray.length(); i++) {
 
@@ -180,12 +181,14 @@ public class FragmentRestaurantReservationTablePending extends Fragment {
 					String message = customer_details.getString("message");
 					String phone = customer_details.getString("phone");
 					String email = customer_details.getString("email");
+					int no_of_people=customer_details.getInt("no_of_people");
 					ReservationDTO reservationDTO = new ReservationDTO();
 					reservationDTO.setId(customer_id);
 					reservationDTO.setName(customer_name);
 					reservationDTO.setEmail(email);
 					reservationDTO.setMessage(message);
 					reservationDTO.setPhone(phone);
+					reservationDTO.setNo_of_people(no_of_people);
 					reservationDTO.setJson(customer_details.toString());
 					db.createReservationDetail(reservationDTO);
 

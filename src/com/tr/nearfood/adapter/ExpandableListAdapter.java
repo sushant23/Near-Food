@@ -61,6 +61,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	String watToDo;
 	String message_to_customer = "";
 	String chooseRespondMethod;
+	String headName;
 
 	public ExpandableListAdapter(Context context, List<String> listDataHeader,
 			HashMap<String, List<String>> listChildData, String whoseAdapter,
@@ -104,11 +105,16 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				.findViewById(R.id.textViewMenuItemPrices);
 		int itmID = db.getItemId(childText, "adminorder");
 		int price = db.getItemPrice(itmID, "adminorder");
-		if (_Type_Order_Or_Reserve.equals("RESERVE"))
+		if (_Type_Order_Or_Reserve.equals("RESERVE")) {
 			txtChildPrice.setVisibility(View.GONE);
 
-		txtListChild.setText(childText);
-		txtChildPrice.setText(Integer.toString(price));
+			int no_of_people = db.getNoOfPeople(headName, childText);
+			txtListChild.setText("Message: " + childText + "\n"
+					+ "No. Of People: " + Integer.toString(no_of_people));
+		} else {
+			txtListChild.setText(childText);
+			txtChildPrice.setText(Integer.toString(price));
+		}
 
 		return convertView;
 	}
@@ -138,6 +144,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 	public View getGroupView(final int groupPosition, boolean isExpanded,
 			View convertView, ViewGroup parent) {
 		final String headerTitle = (String) getGroup(groupPosition);
+		headName = headerTitle;
 		if (convertView == null) {
 			LayoutInflater infalInflater = (LayoutInflater) this._context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -404,7 +411,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 				pd = new ProgressDialog(_context);
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Confirming the Order...");
+				pd.setMessage("Processing...");
 				pd.show();
 			}
 		}
@@ -475,7 +482,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 		}
 
 		public String httpPostResponse(String url) {
-			Log.d("HTTPPOST", "Makilng http connection URL="+url);
+			Log.d("HTTPPOST", "Makilng http connection URL=" + url);
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
 			HttpClient httpclient = new DefaultHttpClient();
 			HttpPost httppost = new HttpPost(url);

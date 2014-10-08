@@ -83,7 +83,7 @@ public class FragmentRestaurantReservationRejected extends Fragment {
 				pd = new ProgressDialog(view.getContext());
 				pd.setCancelable(true);
 				pd.setTitle("Please wait");
-				pd.setMessage("Rejected Order list is loading...");
+				pd.setMessage("Loading...");
 				pd.show();
 			}
 		}

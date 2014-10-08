@@ -70,7 +70,7 @@
                     android:layout_marginTop="10dp"
                     android:layout_toLeftOf="@+id/imageButtonCalendar"
                     android:background="@drawable/button_gradiant"
-                    android:text="ORDERS"
+                    android:text="ORDER HISTORY"
                     android:padding="3dp"
                     android:textColor="@color/white"
                     android:textSize="10sp" />

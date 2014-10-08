@@ -70,7 +70,7 @@ public class FragmentResturantProfile extends Fragment implements
 	TextView restaurantName, restaurantStreetAdd, restaurantCityName,
 			restaurantDistance, restaurantPhoneNumber, contact;
 	Button sendMessage, chooseMenu, setDateAndTime, reserveTable;
-	EditText senderName, senderEmail, senderPhone, senderMessage;
+	EditText senderName, senderEmail, senderPhone, senderMessage, noOfPeople;
 	FragmentResturantProfileCommunicator fragmentResturantProfileCommunicator;
 	GoogleCloudMessaging gcm;
 	// WebView tripadvisor;
@@ -78,7 +78,7 @@ public class FragmentResturantProfile extends Fragment implements
 	public static String datetime = null;
 	SetEventToCalandar writeEvent = new SetEventToCalandar();
 	LinearLayout restaurantOperation, reserveTableUserDetail;
-	ImageButton subscribe;
+	ImageButton subscribe, googlemap;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -147,6 +147,32 @@ public class FragmentResturantProfile extends Fragment implements
 			}
 
 		});
+		googlemap.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View arg0, MotionEvent me) {
+				// TODO Auto-generated method stub
+				if (me.getAction() == MotionEvent.ACTION_DOWN) {
+					googlemap.setColorFilter(Color.argb(150, 155, 155, 155));
+
+					fragmentResturantProfileCommunicator
+							.setGmapImageButtonClicked(SELECTED_RESTURANT_DTO
+									.getResturantAddress()
+									.getResturantLongitude(),
+									SELECTED_RESTURANT_DTO
+											.getResturantAddress()
+											.getResturantLatitude());
+
+					return true;
+				} else if (me.getAction() == MotionEvent.ACTION_UP) {
+					googlemap.setColorFilter(Color.argb(0, 155, 155, 155)); // or
+																			// null
+					return true;
+				}
+				return false;
+			}
+
+		});
 
 		// tripadvisor.getSettings().setJavaScriptEnabled(true);
 		// tripadvisor.loadUrl("http://192.168.0.101/hello/tripadvisor.html");
@@ -182,12 +208,13 @@ public class FragmentResturantProfile extends Fragment implements
 		senderEmail = (EditText) view.findViewById(R.id.edittextSenderEmail);
 		senderPhone = (EditText) view.findViewById(R.id.edittextSenderPhone);
 		senderMessage = (EditText) view.findViewById(R.id.edittextSendmessege);
-
+		noOfPeople = (EditText) view.findViewById(R.id.edittextNoOfPeople);
 		restaurantOperation = (LinearLayout) view
 				.findViewById(R.id.linearlayoutButtonsCombo);
 		reserveTableUserDetail = (LinearLayout) view
 				.findViewById(R.id.linearlayoutuserDetails);
 		subscribe = (ImageButton) view.findViewById(R.id.buttonSuscribe);
+		googlemap = (ImageButton) view.findViewById(R.id.imageButtonGMap);
 		// tripadvisor=(WebView) view.findViewById(R.id.webViewtripAdvisor);
 	}
 
@@ -196,21 +223,18 @@ public class FragmentResturantProfile extends Fragment implements
 		// TODO Auto-generated method stub
 		switch (click.getId()) {
 		case R.id.buttonChooseMenu:
-			if (datetime == null)
-				Toast.makeText(getActivity(), "Please Set The Data and Time",
-						Toast.LENGTH_SHORT).show();
-			else {
 
-				fragmentResturantProfileCommunicator.setButtonClicked(
-						SELECTED_RESTURANT_DTO.getResturantID(), datetime);
-			}
+			fragmentResturantProfileCommunicator
+					.setButtonClicked(SELECTED_RESTURANT_DTO.getResturantID());
+
 			// Toast.makeText(getActivity(), "Choose mnu clicked", 1000).show();
 			break;
 		case R.id.buttonSendMessage:
 			if (senderName.getText().toString().matches("")
 					|| senderEmail.getText().toString().matches("")
 					|| senderPhone.getText().toString().matches("")
-					|| senderMessage.getText().toString().matches("")) {
+					|| senderMessage.getText().toString().matches("")
+					|| noOfPeople.getText().toString().matches("")) {
 				Toast.makeText(getActivity(),
 						"Please Enter All Field Correctly", Toast.LENGTH_SHORT)
 						.show();
@@ -221,7 +245,7 @@ public class FragmentResturantProfile extends Fragment implements
 				senderEmail.setError("Invalid Email");
 				senderEmail.requestFocus();
 				return;
-			} else if (datetime==null) {
+			} else if (datetime == null) {
 				Toast.makeText(getActivity(), "Please Set Date and Time",
 						Toast.LENGTH_SHORT).show();
 			} else {
@@ -233,7 +257,8 @@ public class FragmentResturantProfile extends Fragment implements
 			if (senderName.getText().toString().matches("")
 					|| senderEmail.getText().toString().matches("")
 					|| senderPhone.getText().toString().matches("")
-					|| senderMessage.getText().toString().matches("")) {
+					|| senderMessage.getText().toString().matches("")
+					|| noOfPeople.getText().toString().matches("")) {
 				Toast.makeText(getActivity(),
 						"Please Enter All Field Correctly", Toast.LENGTH_SHORT)
 						.show();
@@ -315,7 +340,9 @@ public class FragmentResturantProfile extends Fragment implements
 	}
 
 	public static interface FragmentResturantProfileCommunicator {
-		public void setButtonClicked(int restaurantID, String dateTime);
+		public void setButtonClicked(int restaurantID);
+
+		public void setGmapImageButtonClicked(double longitude, double latitude);
 	}
 
 	public class AdminReserveTableHttpPost extends
@@ -409,6 +436,9 @@ public class FragmentResturantProfile extends Fragment implements
 		private int restaurant_id = SELECTED_RESTURANT_DTO.getResturantID();
 		private String message = senderMessage.getText().toString();
 		private String booking_time = datetime;
+		private int no_of_people = Integer.parseInt(noOfPeople.getText()
+				.toString());
+
 		private String status = "PENDING";
 	}
 
